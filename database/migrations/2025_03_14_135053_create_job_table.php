@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jobs', function (Blueprint $table) {
+        Schema::create('job', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->text('description');
+            $table->text('details');
             $table->string('slug');
             $table->foreignId('company_id')->constrained('companies');
-            $table->foreignId('category_id')->constrained('categories');
-            $table->text('qualifications');
-            $table->text('responsibilities');
+            $table->string('category_id');
             $table->string('location');
             $table->string('type');
             $table->date('deadline');
