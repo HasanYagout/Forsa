@@ -107,8 +107,8 @@
             <section class="w-full bg-white">
                 <h1 class=" p-2 text-xl text-white w-full rounded-t-xl flex bg-gray-300">Report a bug</h1>
 
-                <form class="grid grid-cols-3 gap-4 bg-white p-6 rounded-lg shadow-md">
-                    <!-- First Row: Three Inputs -->
+                <form action="{{route('jobs.bug',['slug'=>$job->slug])}}" method="POST" class="grid grid-cols-3 gap-4 bg-white p-6 rounded-lg shadow-md">
+                   @csrf
                     <div class="space-y-2">
                         <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
                         <input
@@ -130,11 +130,11 @@
                         />
                     </div>
                     <div class="space-y-2">
-                        <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                        <label for="mobile" class="block text-sm font-medium text-gray-700">Phone Number</label>
                         <input
                             type="number"
-                            id="phone_number"
-                            name="phone_number"
+                            id="mobile"
+                            name="mobile"
                             class="bg-blue-200 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 border border-gray-300"
                             placeholder="123-456-7890"
                         />

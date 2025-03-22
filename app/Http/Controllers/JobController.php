@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Bug;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\Job;
@@ -64,6 +65,28 @@ class JobController extends Controller
         $data['similar_jobs']=Job::with('company')->whereNot('slug',$slug)->where('company_id', $data['job']->company_id)->latest(5)->get();
 
         return view('jobs.view', $data);
+    }
+
+    public function bug(Request $request)
+    {
+        try {
+            // Validate the request
+            $validated = $request->validate([
+                'first_name' => 'required|string',
+                'last_name' => 'required|string',
+                'mobile' => 'required|numeric', // Corrected validation rule
+                'message' => 'required|string',
+            ]);
+
+            // Create a new bug report
+            Bug::create($validated);
+
+            // Flash a success message to the session
+            return back()->with('success', 'Your message has been received!');
+        } catch (\Exception $e) {
+            // Flash an error message to the session
+            return back()->with('error', 'An error occurred: ' . $e->getMessage());
+        }
     }
 
 }
