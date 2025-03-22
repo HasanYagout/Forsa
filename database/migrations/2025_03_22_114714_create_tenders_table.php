@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('job', function (Blueprint $table) {
+        Schema::create('tenders', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->text('description');
             $table->text('details');
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->foreignId('company_id')->constrained('companies');
-            $table->string('category_id');
             $table->string('location');
             $table->string('type');
             $table->date('deadline');
-            $table->text('link')->nullable();
             $table->unsignedTinyInteger('status')->default(0);
             $table->timestamps();
         });
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jobs');
+        Schema::dropIfExists('tenders');
     }
 };

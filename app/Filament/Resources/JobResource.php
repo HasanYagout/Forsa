@@ -42,6 +42,8 @@ class JobResource extends Resource
                        ->options(self::$model::TYPES),
                    Forms\Components\DatePicker::make('deadline'),
                    Forms\Components\Textarea::make('description'),
+                   Forms\Components\TextInput::make('link')
+                   ->url(),
                    Forms\Components\RichEditor::make('details')
                        ->columnSpan(2),
                ])

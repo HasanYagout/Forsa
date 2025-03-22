@@ -16,7 +16,7 @@ class CreateJob extends CreateRecord
    {
         $data['location']=json_encode($data['location']);
         $data['slug']=Str::slug($data['title']).'-'.Str::random(10);
-       $data['category_id']=json_encode($data['category_id']);
+
        return $data;
    }
 }

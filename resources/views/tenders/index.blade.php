@@ -1,14 +1,14 @@
 @extends('layouts.app')
 @section('content')
-    <section class="w-full bg-lighterBlue flex justify-center my-10">
+    <section class="w-full flex justify-center my-10">
 
         <!-- Job Listings -->
         <section id="job-listings" class="w-[60%] mx-10 flex flex-col items-center gap-4">
-            @include('partials.job-listings', ['jobs' => $jobs])
+            @include('partials.tenders-listings', ['tenders' => $tenders])
         </section>
 
         <!-- Filter Section -->
-        <section class="w-[20%] bg-white p-6 rounded-xl shadow-sm border border-gray-200 h-fit hidden lg:block">
+        <section class="w-[20%] bg-lightBlue p-6 rounded-xl shadow-sm border border-gray-200 h-fit hidden lg:block">
 
             <h2 class="text-lg font-semibold mb-4">Filters</h2>
             <form id="filter-form">
@@ -33,26 +33,12 @@
                     </select>
                 </div>
 
-                <!-- Job Type Filter -->
-                <div class="mb-4">
-                    <label class="text-sm font-medium text-gray-600">Job Type</label>
-                    <div class="flex flex-col space-y-2 mt-2">
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2" name="type[]" value="Full Time"> Full-time
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2" name="type[]" value="Part Time"> Part-time
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2" name="type[]" value="Remote"> Remote
-                        </label>
-                    </div>
-                </div>
+
 
                 <!-- Location Filter -->
                 <div class="mb-4">
                     <label for="location" class="text-sm font-medium text-gray-600">Location</label>
-                    <select id="location" name="location" class="w-full px-3 py-2 border rounded-md focus:ring focus:ring-secondary-color">
+                    <select id="location" name="location" class="w-full px-3 py-2 border rounded-md focus:ring focus:ring-secondary">
                         <option value="">All Locations</option>
                         @foreach(\App\Models\Job::LOCATIONS as $location)
                             <option value="{{$location}}">{{$location}}</option>
@@ -61,7 +47,7 @@
                 </div>
 
                 <!-- Apply Filters Button -->
-                <button type="submit" class="bg-secondary-color text-white px-4 py-2 rounded-lg w-full">Apply Filters</button>
+                <button type="submit" class="bg-secondary text-white px-4 py-2 rounded-lg w-full">Apply Filters</button>
             </form>
         </section>
 
@@ -97,7 +83,7 @@
 
                 // Send AJAX request
                 $.ajax({
-                    url: '{{ route("jobs.index") }}',
+                    url: '{{ route("tenders.index") }}',
                     type: 'GET',
                     data: formData,
                     success: function (response) {

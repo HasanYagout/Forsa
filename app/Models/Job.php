@@ -8,7 +8,8 @@ class Job extends Model
 {
     protected $table = 'job';
     protected $casts = [
-        'category_id' => 'array', // Converts JSON string to an array automatically
+        'category_id' => 'array',
+        'location' => 'array',
     ];
     const LOCATIONS=[
         "Sana'a"=>"Sana'a",
