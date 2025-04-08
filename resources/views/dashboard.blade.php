@@ -1,24 +1,24 @@
 <x-app-layout>
-{{--    <x-slot name="header">--}}
-{{--        <h2 class="font-semibold text-xl text-gray-800 leading-tight">--}}
-{{--            {{ __('Dashboard') }}--}}
-{{--        </h2>--}}
-{{--    </x-slot>--}}
+    {{--    <x-slot name="header">--}}
+    {{--        <h2 class="font-semibold text-xl text-gray-800 leading-tight">--}}
+    {{--            {{ __('Dashboard') }}--}}
+    {{--        </h2>--}}
+    {{--    </x-slot>--}}
 
-{{--    <div class="py-12">--}}
-{{--        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">--}}
-{{--            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">--}}
-{{--                <x-welcome />--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+    {{--    <div class="py-12">--}}
+    {{--        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">--}}
+    {{--            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">--}}
+    {{--                <x-welcome />--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
 
-    <section class="relative flex flex-col items-center justify-center py-16 md:h-[30rem] text-white overflow-hidden px-4">
+    <section class="relative flex flex-col bg-blue-50 items-center justify-center py-16 md:h-[30rem] text-white overflow-hidden px-4">
         <!-- Background Image -->
         <img
             src="{{asset('img/squares.svg')}}"
             alt="Background"
-            class="absolute inset-0 w-full h-full object-cover md:object-contain object-center z-0"
+            class="absolute top-30 inset-0 w-full h-full object-cover md:object-contain object-center z-0"
         >
         <!-- Content Container -->
         <div class="relative z-10 text-center w-full max-w-7xl mx-auto">
@@ -36,26 +36,26 @@
                 <form id="searchForm" class="flex flex-col md:flex-row items-center gap-3 sm:gap-4">
                     <!-- Search Type Dropdown -->
                     <div class="md:self-auto md:w-auto w-full relative">
-    <select 
-        name="search_type" 
-        id="searchType" 
-        class="appearance-none bg-primary-100 border-none h-full md:w-auto p-3 pr-8 rounded-lg text-sm text-white w-full"
-    >
-        <option value="jobs">Search By: Jobs</option>
-        <option value="tenders">Search By: Tenders</option>
-    </select>
-    <div class="absolute top-3 right-3 flex items-center pointer-events-none">
-        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-        </svg>
-    </div>
-</div>
+                        <select
+                            name="search_type"
+                            id="searchType"
+                            class="appearance-none bg-primary-100 border-none h-full md:w-auto p-3 pr-8 rounded-lg text-sm text-white w-full"
+                        >
+                            <option value="jobs">Search By: Jobs</option>
+                            <option value="tenders">Search By: Tenders</option>
+                        </select>
+                        <div class="absolute  inset-y-0 right-3 flex items-center pointer-events-none">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </div>
 
                     <!-- Search Inputs -->
                     <div class="flex flex-col justify-between sm:flex-row items-center w-full gap-3 sm:gap-4 bg-white p-1 rounded-2xl sm:rounded-3xl">
-<input type="text" name="title"
-    class="bg-white text-gray-900 border-none focus:border-none focus-visible:border-none focus:outline-none focus-visible:outline-none text-sm rounded-lg w-full sm:w-60 p-3"
-    placeholder="Job title, company, or industry">
+                        <input type="text" name="title"
+                               class="bg-white text-gray-900 border-none focus:border-none focus-visible:border-none focus:outline-none focus-visible:outline-none text-sm rounded-lg w-full sm:w-60 p-3"
+                               placeholder="Job title, company, or industry">
                         <input type="text" name="location" class="bg-white text-gray-900 border-none focus:border-none focus-visible:border-none focus:outline-none focus-visible:outline-none text-sm rounded-lg w-full sm:w-60 p-3" placeholder="Location">
 
                         <!-- Search Button -->
@@ -68,7 +68,28 @@
                 </form>
             </div>
         </div>
-       
+    </section>
+    <section class="flex text-white flex-wrap justify-center gap-4 bg-secondary py-8 px-4 sm:gap-8 sm:py-12">
+        <div class="text-center min-w-[120px] sm:min-w-[150px]">
+            <span class="text-2xl font-bold sm:text-3xl">200</span>
+            <br>
+            <span class="text-sm sm:text-base">jobs</span>
+        </div>
+        <div class="text-center min-w-[120px] sm:min-w-[150px]">
+            <span class="text-2xl font-bold sm:text-3xl">93</span>
+            <br>
+            <span class="text-sm sm:text-base">companies</span>
+        </div>
+        <div class="text-center min-w-[120px] sm:min-w-[150px]">
+            <span class="text-2xl font-bold sm:text-3xl">40+</span>
+            <br>
+            <span class="text-sm sm:text-base">companies</span>
+        </div>
+        <div class="text-center min-w-[120px] sm:min-w-[150px]">
+            <span class="text-2xl font-bold sm:text-3xl">500+</span>
+            <br>
+            <span class="text-sm sm:text-base">Applicants</span>
+        </div>
     </section>
     <x-partials.home-card
         title="jobs"
@@ -84,11 +105,11 @@
         <div class="bg-secondary py-6">
             <div class="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
                 @foreach($categories as $category)
-                        <a href="{{route('jobs.index',['category'=>$category->id])}}">
-                    <div class="bg-blue-50 rounded-lg shadow-md flex justify-center items-center py-3 px-4">
-                        <h3 class="text-md text-center font-semibold text-gray-900">{{ $category->name }}</h3>
-                    </div>
-                        </a>
+                    <a href="{{route('jobs.index',['category'=>$category->id])}}">
+                        <div class="bg-blue-50 rounded-lg shadow-md flex justify-center items-center py-3 px-4">
+                            <h3 class="text-md text-center font-semibold text-gray-900">{{ $category->name }}</h3>
+                        </div>
+                    </a>
                 @endforeach
             </div>
         </div>

@@ -13,8 +13,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $data['tenders']=Tender::with('company')->latest(6)->get();
-        $data['jobs']=Job::with('company')->latest(6)->get();
+        $data['tenders']=Tender::with('company')->latest()->take(6)->get();
+        $data['jobs']=Job::with('company')->latest()->take(6)->get();
         $data['banners']=Banner::all();
         $data['categories']=Category::all();
 
@@ -22,7 +22,7 @@ class HomeController extends Controller
     }
     public function home()
     {
-        
+
         $data['tenders']=Tender::with('company')->latest()->take(6)->get();
         $data['jobs'] = Job::with('company')->latest()->take(6)->get();
         $data['banners']=Banner::all();
