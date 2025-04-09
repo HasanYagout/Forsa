@@ -53,8 +53,10 @@
         </section>
         <!-- Job Listings -->
         <section id="job-listings" class="w-full lg:w-[60%] flex flex-col items-center gap-4 order-2 lg:order-none">
-            @include('components.partials.tenders-listings', ['tenders' => $tenders])
-        </section>
+            <x-partials.listings
+                :records="$tenders"
+                title="tenders"
+            />        </section>
 
         <!-- Filter Section -->
         <section class="w-[20%] ms-6 bg-blue-100 p-6 rounded-xl shadow-sm border border-gray-200 h-fit hidden lg:block">

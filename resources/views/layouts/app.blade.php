@@ -19,6 +19,7 @@
         <script src="{{ asset('js/jquery.js') }}"></script>
         <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
         <script src="{{ asset('js/toastr.min.js') }}"></script>
+
         <!-- Styles -->
         @livewireStyles
         <style>

@@ -9,6 +9,7 @@ class Training extends Model
     protected $casts = [
         'category_id' => 'array',
         'location' => 'array',
+        'deadline' => 'date',
     ];
     const LOCATIONS=[
         "Sana'a"=>"Sana'a",

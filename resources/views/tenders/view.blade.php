@@ -66,7 +66,8 @@
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                 </svg>
-                                published: {{ $tender->deadline }}
+                                <span>Published: {{ $tender->created_at->format('M j, Y')}}</span>
+
                             </p>
 
                             <p class="text-red-600 flex font-bold items-center gap-1">
@@ -75,7 +76,8 @@
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                 </svg>
-                                Deadline: {{ $tender->deadline }}
+                                <span>Deadline: {{ $tender->deadline->format('M j, Y')}}</span>
+
                             </p>
                         </section>
 

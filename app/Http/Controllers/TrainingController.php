@@ -94,7 +94,7 @@ class TrainingController extends Controller
         if (!$data['training']) {
             abort(404, 'Training not found');
         }
-        $data['similar_trainings']=Training::with('company')->whereNot('slug',$slug)->where('company_id', $data['job']->company_id)->latest(5)->get();
+        $data['similar_trainings']=Training::with('company')->whereNot('slug',$slug)->where('company_id', $data['training']->company_id)->latest(5)->get();
         return view('trainings.view', $data);
     }
 }

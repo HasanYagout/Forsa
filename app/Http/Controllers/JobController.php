@@ -22,14 +22,16 @@ class JobController extends Controller
             });
         }
 
-        // Filter by job type
-        if ($request->has('type') && !empty($request->type)) {
-            $jobs->whereIn('type', (array) $request->type);
-        }
 
         // Filter by job title
         if ($request->has('title') && !empty($request->title)) {
-            $jobs->where('title', 'like', '%' . $request->title . '%');
+            $searchTerm = '%' . $request->title . '%';
+            $jobs->where(function($query) use ($searchTerm) {
+                $query->where('title', 'LIKE', $searchTerm)
+                    ->orWhereHas('company', function($q) use ($searchTerm) {
+                        $q->where('name', 'LIKE', $searchTerm);
+                    });
+            });
         }
 
         // Filter by company

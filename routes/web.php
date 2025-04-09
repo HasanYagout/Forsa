@@ -19,7 +19,7 @@ Route::post('/bookmarks', [BookmarkController::class, 'toggle'])
     ->name('bookmarks.toggle');
 Route::get('/bookmarks/show', [BookmarkController::class, 'show'])
     ->name('bookmark.show');
-    Route::get('/dashboard', [HomeController::class,'home'])->name('dashboard');
+    Route::get('/dashboard', [HomeController::class,'index'])->name('dashboard');
 Route::group(['middleware' => ['web'],'prefix'=>'jobs','as'=>'jobs.'], function () {
     Route::get('/', [JobController::class, 'index'])->name('index');
     Route::get('/view/{slug}', [JobController::class, 'view'])->name('view');

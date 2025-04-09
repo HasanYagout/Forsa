@@ -40,17 +40,7 @@
                         </select>
                     </div>
 
-                    <!-- Job Type Filter -->
-                    <div class="mb-4">
-                        <label class="text-sm font-medium text-gray-600">Job Type</label>
-                        <select name="type"
-                                class="w-full rounded-md bg-white py-2 px-3 text-gray-900 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            <option value="">Select Type</option>
-                            <option value="Full Time">Full-time</option>
-                            <option value="Part Time">Part-time</option>
-                            <option value="Remote">Remote</option>
-                        </select>
-                    </div>
+
 
                     <!-- Location Filter -->
                     <div class="mb-4">
@@ -73,7 +63,10 @@
         </section>
         <!-- Job Listings -->
         <section id="job-listings" class="w-full lg:w-[60%] flex flex-col items-center gap-4 order-2 lg:order-none">
-            @include('components.partials.job-listings', ['jobs' => $jobs])
+            <x-partials.listings
+                :records="$jobs"
+                title="jobs"
+            />
         </section>
 
         <!-- Filter Section -->
@@ -109,17 +102,7 @@
                     </select>
                 </div>
 
-                <!-- Job Type Filter -->
-                <div class="mb-4">
-                    <label class="text-sm font-medium text-gray-600">Job Type</label>
-                    <select name="type"
-                            class="w-full rounded-md bg-white py-2 px-3 text-gray-900 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                        <option value="">Select Type</option>
-                        <option value="Full Time">Full-time</option>
-                        <option value="Part Time">Part-time</option>
-                        <option value="Remote">Remote</option>
-                    </select>
-                </div>
+
 
                 <!-- Location Filter -->
                 <div class="mb-4">

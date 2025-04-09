@@ -11,6 +11,8 @@ class Job extends Model
     protected $casts = [
         'category_id' => 'array',
         'location' => 'array',
+        'deadline' => 'date',  // or 'datetime' if it includes time
+
     ];
     const LOCATIONS=[
         "Sana'a"=>"Sana'a",

@@ -66,7 +66,8 @@
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                 </svg>
-                                published: {{ $job->deadline }}
+                                <span>Published: {{ $job->created_at->format('M j, Y')}}</span>
+
                             </p>
 
                             <p class="text-red-600 flex font-bold items-center gap-1">
@@ -75,7 +76,8 @@
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                 </svg>
-                                Deadline: {{ $job->deadline }}
+                                <span>Deadline: {{ $job->deadline->format('M j, Y')}}</span>
+
                             </p>
                         </section>
                         <section class="flex gap-2 mt-3 mb-6">
@@ -89,9 +91,9 @@
                 </section>
 
 
-                <section class="flex p-6 flex-col w-full">
-                <h1 class="w-full font-bold text-left">Job Description</h1>
-                    <section class="mt-3 text-gray-700 text-sm leading-relaxed prose">
+                <section class=" text-white  w-full  text-xs mt-3">
+                    <h1 class=" p-2 text-xl w-full flex bg-gray-300">Job Description</h1>
+                    <section class="text-black text-sm p-6 leading-7">
                         {!! str($job->details)->sanitizeHtml() !!}
                     </section>
                 </section>
@@ -162,7 +164,7 @@
                 <a type="submit"
                 href="{{$job->link}}"
                 class="bg-secondary text-center cursor-pointer text-white block px-4 py-2 rounded-lg w-full">Apply Now</a>
-                
+
                 <a type="submit"
        href="{{route('trainings.index',['categories'=>$job->categories])}}"
        class="bg-secondary text-center cursor-pointer mt-5 text-white block px-4 py-2 rounded-lg w-full">Training</a>

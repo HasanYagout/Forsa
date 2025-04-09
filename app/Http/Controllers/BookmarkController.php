@@ -13,13 +13,16 @@ class BookmarkController extends Controller
     {
         $request->validate([
             'item_id' => 'required|integer',
-            'item_type' => 'required|in:job,tender'
+            'item_type' => 'required|in:job,tender,training'
         ]);
 
         $user = auth()->user();
-        $model = $request->item_type === 'job'
-            ? 'App\Models\Job'
-            : 'App\Models\Tender';
+        $model = match($request->item_type) {
+            'job' => 'App\Models\Job',
+            'tender' => 'App\Models\Tender',
+            'training' => 'App\Models\Training',
+            default => throw new \InvalidArgumentException('Invalid item type')
+        };
 
         // Check if bookmark exists
         $bookmark = $user->bookmarks()
@@ -44,10 +47,23 @@ class BookmarkController extends Controller
         ]);
     }
 
+    // Controller
     public function show()
     {
-       $data['bookmarks']= Bookmark::where('user_id', auth()->id())->get();
-       return view('bookmarks.view', $data);
-
+        $data = [
+            'jobBookmarks' => Bookmark::with('bookmarkable')
+                ->where('user_id', auth()->id())
+                ->where('bookmarkable_type', 'App\Models\Job')
+                ->get(),
+//            'tenderBookmarks' => Bookmark::with('bookmarkable')
+//                ->where('user_id', auth()->id())
+//                ->where('bookmarkable_type', 'App\Models\Tender')
+//                ->get(),
+            'trainingBookmarks' => Bookmark::with('bookmarkable')
+                ->where('user_id', auth()->id())
+                ->where('bookmarkable_type', 'App\Models\Training')
+                ->get()
+        ];
+        return view('bookmarks.view', $data);
     }
 }

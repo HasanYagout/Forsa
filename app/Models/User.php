@@ -107,4 +107,23 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->bookmarkedTenders()->where('bookmarkable_id', $tender->id)->exists();
     }
+    public function hasBookmarked($record)
+    {
+        return match(true) {
+            $record instanceof \App\Models\Job => $this->hasBookmarkedJob($record),
+            $record instanceof \App\Models\Tender => $this->hasBookmarkedTender($record),
+            $record instanceof \App\Models\Training => $this->hasBookmarkedTraining($record),
+            default => false
+        };
+    }
+
+    public function getBookmarkType($record)
+    {
+        return match(true) {
+            $record instanceof \App\Models\Job => 'job',
+            $record instanceof \App\Models\Tender => 'tender',
+            $record instanceof \App\Models\Training => 'training',
+            default => null
+        };
+    }
 }

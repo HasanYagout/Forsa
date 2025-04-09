@@ -19,7 +19,7 @@
 
                     <!-- Search -->
                     <div class="mb-4">
-                        <label for="company" class="text-sm font-medium text-gray-600">Company</label>
+                        <label for="company" class="text-sm font-medium text-gray-600">Institute</label>
                         <select id="company" name="company"
                                 class="w-full rounded-md bg-white py-2 px-3 text-gray-900 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                             <option value="">Select Company</option>
@@ -63,8 +63,12 @@
             </div>
         </section>
         <!-- Job Listings -->
-        <section id="job-listings" class="w-full lg:w-[60%] flex flex-col items-center gap-4 order-2 lg:order-none">
-            @include('components.partials.trainings-listings', ['trainings' => $trainings])
+        <section id="training-listings" class="w-full lg:w-[60%] flex flex-col items-center gap-4 order-2 lg:order-none">
+            <x-partials.listings
+                :records="$trainings"
+                title="trainings"
+            />
+{{--            @include('components.partials.listings', ['records' => $trainings])--}}
         </section>
 
         <!-- Filter Section -->
@@ -79,7 +83,7 @@
 
                 <!-- Search -->
                 <div class="mb-4">
-                    <label for="company" class="text-sm font-medium text-gray-600">Company</label>
+                    <label for="company" class="text-sm font-medium text-gray-600">Institute</label>
                     <select id="company" name="company"
                             class="w-full rounded-md bg-white py-2 px-3 text-gray-900 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         <option value="">Select Company</option>
@@ -178,7 +182,7 @@
                         data: {
                             _token: '{{ csrf_token() }}',
                             item_id: itemId,
-                            item_type: 'job',
+                            item_type: 'training',
                             action: isBookmarked ? 'remove' : 'add'
                         },
                         success: function(response) {
@@ -220,7 +224,7 @@
                             type: 'GET',
                             data: formData,
                             success: function (response) {
-                                $('#job-listings').html(response.html);
+                                $('#training-listings').html(response.html);
                             },
                             error: function (xhr) {
                                 console.log(xhr.responseText);
@@ -254,7 +258,7 @@
                             url: '{{ route("trainings.index") }}',
                             type: 'GET',
                             success: function (response) {
-                                $('#job-listings').html(response.html);
+                                $('#training-listings').html(response.html);
                             },
                             error: function (xhr) {
                                 console.log(xhr.responseText);

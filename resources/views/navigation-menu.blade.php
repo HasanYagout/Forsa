@@ -111,7 +111,7 @@
                                     {{ __('Profile') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link href="{{ route('bookmark.show') }}">
-                                    {{ __('Bookmark') }}
+                                    {{ __('Saved') }}
                                 </x-dropdown-link>
 
                                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())

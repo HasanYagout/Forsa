@@ -1,9 +1,8 @@
-@props(['records','first_title','second_title','title'])
+@props(['records','title'])
 
 <section class="{{$title=='jobs'?'bg-gray-100':'bg-primary-100'}} py-12 px-4">
     <div class="text-center mb-6">
         <span class="text-sm uppercase font-semibold border-2 rounded-sm rounded-lg border-blue-100 p-2 {{$title=='jobs'?'text-gray-600':'text-white'}}">Latest {{$title}}</span>
-        <h2 class="text-4xl font-bold mt-3 {{$title=='jobs'?'text-gray-800':'text-white'}} mt-2">{{$first_title}}<br><span>{{$second_title}}</span></h2>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
 
@@ -31,7 +30,16 @@
             </div>
         @endforeach
     </div>
+    @php
+        $route = match($title) {
+            'jobs' => route('jobs.index'),
+            'tenders' => route('tenders.index'),
+            'trainings' => route('trainings.index'),
+            default => '#',
+        };
+    @endphp
+
     <div class="mt-8 text-center">
-        <a href="{{ route($title=='jobs'?'jobs.index':'tenders.index') }}" class=" bg-gray-300 text-white px-6 py-2 rounded-lg font-semibold  transition">More</a>
+        <a href="{{ $route }}" target="_blank" class="bg-gray-300 text-white px-6 py-2 rounded-lg font-semibold transition">More</a>
     </div>
 </section>

@@ -1,17 +1,9 @@
 <x-app-layout>
-    {{--    <x-slot name="header">--}}
-    {{--        <h2 class="font-semibold text-xl text-gray-800 leading-tight">--}}
-    {{--            {{ __('Dashboard') }}--}}
-    {{--        </h2>--}}
-    {{--    </x-slot>--}}
-
-    {{--    <div class="py-12">--}}
-    {{--        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">--}}
-    {{--            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">--}}
-    {{--                <x-welcome />--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
+{{--        <x-slot name="header">--}}
+{{--            <h2 class="font-semibold text-xl text-gray-800 leading-tight">--}}
+{{--                {{ __('Dashboard') }}--}}
+{{--            </h2>--}}
+{{--        </x-slot>--}}
 
     <section class="relative flex flex-col bg-blue-50 items-center justify-center py-16 md:h-[30rem] text-white overflow-hidden px-4">
         <!-- Background Image -->
@@ -29,7 +21,6 @@
             </h1>
 
             <!-- Subheading -->
-            <p class="text-black text-base sm:text-lg md:text-xl mb-6 sm:mb-8">Your gateway to endless opportunities</p>
 
             <!-- Search Form -->
             <div class="w-full max-w-4xl mx-auto">
@@ -42,7 +33,7 @@
                             class="appearance-none bg-primary-100 border-none h-full md:w-auto p-3 pr-8 rounded-lg text-sm text-white w-full"
                         >
                             <option value="jobs">Search By: Jobs</option>
-                            <option value="tenders">Search By: Tenders</option>
+                            <option value="trainings">Search By: Trainings</option>
                         </select>
                         <div class="absolute  inset-y-0 right-3 flex items-center pointer-events-none">
                             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -55,7 +46,7 @@
                     <div class="flex flex-col justify-between sm:flex-row items-center w-full gap-3 sm:gap-4 bg-white p-1 rounded-2xl sm:rounded-3xl">
                         <input type="text" name="title"
                                class="bg-white text-gray-900 border-none focus:border-none focus-visible:border-none focus:outline-none focus-visible:outline-none text-sm rounded-lg w-full sm:w-60 p-3"
-                               placeholder="Job title, company, or industry">
+                               placeholder="البحث بواسطة كلمة مفتاحية ">
                         <input type="text" name="location" class="bg-white text-gray-900 border-none focus:border-none focus-visible:border-none focus:outline-none focus-visible:outline-none text-sm rounded-lg w-full sm:w-60 p-3" placeholder="Location">
 
                         <!-- Search Button -->
@@ -69,32 +60,8 @@
             </div>
         </div>
     </section>
-    <section class="flex text-white flex-wrap justify-center gap-4 bg-secondary py-8 px-4 sm:gap-8 sm:py-12">
-        <div class="text-center min-w-[120px] sm:min-w-[150px]">
-            <span class="text-2xl font-bold sm:text-3xl">200</span>
-            <br>
-            <span class="text-sm sm:text-base">jobs</span>
-        </div>
-        <div class="text-center min-w-[120px] sm:min-w-[150px]">
-            <span class="text-2xl font-bold sm:text-3xl">93</span>
-            <br>
-            <span class="text-sm sm:text-base">companies</span>
-        </div>
-        <div class="text-center min-w-[120px] sm:min-w-[150px]">
-            <span class="text-2xl font-bold sm:text-3xl">40+</span>
-            <br>
-            <span class="text-sm sm:text-base">companies</span>
-        </div>
-        <div class="text-center min-w-[120px] sm:min-w-[150px]">
-            <span class="text-2xl font-bold sm:text-3xl">500+</span>
-            <br>
-            <span class="text-sm sm:text-base">Applicants</span>
-        </div>
-    </section>
     <x-partials.home-card
         title="jobs"
-        first_title="Collaborating with"
-        second_title="many companies"
         :records="$jobs"
     />
     <section class="bg-primary-100' py-12">
@@ -115,7 +82,7 @@
         </div>
 
         <div class="mt-8 text-center">
-            <a href="{{ route('jobs.index') }}" class=" bg-gray-300 text-white px-6 py-2 rounded-lg font-semibold  transition">More</a>
+            <a href="{{ route('jobs.index') }}" target="_blank"  class=" bg-gray-300 text-white px-6 py-2 rounded-lg font-semibold  transition">More</a>
         </div>
     </section>
 
@@ -128,17 +95,20 @@
         @endforeach
     </div>
     <x-partials.home-card
-        title="tenders"
-        first_title="Be a part of making"
-        second_title="new opportunities"
-        :records="$tenders"
+        title="trainings"
+        :records="$trainings"
     />
+{{--    <x-partials.home-card--}}
+{{--        title="tenders"--}}
+{{--        first_title="Be a part of making"--}}
+{{--        second_title="new opportunities"--}}
+{{--        :records="$tenders"--}}
+{{--    />--}}
     <section class="bg-blue-50 py-12 px-4 sm:px-6 lg:px-8">
         <!-- Title Section -->
         <div class="text-center mb-8 md:mb-12">
             <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-black">
-                Our trusted organization<br>
-                <span class="text-blue-600">and companies</span>
+               <span>We Work With</span>
             </h2>
         </div>
 
@@ -208,8 +178,8 @@
 
                 if (searchType === 'jobs') {
                     this.action = "{{ route('jobs.index') }}";
-                } else if (searchType === 'tenders') {
-                    this.action = "{{ route('tenders.index') }}";
+                } else if (searchType === 'trainings') {
+                    this.action = "{{ route('trainings.index') }}";
                 }
             });
         </script>

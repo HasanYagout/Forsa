@@ -7,7 +7,7 @@
                 <a href="{{route('dashboard')}}">
                     <img src="{{ asset('img/light_logo.png') }}" alt="Chances Platform" class="h-12">
                 </a>
-                <p class="text-sm text-white">Your Next Opportunity Starts Here</p>
+                <p class="text-sm text-white">Your Next Chance Starts Here</p>
                 <div class="flex space-x-3">
                     <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-facebook size-5"></i></a>
                     <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-linkedin size-5"></i></a>
@@ -34,7 +34,7 @@
 
             <!-- About Company -->
             <div>
-                <h4 class="font-semibold text-white mb-3">About Company</h4>
+                <h4 class="font-semibold text-white mb-3">About Chances Company</h4>
                 <ul class="space-y-2 list-none pl-0 text-gray-300">
                     <li><a href="#" class="hover:text-white">Contact Us</a></li>
                     <li><a href="#" class="hover:text-white">About Chances Platform</a></li>
