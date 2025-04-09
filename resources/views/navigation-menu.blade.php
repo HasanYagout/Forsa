@@ -18,9 +18,9 @@
                     <x-nav-link href="{{ route('jobs.index') }}" :active="request()->routeIs('jobs.index')">
                         {{ __('Jobs') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('tenders.index') }}" :active="request()->routeIs('tenders.index')">
-                        {{ __('Tenders') }}
-                    </x-nav-link>
+{{--                    <x-nav-link href="{{ route('tenders.index') }}" :active="request()->routeIs('tenders.index')">--}}
+{{--                        {{ __('Tenders') }}--}}
+{{--                    </x-nav-link>--}}
                     <x-nav-link href="{{ route('trainings.index') }}" :active="request()->routeIs('trainings.index')">
                         {{ __('Trainings') }}
                     </x-nav-link>
@@ -167,9 +167,9 @@
             <x-responsive-nav-link href="{{ route('jobs.index') }}" :active="request()->routeIs('jobs.index')">
                 {{ __('Jobs') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('tenders.index') }}" :active="request()->routeIs('tenders.index')">
-                {{ __('Tenders') }}
-            </x-responsive-nav-link>
+{{--            <x-responsive-nav-link href="{{ route('tenders.index') }}" :active="request()->routeIs('tenders.index')">--}}
+{{--                {{ __('Tenders') }}--}}
+{{--            </x-responsive-nav-link>--}}
             <x-responsive-nav-link href="{{ route('trainings.index') }}" :active="request()->routeIs('trainings.index')">
                 {{ __('Trainings') }}
             </x-responsive-nav-link>
