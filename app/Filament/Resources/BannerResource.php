@@ -25,8 +25,12 @@ class BannerResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name'),
-                Forms\Components\FileUpload::make('path')
-                ->directory('banners')
+                Forms\Components\FileUpload::make('image')
+                ->directory('banners'),
+                Forms\Components\TextInput::make('url')
+                ->url(),
+
+
             ]);
     }
 
@@ -35,7 +39,8 @@ class BannerResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name'),
-                Tables\Columns\ImageColumn::make('path'),
+                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ToggleColumn::make('status')
 
             ])
             ->filters([

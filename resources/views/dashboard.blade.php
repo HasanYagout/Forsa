@@ -4,23 +4,95 @@
 {{--                {{ __('Dashboard') }}--}}
 {{--            </h2>--}}
 {{--        </x-slot>--}}
+    <section>
+        <div class="text-center mt-10">
+        <span class="text-sm uppercase font-semibold border-2 rounded-sm rounded-lg border-blue-100 p-2 text-primary }}">
+            Latest Trainings
+        </span>
+        </div>
+        <div class="owl-carousel owl-theme my-20 px-4 md:px-28">
+            @foreach($trainings as $training)
+                <a href="{{route('trainings.view',['slug'=>$training->slug])}}">
+                    <div class="item w-full">
+                        <div class="relative rounded-2xl overflow-hidden shadow-md h-80 flex flex-col justify-end text-black">
+                            <!-- Blurred Background Image -->
+                            <div class="absolute inset-0">
+                                <img src="{{ asset('storage/' . $training->company->logo) }}"
+                                     alt="Background"
+                                     class="w-full h-full object-cover blur-sm scale-110" />
+                                <div class="absolute inset-0 bg-black/20"></div> <!-- Optional overlay -->
+                            </div>
 
-    <section class="relative flex flex-col bg-blue-50 items-center justify-center py-16 md:h-[30rem] text-white overflow-hidden px-4">
+                            <!-- White Title Box -->
+                            <div class="absolute bottom-40 left-1/2 transform -translate-x-1/2 w-3/4 z-10 bg-white bg-opacity-90 p-6 text-center rounded-xl shadow-md">
+                                <p class="text-sm font-medium">
+                                    {{ Str::limit($training->title, 100) }}
+                                </p>
+                            </div>
+
+
+                            <!-- Bottom Info -->
+                            <div class="relative z-10 bg-white p-4 flex items-center justify-between">
+                                <div class="flex w-full px-3 justify-between items-center gap-3">
+                                    <!-- Company Logo -->
+                                    <div class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
+                                        <img src="{{ asset('storage/' . $training->company->logo) }}"
+                                             alt="Company Logo"
+                                             class="w-10 h-10 rounded-full  object-contain" />
+                                    </div>
+
+                                    <div class="text-sm text-gray-800 font-semibold">
+                                        <div class="flex items-center gap-1">
+                                            <x-icon name="heroicon-o-building-office" class="w-4 h-4 sm:w-5 sm:h-5" />
+                                            {{ $training->company->name ?? 'Company' }}
+                                        </div>
+
+                                        <div class="flex items-center gap-1">
+                                            <x-icon name="heroicon-o-map-pin" class="w-4 h-4" />
+                                            <span class="text-gray-700 text-sm">
+                                        @php
+                                            $locations = is_string($training->location) ? json_decode($training->location, true) : $training->location;
+                                        @endphp
+                                                @if(is_array($locations))
+                                                    @if(count($locations) === 1)
+                                                        {{ $locations[0] }}
+                                                    @elseif(count($locations) === 2)
+                                                        {{ $locations[0] }}, {{ $locations[1] }}
+                                                    @else
+                                                        Many locations
+                                                    @endif
+                                                @else
+                                                    {{ $training->location ?? 'Sana’a' }}
+                                                @endif
+                                    </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </a>
+
+            @endforeach
+        </div>
+    </section>
+
+    <section class="relative flex flex-col items-center justify-center py-16 md:h-[40rem] text-white overflow-hidden px-4">
         <!-- Background Image -->
         <img
-            src="{{asset('img/squares.svg')}}"
+            src="{{ asset('img/background.svg') }}"
             alt="Background"
-            class="absolute top-30 inset-0 w-full h-full object-cover md:object-contain object-center z-0"
+            class="absolute bg-blue-50 inset-0 w-full h-full object-cover z-0"
         >
+
         <!-- Content Container -->
         <div class="relative z-10 text-center w-full max-w-7xl mx-auto">
             <!-- Heading -->
-            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight font-bold text-black mb-4">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight font-bold text-white mb-4">
                 Step into Success with <br class="hidden sm:block">
-                <span class="text-secondary">Chances Platform</span>
+                <span class="text-white">Chances Platform</span>
             </h1>
-
-            <!-- Subheading -->
 
             <!-- Search Form -->
             <div class="w-full max-w-4xl mx-auto">
@@ -35,24 +107,33 @@
                             <option value="jobs">Search By: Jobs</option>
                             <option value="trainings">Search By: Trainings</option>
                         </select>
-                        <div class="absolute  inset-y-0 right-3 flex items-center pointer-events-none">
-                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </div>
                     </div>
 
                     <!-- Search Inputs -->
-                    <div class="flex flex-col justify-between sm:flex-row items-center w-full gap-3 sm:gap-4 bg-white p-1 rounded-2xl sm:rounded-3xl">
+                    <div
+                        class="flex flex-col justify-between sm:flex-row items-center w-full gap-3 sm:gap-4 bg-white p-1 rounded-2xl sm:rounded-3xl">
                         <input type="text" name="title"
-                               class="bg-white text-gray-900 border-none focus:border-none focus-visible:border-none focus:outline-none focus-visible:outline-none text-sm rounded-lg w-full sm:w-60 p-3"
+                               class="bg-white text-gray-900 border-none focus:outline-none text-sm rounded-lg w-full sm:w-60 p-3"
                                placeholder="البحث بواسطة كلمة مفتاحية ">
-                        <input type="text" name="location" class="bg-white text-gray-900 border-none focus:border-none focus-visible:border-none focus:outline-none focus-visible:outline-none text-sm rounded-lg w-full sm:w-60 p-3" placeholder="Location">
+
+                        <input type="text" name="location"
+                               class="bg-white text-gray-900 border-none focus:outline-none text-sm rounded-lg w-full sm:w-60 p-3"
+                               placeholder="Location">
 
                         <!-- Search Button -->
-                        <button type="submit" class="text-white bg-primary hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full p-3 flex items-center justify-center w-12 h-12 flex-shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
+                        <button type="submit"
+                                class="text-white bg-primary hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full p-3 flex items-center justify-center w-12 h-12 flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
                             </svg>
                         </button>
                     </div>
@@ -60,6 +141,7 @@
             </div>
         </div>
     </section>
+
     <x-partials.home-card
         title="jobs"
         :records="$jobs"
@@ -67,7 +149,6 @@
     <section class="bg-primary-100' py-12">
         <div class="text-center mb-6">
             <span class="text-sm uppercase font-semibold border-2 rounded-sm rounded-lg border-blue-100 p-2 text-gray-600">Categories</span>
-            <h2 class="text-4xl font-bold mt-3 text-gray-800 mt-2">We got you covered with <br><span>diverse opportunities</span></h2>
         </div>
         <div class="bg-secondary py-6">
             <div class="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
@@ -86,14 +167,15 @@
         </div>
     </section>
 
+    @if($banner)
 
-    <div class="owl-carousel owl-theme my-20 px-28">
-        @foreach($banners as $banner)
-            <div class="item w-3/4">
-                <img src="{{ asset('storage') . '/' . $banner->path }}" alt="{{ $banner->name }}" class="w-full h-auto">
-            </div>
-        @endforeach
+    <div class="my-20 px-28">
+        <a href="{{$banner->url}}">
+        <img src="{{ asset('storage') . '/' . $banner->image }}" alt="{{ $banner->name }}" class="w-full h-auto">
+
+        </a>
     </div>
+    @endif
     <x-partials.home-card
         title="trainings"
         :records="$trainings"

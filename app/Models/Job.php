@@ -39,6 +39,11 @@ class Job extends Model
     {
         return $this->belongsToMany(Category::class);
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', '1');
+    }
     public function bookmarkedBy()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');

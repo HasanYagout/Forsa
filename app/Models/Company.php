@@ -10,4 +10,28 @@ class Company extends Model
     {
         return $this->hasMany(Job::class);
     }
+    protected static function booted()
+    {
+        static::updated(function ($company) {
+            // Only proceed if status has changed
+            if ($company->isDirty('status')) {
+                $newStatus = $company->status;
+                $company->job()->update(['status' => $newStatus]);
+                $company->tenders()->update(['status' => $newStatus]);
+                $company->trainings()->update(['status' => $newStatus]);
+            }
+        });
+    }
+
+
+    public function tenders()
+    {
+        return $this->hasMany(Tender::class);
+
+    }
+    public function trainings()
+    {
+        return $this->hasMany(Training::class);
+
+    }
 }

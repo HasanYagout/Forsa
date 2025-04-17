@@ -37,7 +37,10 @@ class TenderController extends Controller
         // If request is AJAX, return JSON response
         if ($request->ajax()) {
             return response()->json([
-                'html' => view('components.partials.tenders-listings', $data)->render(),
+                'html' => view('components.partials.listings', [
+                    'records' => $data['tenders'],
+                    'title' => 'tenders'
+                ])->render(),
                 'queryParams' => $request->query() // Return current query parameters
             ]);
         }

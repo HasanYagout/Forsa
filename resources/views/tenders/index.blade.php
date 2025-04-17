@@ -12,10 +12,10 @@
 
             <!-- Collapsible Content -->
             <div id="filter-content" class="bg-blue-100 rounded-xl mb-6 shadow-sm border border-gray-200 h-fit mt-2 overflow-hidden transition-all duration-300 max-h-0">
-                <form id="filter-form" class="p-6">
+                <form id="filter-form-mobile" class="p-6">
                     <div class="flex justify-between mb-4">
                         <h2 class="text-lg font-semibold">Filters</h2>
-                        <button id="clear" type="button" class="text-lg font-semibold cursor-pointer text-blue-600 hover:text-blue-800">Clear</button>
+                        <button id="clear-mobile" type="button" class="text-lg font-semibold cursor-pointer text-blue-600 hover:text-blue-800">Clear</button>
                     </div>
 
                     <!-- Search -->
@@ -56,14 +56,18 @@
             <x-partials.listings
                 :records="$tenders"
                 title="tenders"
-            />        </section>
+            />
+        </section>
 
         <!-- Filter Section -->
         <section class="w-[20%] ms-6 bg-blue-100 p-6 rounded-xl shadow-sm border border-gray-200 h-fit hidden lg:block">
 
-            <h2 class="text-lg font-semibold mb-4">Filters</h2>
-            <form id="filter-form">
 
+            <form id="filter-form-desktop">
+                <div class="flex justify-between">
+                    <h2 class="text-lg font-semibold mb-4">Filters</h2>
+                    <button id="clear-desktop" class="text-lg font-semibold mb-4 cursor-pointer text-blue-600 hover:text-blue-800">Clear</button>
+                </div>
                 <div class="mb-4">
                     <label for="company" class="text-sm font-medium text-gray-600">Company</label>
                     <select id="company" name="company" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
@@ -156,7 +160,7 @@
                             icon.attr('fill', newState ? 'currentColor' : 'none');
 
                             // Show toast notification
-                            toastr.success(newState ? 'Bookmark added!' : 'Bookmark removed!');
+                            toastr.success(newState ? 'Saved Successfully!' : 'Removed Successfully!');
                         },
                         error: function(xhr) {
                             console.error(xhr.responseText);
@@ -172,7 +176,7 @@
         <script>
             $(document).ready(function() {
                 // Submit form via AJAX
-                $('form[id="filter-form"]').on('submit', function(e) {
+                $('#filter-form-mobile, #filter-form-desktop').on('submit', function (e) {
                     e.preventDefault();
 
                     // Show loader
@@ -206,7 +210,59 @@
                         }
                     });
                 });
+                $('#clear-mobile').on('click', function (e) {
+                    e.preventDefault();
+                    $('#filter-loader').removeClass('hidden');
 
+                    const $form = $('#filter-form-mobile');
+                    $form[0].reset();
+                    $form.find('select').val('').trigger('change');
+                    $form.find('input[type="checkbox"]').prop('checked', false);
+
+                    $.ajax({
+                        url: '{{ route("tenders.index") }}', // ✅ Corrected
+                        type: 'GET',
+                        success: function (response) {
+                            $('#job-listings').html(response.html);
+                            history.pushState(null, null, '{{ route("tenders.index") }}');
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.responseText);
+                            toastr.error('Error clearing filters');
+                        },
+                        complete: function () {
+                            $('#filter-loader').addClass('hidden');
+                        }
+                    });
+                });
+
+                // Clear filters (desktop)
+                // 🧹 CLEAR FILTERS (DESKTOP)
+                $('#clear-desktop').on('click', function (e) {
+                    e.preventDefault();
+                    $('#filter-loader').removeClass('hidden');
+
+                    const $form = $('#filter-form-desktop');
+                    $form[0].reset();
+                    $form.find('select').val('').trigger('change');
+                    $form.find('input[type="checkbox"]').prop('checked', false);
+
+                    $.ajax({
+                        url: '{{ route("tenders.index") }}', // ✅ Corrected
+                        type: 'GET',
+                        success: function (response) {
+                            $('#job-listings').html(response.html);
+                            history.pushState(null, null, '{{ route("tenders.index") }}');
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.responseText);
+                            toastr.error('Error clearing filters');
+                        },
+                        complete: function () {
+                            $('#filter-loader').addClass('hidden');
+                        }
+                    });
+                });
                 // Handle pagination clicks
                 $(document).on('click', '.pagination a', function(e) {
                     e.preventDefault();

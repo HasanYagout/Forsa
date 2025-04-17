@@ -11,10 +11,10 @@
 
             <!-- Collapsible Content -->
             <div id="filter-content" class="bg-blue-100 rounded-xl mb-6 shadow-sm border border-gray-200 h-fit mt-2 overflow-hidden transition-all duration-300 max-h-0">
-                <form id="filter-form" class="p-6">
+                <form id="filter-form-mobile" class="p-6">
                     <div class="flex justify-between mb-4">
                         <h2 class="text-lg font-semibold">Filters</h2>
-                        <button id="clear" type="button" class="text-lg font-semibold cursor-pointer text-blue-600 hover:text-blue-800">Clear</button>
+                        <button id="clear-mobile" type="button" class="text-lg font-semibold cursor-pointer text-blue-600 hover:text-blue-800">Clear</button>
                     </div>
 
                     <!-- Search -->
@@ -75,10 +75,10 @@
         <section class="w-[20%] ms-6 bg-white p-6 rounded-xl shadow-sm border border-gray-200 h-fit hidden lg:block">
 
 
-            <form id="filter-form">
+            <form id="filter-form-desktop">
                 <div class="flex justify-between">
                     <h2 class="text-lg font-semibold mb-4">Filters</h2>
-                    <button id="clear" class="text-lg font-semibold mb-4 cursor-pointer text-blue-600 hover:text-blue-800">Clear</button>
+                    <button id="clear-desktop" class="text-lg font-semibold mb-4 cursor-pointer text-blue-600 hover:text-blue-800">Clear</button>
                 </div>
 
                 <!-- Search -->
@@ -128,35 +128,31 @@
     </section>
     @push('js')
         <script>
-
-                $(document).ready(function() {
+            $(document).ready(function() {
+                // Toggle mobile filters
                 const $toggleButton = $('#filter-toggle');
                 const $filterContent = $('#filter-content');
                 const $chevron = $('#filter-chevron');
 
                 $toggleButton.on('click', function(e) {
-                e.stopPropagation(); // Prevent event from bubbling up
+                    e.stopPropagation();
+                    $filterContent.toggleClass('max-h-0 max-h-[800px]');
+                    $chevron.toggleClass('rotate-180');
 
-                $filterContent.toggleClass('max-h-0 max-h-[800px]');
-                $chevron.toggleClass('rotate-180');
+                    if (!$filterContent.hasClass('max-h-0')) {
+                        $(document).on('click.collapseFilters', function(e) {
+                            if (!$filterContent.is(e.target) && !$toggleButton.is(e.target) && $filterContent.has(e.target).length === 0) {
+                                $filterContent.addClass('max-h-0').removeClass('max-h-[800px]');
+                                $chevron.removeClass('rotate-180');
+                                $(document).off('click.collapseFilters');
+                            }
+                        });
+                    } else {
+                        $(document).off('click.collapseFilters');
+                    }
+                });
 
-                // Optional: Close when clicking outside
-                if (!$filterContent.hasClass('max-h-0')) {
-                $(document).on('click.collapseFilters', function(e) {
-                if (!$filterContent.is(e.target) && !$toggleButton.is(e.target) && $filterContent.has(e.target).length === 0) {
-                $filterContent.addClass('max-h-0').removeClass('max-h-[800px]');
-                $chevron.removeClass('rotate-180');
-                $(document).off('click.collapseFilters');
-            }
-            });
-            } else {
-                $(document).off('click.collapseFilters');
-            }
-            });
-            });
-
-            $(document).ready(function() {
-                // Ensure the click event is attached correctly
+                // Bookmark functionality (unchanged)
                 $(document).on('click', '.bookmark-btn', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -166,16 +162,13 @@
                     const isBookmarked = button.data('bookmarked') === 'true';
                     const icon = button.find('.bookmark-icon');
 
-                    // Check if user is authenticated
                     @if(!auth()->check())
                         window.location.href = '{{ route('login') }}';
                     return;
                     @endif
 
-                    // Show loading effect
                     icon.addClass('opacity-50');
 
-                    // AJAX request
                     $.ajax({
                         url: '{{ route("bookmarks.toggle") }}',
                         method: 'POST',
@@ -186,13 +179,10 @@
                             action: isBookmarked ? 'remove' : 'add'
                         },
                         success: function(response) {
-                            // Toggle bookmark state
                             const newState = !isBookmarked;
                             button.data('bookmarked', newState ? 'true' : 'false');
                             icon.attr('fill', newState ? 'currentColor' : 'none');
-
-                            // Show toast notification
-                            toastr.success(newState ? 'Bookmark added!' : 'Bookmark removed!');
+                            toastr.success(newState ? 'Saved Successfully!' : 'Removed Successfully!');
                         },
                         error: function(xhr) {
                             console.error(xhr.responseText);
@@ -203,73 +193,88 @@
                         }
                     });
                 });
-            });
 
-            $(document).ready(function () {
-                // Submit form via AJAX
-            $(document).ready(function () {
-                    // Submit form via AJAX (for both mobile and desktop forms)
-                    $('form[id="filter-form"]').on('submit', function (e) {
-                        e.preventDefault();
+                // Submit form via AJAX (with your original loader implementation)
+                $('#filter-form-mobile, #filter-form-desktop').on('submit', function (e) {
+                    e.preventDefault();
 
-                        // Show loader
-                        $('#filter-loader').removeClass('hidden');
+                    // Show loader - YOUR ORIGINAL IMPLEMENTATION
+                    $('#filter-loader').removeClass('hidden');
 
-                        // Get form data including checkboxes and selects
-                        let formData = $(this).serialize();
+                    // Get form data
+                    let formData = $(this).serialize();
 
-                        // AJAX request to fetch filtered jobs
-                        $.ajax({
-                            url: '{{ route("trainings.index") }}',
-                            type: 'GET',
-                            data: formData,
-                            success: function (response) {
-                                $('#training-listings').html(response.html);
-                            },
-                            error: function (xhr) {
-                                console.log(xhr.responseText);
-                                toastr.error('Error applying filters');
-                            },
-                            complete: function () {
-                                // Hide loader when complete
-                                $('#filter-loader').addClass('hidden');
-                            }
-                        });
-                    });
-
-                    // Clear filters - update to use AJAX
-                    $('#clear').on('click', function (e) {
-                        e.preventDefault();
-
-                        // Show loader
-                        $('#filter-loader').removeClass('hidden');
-
-                        // Reset the form
-                        $('form[id="filter-form"]')[0].reset();
-
-                        // Reset select elements
-                        $('#company, #category, #location').val('').trigger('change');
-
-                        // Uncheck all checkboxes
-                        $('input[name="type[]"]').prop('checked', false);
-
-                        // Submit the empty form via AJAX
-                        $.ajax({
-                            url: '{{ route("trainings.index") }}',
-                            type: 'GET',
-                            success: function (response) {
-                                $('#training-listings').html(response.html);
-                            },
-                            error: function (xhr) {
-                                console.log(xhr.responseText);
-                                toastr.error('Error clearing filters');
-                            },
-                            complete: function () {
-                                $('#filter-loader').addClass('hidden');
-                            }
-                        });
+                    // AJAX request to fetch filtered trainings
+                    $.ajax({
+                        url: '{{ route("trainings.index") }}',
+                        type: 'GET',
+                        data: formData,
+                        success: function(response) {
+                            $('#training-listings').html(response.html);
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                            toastr.error('Error applying filters');
+                        },
+                        complete: function() {
+                            // Hide loader when complete - YOUR ORIGINAL IMPLEMENTATION
+                            $('#filter-loader').addClass('hidden');
+                        }
                     });
                 });
+
+                // Clear filters (with your original loader implementation)
+                $('#clear-mobile').on('click', function (e) {
+                    e.preventDefault();
+                    $('#filter-loader').removeClass('hidden');
+
+                    const $form = $('#filter-form-mobile');
+                    $form[0].reset();
+                    $form.find('select').val('').trigger('change');
+                    $form.find('input[type="checkbox"]').prop('checked', false);
+
+                    $.ajax({
+                        url: '{{ route("trainings.index") }}',
+                        type: 'GET',
+                        success: function (response) {
+                            $('#training-listings').html(response.html);
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.responseText);
+                            toastr.error('Error clearing filters');
+                        },
+                        complete: function () {
+                            $('#filter-loader').addClass('hidden');
+                        }
+                    });
+                });
+
+                // Clear filters (desktop)
+                $('#clear-desktop').on('click', function (e) {
+                    e.preventDefault();
+                    $('#filter-loader').removeClass('hidden');
+
+                    const $form = $('#filter-form-desktop');
+                    $form[0].reset();
+                    $form.find('select').val('').trigger('change');
+                    $form.find('input[type="checkbox"]').prop('checked', false);
+
+                    $.ajax({
+                        url: '{{ route("trainings.index") }}',
+                        type: 'GET',
+                        success: function (response) {
+                            $('#training-listings').html(response.html);
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.responseText);
+                            toastr.error('Error clearing filters');
+                        },
+                        complete: function () {
+                            $('#filter-loader').addClass('hidden');
+                        }
+                    });
+                });
+
 
             });
         </script>

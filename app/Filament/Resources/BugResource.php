@@ -20,7 +20,7 @@ class BugResource extends Resource
 {
     protected static ?string $model = Bug::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-bug-ant';
 
     public static function form(Form $form): Form
     {
@@ -30,7 +30,8 @@ class BugResource extends Resource
                 ->disabled(),
                 TextInput::make('last_name')
                 ->disabled(),
-                TextInput::make('mobile')
+                TextInput::make('email')
+                    ->email()
                 ->disabled(),
                 textarea::make('message')
                 ->disabled(),
@@ -46,9 +47,13 @@ class BugResource extends Resource
                 ->formatStateUsing(function ($record,$state) {
                    return $record->first_name.' '.$record->last_name;
                 }),
-                TextColumn::make('mobile'),
+                TextColumn::make('email'),
                 TextColumn::make('message')
                 ->wrap(),
+                TextColumn::make('type')
+                    ->badge()
+                    ->wrap(),
+
             ])
             ->filters([
                 //

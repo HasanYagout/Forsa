@@ -49,6 +49,10 @@ class CompanyResource extends Resource
                 Tables\Columns\ImageColumn::make('logo')
                 ->circular(),
                 Tables\Columns\ToggleColumn::make('status')
+                ->afterStateUpdated(function ($record,$state){
+                    $record->save();
+
+                })
             ])
             ->filters([
                 //

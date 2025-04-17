@@ -67,7 +67,8 @@ class TrainingResource extends Resource
                 TextColumn::make('created_at')
                     ->label('posted at'),
                 TextColumn::make('deadline')
-                    ->color('danger')
+                    ->color('danger'),
+                Tables\Columns\ToggleColumn::make('status')
             ])
             ->filters([
                 //

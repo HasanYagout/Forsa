@@ -60,7 +60,7 @@ class TrainingController extends Controller
         if ($request->has('company') && !empty($request->company)) {
             $trainings->where('company_id', (int) $request->company);
         }
-
+//        dd($request->all());
         // Filter by location
         if ($request->has('location') && !empty($request->location)) {
             $searchTerm = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $request->location));
@@ -68,6 +68,7 @@ class TrainingController extends Controller
                 $query->whereRaw("LOWER(REPLACE(REPLACE(REPLACE(location, '''', ''), ' ', ''), '-', '')) LIKE ?", ['%' . $searchTerm . '%']);
             });
         }
+
 
         // Paginate results with preserved filters
         $data['trainings'] = $trainings->paginate(5)->appends($request->query());
@@ -79,8 +80,11 @@ class TrainingController extends Controller
         // AJAX response
         if ($request->ajax()) {
             return response()->json([
-                'html' => view('components.partials.trainings-listings', $data)->render(),
-                'queryParams' => $request->query()
+                'html' => view('components.partials.listings', [
+                    'records' => $data['trainings'],
+                    'title' => 'trainings'
+                ])->render(),
+                'queryParams' => $request->query() // Return current query parameters
             ]);
         }
 

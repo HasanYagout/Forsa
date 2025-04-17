@@ -1,7 +1,7 @@
 @php
     $route = match(true) {
         $record instanceof App\Models\Job => route('jobs.view', ['slug' => $record->slug]),
-        $record instanceof App\Models\Tender => route('tenders.view', ['slug' => $record->slug]),
+//        $record instanceof App\Models\Tender => route('tenders.view', ['slug' => $record->slug]),
         $record instanceof App\Models\Training => route('trainings.view', ['slug' => $record->slug]),
         default => '#'
     };

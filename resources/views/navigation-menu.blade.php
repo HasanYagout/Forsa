@@ -24,6 +24,12 @@
                     <x-nav-link href="{{ route('trainings.index') }}" :active="request()->routeIs('trainings.index')">
                         {{ __('Trainings') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('about_us') }}" :active="request()->routeIs('about_us')">
+                        {{ __('About Us') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('contact_us') }}" :active="request()->routeIs('contact_us')">
+                        {{ __('Contact Us') }}
+                    </x-nav-link>
                 </div>
             </div>
 

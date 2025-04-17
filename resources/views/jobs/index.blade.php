@@ -11,10 +11,10 @@
 
             <!-- Collapsible Content -->
             <div id="filter-content" class="bg-blue-100 rounded-xl mb-6 shadow-sm border border-gray-200 h-fit mt-2 overflow-hidden transition-all duration-300 max-h-0">
-                <form id="filter-form" class="p-6">
+                <form id="filter-form-mobile" class="p-6">
                     <div class="flex justify-between mb-4">
                         <h2 class="text-lg font-semibold">Filters</h2>
-                        <button id="clear" type="button" class="text-lg font-semibold cursor-pointer text-blue-600 hover:text-blue-800">Clear</button>
+                        <button id="clear-mobile" type="button" class="text-lg font-semibold cursor-pointer text-blue-600 hover:text-blue-800">Clear</button>
                     </div>
 
                     <!-- Search -->
@@ -70,13 +70,11 @@
         </section>
 
         <!-- Filter Section -->
-        <section class="w-[20%] ms-6 bg-white p-6 rounded-xl shadow-sm border border-gray-200 h-fit hidden lg:block">
-
-
-            <form id="filter-form">
+        <section class="w-[20%]   h-fit hidden lg:block">
+            <form class="bg-white ms-6  p-6 rounded-xl shadow-sm border border-gray-200" id="filter-form-desktop">
                 <div class="flex justify-between">
                     <h2 class="text-lg font-semibold mb-4">Filters</h2>
-                    <button id="clear" class="text-lg font-semibold mb-4 cursor-pointer text-blue-600 hover:text-blue-800">Clear</button>
+                    <button id="clear-desktop" class="text-lg font-semibold mb-4 cursor-pointer text-blue-600 hover:text-blue-800">Clear</button>
                 </div>
 
                 <!-- Search -->
@@ -121,7 +119,17 @@
                     Filters
                 </button>
             </form>
+            <div class="bg-white ms-6 mt-3  p-6 rounded-xl shadow-sm border border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Explore Trainings</h3>
+                <p class="text-sm text-gray-600 mb-4">
+                    Enhance your skills with curated training opportunities from top companies.
+                </p>
+                <a href="{{ route('trainings.index') }}" class="inline-block w-full text-center bg-gray-300 text-white text-sm font-medium py-2 rounded-lg hover:bg-primary-100 transition">
+                    Go to Trainings
+                </a>
+            </div>
         </section>
+
 
     </section>
     @push('js')
@@ -184,7 +192,7 @@
                             const newState = !isBookmarked;
                             button.data('bookmarked', newState ? 'true' : 'false');
                             icon.attr('fill', newState ? 'currentColor' : 'none');
-                            toastr.success(newState ? 'Bookmark added!' : 'Bookmark removed!');
+                            toastr.success(newState ? 'Saved Successfully!' : 'Removed Successfully!');
                         },
                         error: function (xhr) {
                             console.error(xhr.responseText);
@@ -197,7 +205,7 @@
                 });
 
                 // 🔍 FILTER FORM SUBMIT
-                $('form#filter-form').on('submit', function (e) {
+                $('#filter-form-mobile, #filter-form-desktop').on('submit', function (e) {
                     e.preventDefault();
                     $('#filter-loader').removeClass('hidden');
 
@@ -228,20 +236,45 @@
                 });
 
                 // 🧹 CLEAR FILTERS
-                $('#clear').on('click', function (e) {
+                $('#clear-mobile').on('click', function (e) {
                     e.preventDefault();
                     $('#filter-loader').removeClass('hidden');
 
-                    const $form = $('form#filter-form');
+                    const $form = $('#filter-form-mobile');
                     $form[0].reset();
-
-                    // Reset select2 or select elements if needed
-                    $('#company, #category, #location').val('').trigger('change');
-
-                    $('input[name="type[]"]').prop('checked', false);
+                    $form.find('select').val('').trigger('change');
+                    $form.find('input[type="checkbox"]').prop('checked', false);
 
                     $.ajax({
-                        url: '{{ route("jobs.index") }}',
+                        url: '{{ route("jobs.index") }}', // ✅ Corrected
+                        type: 'GET',
+                        success: function (response) {
+                            $('#job-listings').html(response.html);
+                            history.pushState(null, null, '{{ route("jobs.index") }}');
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.responseText);
+                            toastr.error('Error clearing filters');
+                        },
+                        complete: function () {
+                            $('#filter-loader').addClass('hidden');
+                        }
+                    });
+                });
+
+                // Clear filters (desktop)
+                // 🧹 CLEAR FILTERS (DESKTOP)
+                $('#clear-desktop').on('click', function (e) {
+                    e.preventDefault();
+                    $('#filter-loader').removeClass('hidden');
+
+                    const $form = $('#filter-form-desktop');
+                    $form[0].reset();
+                    $form.find('select').val('').trigger('change');
+                    $form.find('input[type="checkbox"]').prop('checked', false);
+
+                    $.ajax({
+                        url: '{{ route("jobs.index") }}', // ✅ Corrected
                         type: 'GET',
                         success: function (response) {
                             $('#job-listings').html(response.html);

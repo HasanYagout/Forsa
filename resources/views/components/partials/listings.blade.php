@@ -2,13 +2,12 @@
 
 @foreach($records as $record)
     <section class="w-full bg-white relative p-4 sm:p-6 hover:shadow-md transition rounded-xl shadow-sm flex flex-col items-center gap-3 sm:gap-4 mb-4 border border-gray-200">
+        <!-- Bookmark Button - Visible to all users -->
         <div class="absolute top-3 right-3 sm:top-4 sm:right-4 z-10">
-
-            <button class="bookmark-btn cursor-pointer"
+            <button class="bookmark-btn cursor-pointer {{ auth()->check() ? '' : 'guest-bookmark' }}"
                     data-id="{{ $record->id }}"
-                    data-type="{{ auth()->user()->getBookmarkType($record) }}"
+                    data-type="{{ auth()->check() ? auth()->user()->getBookmarkType($record) : '' }}"
                     data-bookmarked="{{ auth()->check() && auth()->user()->hasBookmarked($record) ? 'true' : 'false' }}">
-
                 <svg xmlns="http://www.w3.org/2000/svg"
                      fill="{{ auth()->check() && auth()->user()->hasBookmarked($record) ? 'currentColor' : 'none' }}"
                      viewBox="0 0 24 24"
@@ -20,7 +19,7 @@
             </button>
         </div>
 
-        <x-partials.card :record="$record" title="tenders" />  <!-- Note the colon prefix -->
+        <x-partials.card :record="$record" :title="$title" />
     </section>
 @endforeach
 

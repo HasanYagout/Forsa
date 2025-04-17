@@ -103,57 +103,7 @@
                   </section>
                 </section>
             </section>
-            <section class="w-full bg-white">
-                <h1 class=" p-2 text-xl text-white w-full rounded-t-xl flex bg-gray-300">Report a bug</h1>
 
-                <form action="{{route('jobs.bug',['slug'=>$training->slug])}}" method="POST" class="grid grid-cols-3 gap-4 bg-white p-6 rounded-lg shadow-md">
-                   @csrf
-                    <div class="space-y-2">
-                        <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
-                        <input
-                            type="text"
-                            id="first_name"
-                            name="first_name"
-                            class="bg-blue-200 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 border border-gray-300"
-                            placeholder="John"
-                        />
-                    </div>
-                    <div class="space-y-2">
-                        <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
-                        <input
-                            type="text"
-                            id="last_name"
-                            name="last_name"
-                            class="bg-blue-200 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 border border-gray-300"
-                            placeholder="Doe"
-                        />
-                    </div>
-                    <div class="space-y-2">
-                        <label for="mobile" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                        <input
-                            type="number"
-                            id="mobile"
-                            name="mobile"
-                            class="bg-blue-200 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 border border-gray-300"
-                            placeholder="123-456-7890"
-                        />
-                    </div>
-
-                    <!-- Second Row: Textarea (Spans All Columns) -->
-                    <div class="col-span-3 space-y-2">
-                        <label for="message" class="block text-sm font-medium text-gray-700">Your Message</label>
-                        <textarea
-                            id="message"
-                            name="message"
-                            class="bg-blue-200 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 border border-gray-300"
-                            placeholder="Enter your message here..."
-                            rows="4"
-                        ></textarea>
-                    <button type="submit" class="bg-gray-300 cursor-pointer text-white px-4 py-2 rounded-lg w-full">Submit</button>
-                    </div>
-
-                </form>
-            </section>
         </section>
 
         <section class="w-[20%] p-6 rounded-xl h-fit hidden lg:block space-y-4">
@@ -163,16 +113,12 @@
                 <a type="submit" class="bg-secondary text-center cursor-pointer mt-5 text-white block px-4 py-2 rounded-lg w-full">Training</a>
             </section>
 
-            <!-- Second Section -->
-            <section class="bg-white w-full shadow-sm border border-blue-200 rounded-lg p-4">
-                <h1 class="text-gray-700 text-sm">Share this Job</h1>
-            </section>
 
             <!-- Third Section -->
             <!-- Third Section -->
             <section class="bg-white w-full shadow-sm border border-blue-200 rounded-lg p-4 space-y-4">
                 @foreach($similar_trainings as $training)
-                    <a href="{{route('jobs.view',['slug'=>$training->slug])}}" class="flex items-center space-x-4">
+                    <a href="{{route('jobs.view',['slug'=>$training->slug])}}" class="border-[#e3e3e0] border-b flex items-center pb-3 space-x-4">
                         <!-- Company Logo (Circular) -->
                         <div class="flex-shrink-0">
                             <img

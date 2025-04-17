@@ -36,11 +36,11 @@
             <div>
                 <h4 class="font-semibold text-white mb-3">About Chances Company</h4>
                 <ul class="space-y-2 list-none pl-0 text-gray-300">
-                    <li><a href="#" class="hover:text-white">Contact Us</a></li>
-                    <li><a href="#" class="hover:text-white">About Chances Platform</a></li>
+                    <li><a href="{{route('contact_us')}}" class="hover:text-white">Contact Us</a></li>
+                    <li><a href="{{route('about_us')}}" class="hover:text-white">About Us</a></li>
                     <li><a href="#" class="hover:text-white">Privacy Commitment</a></li>
                     <li><a href="#" class="hover:text-white">Terms of Use</a></li>
-                    <li><a href="#" class="hover:text-white">Report a Bug</a></li>
+                    <li><a href="{{route('contact_us')}}" class="hover:text-white">Report a Bug</a></li>
                 </ul>
             </div>
         </div>

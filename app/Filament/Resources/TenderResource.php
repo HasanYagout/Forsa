@@ -12,6 +12,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -55,7 +56,8 @@ class TenderResource extends Resource
                 TextColumn::make('created_at')
                     ->label('posted at'),
                 TextColumn::make('deadline')
-                    ->color('danger')
+                    ->color('danger'),
+                ToggleColumn::make('status')
             ])
             ->filters([
                 //
