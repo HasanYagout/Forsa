@@ -20,11 +20,7 @@ class Job extends Model
         'Taiz'=>'Taiz',
 
     ];
-    const TYPES=[
-        'Full Time'=>'Full Time',
-        'Part Time'=>'Part Time',
-        'Contract'=>'Contract',
-    ];
+
 
     public function company()
     {

@@ -38,12 +38,13 @@ class JobResource extends Resource
                    Forms\Components\Select::make('location')
                        ->multiple()
                        ->options(self::$model::LOCATIONS),
-                   Forms\Components\Select::make('type')
-                       ->options(self::$model::TYPES),
                    Forms\Components\DatePicker::make('deadline'),
-                   Forms\Components\Textarea::make('description'),
                    Forms\Components\TextInput::make('link')
-                   ->url(),
+                       ->url(),
+                   Forms\Components\Textarea::make('description'),
+                  Forms\Components\RichEditor::make('how_to_apply')
+                   ->columnSpan(2),
+
                    Forms\Components\RichEditor::make('details')
                        ->columnSpan(2),
                ])
@@ -71,7 +72,7 @@ class JobResource extends Resource
                 ->color('danger'),
                 Tables\Columns\ToggleColumn::make('status')
 
-            ])
+            ])->defaultSort('created_at','desc')
             ->filters([
                 //
             ])

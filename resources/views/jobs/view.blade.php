@@ -7,7 +7,7 @@
                 <!-- Job Header -->
                 <section class="flex w-full flex-shrink-0 p-6 border-b">
                     <img src="{{ asset('storage') . '/' . $job->company->logo }}"
-                         class="w-14 object-cover h-14 rounded-full bg-gray-100 p-1" alt="">
+                         class="w-14 object-cover h-14 rounded-full border border-gray-300 p-1" alt="">
                     <section class="flex ms-6 flex-col justify-between w-full">
                         <h1 class="font-semibold text-lg">{{ $job->title }}</h1>
 
@@ -100,62 +100,11 @@
                 <section class=" text-white  w-full  text-xs mt-3">
                     <h1 class=" p-2 text-xl w-full flex bg-gray-300">How to Apply</h1>
                   <section class="text-black text-sm p-6 leading-7">
-                      <p >To apply click on the link below:</p>
-                      <a class="underline" href="{{$job->link}}">{{$job->link}}</a>
+                     {!! $job->how_to_apply !!}
                   </section>
                 </section>
             </section>
-            <section class="w-full bg-white">
-                <h1 class=" p-2 text-xl text-white w-full rounded-t-xl flex bg-gray-300">Report a bug</h1>
 
-                <form action="{{route('jobs.bug',['slug'=>$job->slug])}}" method="POST" class="grid grid-cols-3 gap-4 bg-white p-6 rounded-lg shadow-md">
-                   @csrf
-                    <div class="space-y-2">
-                        <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
-                        <input
-                            type="text"
-                            id="first_name"
-                            name="first_name"
-                            class="bg-blue-200 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 border border-gray-300"
-                            placeholder="John"
-                        />
-                    </div>
-                    <div class="space-y-2">
-                        <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
-                        <input
-                            type="text"
-                            id="last_name"
-                            name="last_name"
-                            class="bg-blue-200 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 border border-gray-300"
-                            placeholder="Doe"
-                        />
-                    </div>
-                    <div class="space-y-2">
-                        <label for="mobile" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                        <input
-                            type="number"
-                            id="mobile"
-                            name="mobile"
-                            class="bg-blue-200 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 border border-gray-300"
-                            placeholder="123-456-7890"
-                        />
-                    </div>
-
-                    <!-- Second Row: Textarea (Spans All Columns) -->
-                    <div class="col-span-3 space-y-2">
-                        <label for="message" class="block text-sm font-medium text-gray-700">Your Message</label>
-                        <textarea
-                            id="message"
-                            name="message"
-                            class="bg-blue-200 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 border border-gray-300"
-                            placeholder="Enter your message here..."
-                            rows="4"
-                        ></textarea>
-                    <button type="submit" class="bg-gray-300 cursor-pointer text-white px-4 py-2 rounded-lg w-full">Submit</button>
-                    </div>
-
-                </form>
-            </section>
         </section>
 
         <section class="w-[20%] p-6 rounded-xl h-fit hidden lg:block space-y-4">

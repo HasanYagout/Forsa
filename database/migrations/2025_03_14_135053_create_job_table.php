@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained('companies');
             $table->string('category_id');
             $table->string('location');
-            $table->string('type');
+            $table->string('how_to_apply');
             $table->date('deadline');
             $table->text('link')->nullable();
             $table->unsignedTinyInteger('status')->default(0);

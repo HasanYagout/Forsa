@@ -7,7 +7,7 @@
                 <!-- Job Header -->
                 <section class="flex w-full flex-shrink-0 p-6 border-b">
                     <img src="{{ asset('storage') . '/' . $tender->company->logo }}"
-                         class="w-14 object-cover h-14 rounded-full bg-gray-100 p-1" alt="">
+                         class="w-14 object-cover h-14 rounded-full border border-gray-300 p-1" alt="">
                     <section class="flex ms-6 flex-col justify-between w-full">
                         <h1 class="font-semibold text-lg">{{ $tender->title }}</h1>
 

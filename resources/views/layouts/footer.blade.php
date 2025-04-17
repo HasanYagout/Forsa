@@ -17,18 +17,17 @@
 
             <!-- For Employers -->
             <div>
-                <h4 class="font-semibold text-white mb-3">For Employers</h4>
+                <h4 class="font-semibold text-white mb-3">Trainings</h4>
                 <ul class="space-y-2 list-none pl-0 text-gray-300">
-                    <li><a href="#" class="hover:text-white">Home</a></li>
-                    <li><a href="#" class="hover:text-white">Post Job/Tenders</a></li>
+                    <li><a href="{{route('trainings.index')}}" class="hover:text-white">Home</a></li>
                 </ul>
             </div>
 
             <!-- For Jobs -->
             <div>
-                <h4 class="font-semibold text-white mb-3">For Jobs</h4>
+                <h4 class="font-semibold text-white mb-3">Jobs</h4>
                 <ul class="space-y-2 list-none pl-0 text-gray-300">
-                    <li><a href="#" class="hover:text-white">Home</a></li>
+                    <li><a href="{{route('jobs.index')}}" class="hover:text-white">Home</a></li>
                 </ul>
             </div>
 

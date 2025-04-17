@@ -7,7 +7,7 @@
                 <!-- Job Header -->
                 <section class="flex w-full flex-shrink-0 p-6 border-b">
                     <img src="{{ asset('storage') . '/' . $training->company->logo }}"
-                         class="w-14 object-cover h-14 rounded-full bg-gray-100 p-1" alt="">
+                         class="w-14 object-cover h-14 rounded-full border border-gray-300 p-1" alt="">
                     <section class="flex ms-6 flex-col justify-between w-full">
                         <h1 class="font-semibold text-lg">{{ $training->title }}</h1>
 
@@ -109,8 +109,11 @@
         <section class="w-[20%] p-6 rounded-xl h-fit hidden lg:block space-y-4">
             <!-- First Section -->
             <section class="bg-white  w-full  shadow-sm border border-gray-200 rounded-lg p-4">
-                <a type="submit" class="bg-secondary text-center cursor-pointer text-white block px-4 py-2 rounded-lg w-full">Apply Now</a>
-                <a type="submit" class="bg-secondary text-center cursor-pointer mt-5 text-white block px-4 py-2 rounded-lg w-full">Training</a>
+
+                @if($training->link)
+                <a type="submit" href="{{$training->link}}" class="bg-secondary text-center cursor-pointer text-white block px-4 py-2 rounded-lg w-full">Apply Now</a>
+                @endif
+{{--                <a type="submit" class="bg-secondary text-center cursor-pointer mt-5 text-white block px-4 py-2 rounded-lg w-full">Training</a>--}}
             </section>
 
 
