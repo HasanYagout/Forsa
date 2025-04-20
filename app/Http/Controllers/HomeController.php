@@ -20,6 +20,7 @@ class HomeController extends Controller
         $data['trainings']=Training::with('company')->latest()->take(12)->get();
         $data['banner']=Banner::where('status',1)->first();
         $data['categories']=Category::all();
+        $data['availableLocations']=Job::LOCATIONS;
         return view('dashboard',$data);
     }
 

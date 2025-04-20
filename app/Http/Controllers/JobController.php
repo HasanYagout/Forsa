@@ -5,6 +5,7 @@ use App\Models\Bug;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\Job;
+use App\Models\Training;
 use Illuminate\Http\Request;
 
 class JobController extends Controller
@@ -134,15 +135,35 @@ class JobController extends Controller
 
     public function view(Request $request, $slug)
     {
-        $data['job'] = Job::where('slug', $slug)->first();
+        $data['job'] = Job::with('categories')->where('slug', $slug)->first();
 
         if (!$data['job']) {
             abort(404, 'Job not found');
         }
-        $data['similar_jobs']=Job::with('company')->whereNot('slug',$slug)->where('company_id', $data['job']->company_id)->latest(5)->get();
+
+        // Similar jobs from the same company
+        $data['similar_jobs'] = Job::with('company')
+            ->where('company_id', $data['job']->company_id)
+            ->where('slug', '!=', $slug)
+            ->latest()
+            ->take(3)
+            ->get();
+
+        // Get the category IDs of the job
+        $categoryIds = $data['job']->categories->pluck('id');
+
+        // Get trainings that share at least one of these categories
+        $data['similar_trainings'] = Training::with('categories')
+            ->whereHas('categories', function ($query) use ($categoryIds) {
+                $query->whereIn('categories.id', $categoryIds);
+            })
+            ->latest()
+            ->take(3)
+            ->get();
 
         return view('jobs.view', $data);
     }
+
 
 
 }
