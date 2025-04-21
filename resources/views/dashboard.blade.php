@@ -5,12 +5,8 @@
 {{--            </h2>--}}
 {{--        </x-slot>--}}
     <section>
-        <div class="text-center mt-10">
-        <span class="text-sm uppercase font-semibold border-2 rounded-sm rounded-lg border-blue-100 p-2 text-primary }}">
-            Latest Trainings
-        </span>
-        </div>
-        <div class="owl-carousel owl-theme my-20 px-4 md:px-28">
+
+        <div class="owl-carousel owl-theme px-4 mt-4 md:px-28">
             @foreach($trainings as $training)
                 <a href="{{route('trainings.view',['slug'=>$training->slug])}}">
                     <div class="item w-full">
@@ -24,11 +20,12 @@
                             </div>
 
                             <!-- White Title Box -->
-                            <div class="absolute bottom-40 left-1/2 transform -translate-x-1/2 w-3/4 z-10 bg-white bg-opacity-90 p-6 text-center rounded-xl shadow-md">
-                                <p class="text-sm font-medium">
+                            <div class="absolute bottom-32 left-1/2 transform -translate-x-1/2 w-full sm:w-3/4 z-10 bg-white bg-opacity-90 px-4 py-6 text-center rounded-xl shadow-md">
+                                <p class="text-sm sm:text-base font-medium break-words">
                                     {{ Str::limit($training->title, 100) }}
                                 </p>
                             </div>
+
 
 
                             <!-- Bottom Info -->
@@ -121,11 +118,18 @@
                         class="flex flex-col justify-between sm:flex-row items-center w-full gap-3 sm:gap-4 bg-white p-1 rounded-2xl sm:rounded-3xl">
                         <input type="text" name="title"
                                class="bg-white text-gray-900 border-none focus:outline-none text-sm rounded-lg w-full sm:w-60 p-3"
-                               placeholder="البحث بواسطة كلمة مفتاحية ">
+                               placeholder="البحث ">
 
-                        <input type="text" name="location"
+                        <input type="text" name="location" list="locations"
                                class="bg-white text-gray-900 border-none focus:outline-none text-sm rounded-lg w-full sm:w-60 p-3"
                                placeholder="Location">
+
+                        <datalist id="locations">
+                            @foreach($availableLocations as $location)
+                                <option value="{{ $location }}">
+                            @endforeach
+                        </datalist>
+
 
                         <!-- Search Button -->
                         <button type="submit"
@@ -146,30 +150,11 @@
         title="jobs"
         :records="$jobs"
     />
-    <section class="bg-primary-100' py-12">
-        <div class="text-center mb-6">
-            <span class="text-sm uppercase font-semibold border-2 rounded-sm rounded-lg border-blue-100 p-2 text-gray-600">Categories</span>
-        </div>
-        <div class="bg-secondary py-6">
-            <div class="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
-                @foreach($categories as $category)
-                    <a href="{{route('jobs.index',['category'=>$category->id])}}">
-                        <div class="bg-blue-50 rounded-lg shadow-md flex justify-center items-center py-3 px-4">
-                            <h3 class="text-md text-center font-semibold text-gray-900">{{ $category->name }}</h3>
-                        </div>
-                    </a>
-                @endforeach
-            </div>
-        </div>
 
-        <div class="mt-8 text-center">
-            <a href="{{ route('jobs.index') }}" target="_blank"  class=" bg-gray-300 text-white px-6 py-2 rounded-lg font-semibold  transition">More</a>
-        </div>
-    </section>
 
     @if($banner)
 
-    <div class="my-20 px-28">
+    <div class="mb-6 px-28">
         <a href="{{$banner->url}}">
         <img src="{{ asset('storage') . '/' . $banner->image }}" alt="{{ $banner->name }}" class="w-full h-auto">
 
@@ -186,6 +171,42 @@
 {{--        second_title="new opportunities"--}}
 {{--        :records="$tenders"--}}
 {{--    />--}}
+
+    <section class="mt-4">
+        <div class="text-center">
+            <span class="text-sm uppercase  font-semibold border-2 rounded-sm rounded-lg border-blue-100 p-2 text-gray-600">Categories</span>
+        </div>
+        <section class="px-6 py-10 bg-gray-100 dark:bg-secondary-100">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                @foreach($categories as $category)
+                    <a target="_blank" href="{{route('jobs.index',['category'=>$category->id])}}">
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-md transition text-center">
+                            <div class="text-indigo-500 mb-3">
+                                @php
+                                    // Ensure the icon exists and is not empty
+                                    $iconPath = ltrim(str_replace('\\', '/', $category->icon), '/');
+                                    $fullIconPath = public_path('storage/' . $iconPath);
+                                @endphp
+
+                                @if($category->icon && file_exists($fullIconPath))
+                                    {!! file_get_contents($fullIconPath) !!}
+                                @else
+                                    <!-- Fallback Icon or Placeholder -->
+                                    <span class="text-red-500">[SVG not found]</span>
+                                @endif
+
+
+                            </div>
+                            <h3 class="font-semibold text-gray-800 dark:text-white">{{$category->name}}</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-300">{{count($category->jobs)}}</p>
+                        </div>
+                    </a>
+                @endforeach
+
+            </div>
+        </section>
+
+    </section>
     <section class="bg-blue-50 py-12 px-4 sm:px-6 lg:px-8">
         <!-- Title Section -->
         <div class="text-center mb-8 md:mb-12">
@@ -277,10 +298,10 @@
                     ],
                     responsive: {
                         0: {
-                            items: 4 // Number of items on small screens
+                            items: 2 // Number of items on small screens
                         },
                         600: {
-                            items: 4 // Number of items on medium screens
+                            items: 2 // Number of items on medium screens
                         },
                         1000: {
                             items: 4 // Number of items on large screens

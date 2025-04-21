@@ -122,7 +122,7 @@
             <div class="bg-white ms-6 mt-3  p-6 rounded-xl shadow-sm border border-gray-200">
                 <h3 class="text-lg font-semibold text-gray-800 mb-2">Explore Trainings</h3>
                 <p class="text-sm text-gray-600 mb-4">
-                    Enhance your skills with curated training opportunities from top companies.
+                    Enhance your skills with curated training opportunities from leading training institutions.
                 </p>
                 <a href="{{ route('trainings.index') }}" class="inline-block w-full text-center bg-gray-300 text-white text-sm font-medium py-2 rounded-lg hover:bg-primary-100 transition">
                     Go to Trainings

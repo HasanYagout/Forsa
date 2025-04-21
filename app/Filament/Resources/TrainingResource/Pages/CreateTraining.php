@@ -14,6 +14,7 @@ class CreateTraining extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['slug']=Str::slug($data['title']).'-'.Str::random(10);
+        $data['added_by']=auth()->id();
         return $data;
     }
     protected function handleRecordCreation(array $data): Model

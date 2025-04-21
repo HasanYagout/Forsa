@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Company;
+use App\Models\Job;
 use App\Models\Training;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class TrainingController extends Controller
     public function index(Request $request)
     {
         // Initialize query
-        $trainings = Training::with(['company', 'categories'])->orderBy('created_at', 'desc');
+        $trainings = Training::with(['company', 'categories'])->active()->orderBy('created_at', 'desc');
 
         // Handle both 'category' and 'categories' parameters for backward compatibility
         $categoryIds = [];
@@ -75,7 +76,24 @@ class TrainingController extends Controller
 
         // Fetch filter data
         $data['categories'] = Category::all();
-        $data['companies'] = Company::all();
+        $data['companies'] = Company::whereHas('trainings', function($query) use ($request) {
+            // Apply the same filters to the company query
+            if ($request->has('category') && !empty($request->category)) {
+                $categoryIds = is_array($request->category) ? $request->category : [$request->category];
+                $query->whereHas('categories', function($q) use ($categoryIds) {
+                    $q->whereIn('categories.id', $categoryIds);
+                });
+            }
+            if ($request->has('type') && !empty($request->type)) {
+                $query->whereIn('type', (array) $request->type);
+            }
+            if ($request->has('location') && !empty($request->location)) {
+                $searchTerm = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $request->location));
+                $query->where(function($q) use ($searchTerm) {
+                    $q->whereRaw("LOWER(REPLACE(REPLACE(REPLACE(location, '''', ''), ' ', ''), '-', '')) LIKE ?", ['%' . $searchTerm . '%']);
+                });
+            }
+        })->get();
 
         // AJAX response
         if ($request->ajax()) {
@@ -98,7 +116,16 @@ class TrainingController extends Controller
         if (!$data['training']) {
             abort(404, 'Training not found');
         }
-        $data['similar_trainings']=Training::with('company')->whereNot('slug',$slug)->where('company_id', $data['training']->company_id)->latest(5)->get();
+        $data['similar_trainings']=Training::with('company')->whereNot('slug',$slug)->where('company_id', $data['training']->company_id)->latest()->take(3)->get();
+        $categoryIds = $data['training']->categories->pluck('id');
+
+        $data['similar_jobs'] = Job::with('categories')
+            ->whereHas('categories', function ($query) use ($categoryIds) {
+                $query->whereIn('categories.id', $categoryIds);
+            })
+            ->latest()
+            ->take(3)
+            ->get();
         return view('trainings.view', $data);
     }
 }

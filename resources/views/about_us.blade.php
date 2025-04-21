@@ -1,13 +1,9 @@
 <x-app-layout>
-    <div class="flex flex-col bg-blue-50 items-center justify-center  py-6">
-        <h1 class="text-5xl font-bold text-center text-black">
-            Empowering your career <br><span>Journey</span>
-        </h1>
-        <p class="mt-4 text-lg text-center text-black">
-            Connecting talented professionals with their dream careers <br><span>through innovative technology.</span>
-        </p>
+    <div class="flex flex-col bg-blue-50 items-center justify-center py-6">
+        <!-- Responsive Image -->
+        <img src="{{asset('img/logo.png')}}" alt="Chances Platform Logo" class="w-auto h-24 sm:h-32 md:h-40">
 
-        <div class="mt-10 w-full bg-secondary  p-10">
+        <div class="mt-10 w-full bg-secondary p-10">
             <h2 class="text-3xl font-semibold text-white text-center">About Us</h2>
             <p class="mt-4 text-white">
                 Chances Platform is online recruitment and Training portal in Yemen. It serves as the source of jobs and trainings for employers, training institutions job seekers.

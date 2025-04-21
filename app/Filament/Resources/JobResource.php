@@ -41,11 +41,11 @@ class JobResource extends Resource
                    Forms\Components\DatePicker::make('deadline'),
                    Forms\Components\TextInput::make('link')
                        ->url(),
-                   Forms\Components\Textarea::make('description'),
-                  Forms\Components\RichEditor::make('how_to_apply')
+                   Forms\Components\Textarea::make('description')
                    ->columnSpan(2),
-
                    Forms\Components\RichEditor::make('details')
+                       ->columnSpan(2),
+                   Forms\Components\RichEditor::make('how_to_apply')
                        ->columnSpan(2),
                ])
             ]);

@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('trainings', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->text('details');
+            $table->text('image')->nullable();
             $table->string('slug')->unique();
             $table->foreignId('company_id')->constrained('companies');
             $table->string('category_id');
             $table->string('location');
+            $table->string('how_to_apply');
             $table->date('deadline');
             $table->text('link')->nullable();
             $table->unsignedTinyInteger('status')->default(0);

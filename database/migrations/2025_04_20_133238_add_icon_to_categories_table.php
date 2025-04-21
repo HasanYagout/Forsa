@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bugs', function (Blueprint $table) {
-            $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('email');
-            $table->integer('type');
-            $table->text('message');
-            $table->timestamps();
+        Schema::table('categories', function (Blueprint $table) {
+            $table->longText('icon')->nullable();
+
         });
     }
 
@@ -27,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bugs');
+        Schema::table('categories', function (Blueprint $table) {
+            //
+        });
     }
 };

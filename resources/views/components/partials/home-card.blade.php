@@ -14,7 +14,10 @@
                 <div class="{{ $title == 'jobs' ? 'bg-white' : 'bg-primary' }} rounded-xl shadow-md p-5 flex flex-col gap-3 h-full">
                     <!-- Job Header -->
                     <div class="flex items-center gap-3">
-                        <img src="{{ asset('storage/' . $record->company->logo) }}" class="w-10 h-10 rounded-full" alt="">
+                        <img src="{{ asset('storage/' . $record->company->logo) }}"
+                             class="w-10 h-10 rounded-full object-cover border-2 border-gray-300"
+                             alt="Company Logo">
+
                         <h3 class="text-md font-semibold {{ $title == 'jobs' ? 'text-gray-900' : 'text-white' }}">
                             {{ $record->title }}
                         </h3>

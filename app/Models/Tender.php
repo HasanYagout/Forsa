@@ -26,4 +26,8 @@ class Tender extends Model
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
+    public function scopeActive($query)
+    {
+        return $query->where('status', '1');
+    }
 }

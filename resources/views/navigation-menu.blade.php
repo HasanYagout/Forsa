@@ -12,9 +12,9 @@
 
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Home') }}
-                    </x-nav-link>
+{{--                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">--}}
+{{--                        {{ __('Home') }}--}}
+{{--                    </x-nav-link>--}}
                     <x-nav-link href="{{ route('jobs.index') }}" :active="request()->routeIs('jobs.index')">
                         {{ __('Jobs') }}
                     </x-nav-link>
@@ -24,11 +24,11 @@
                     <x-nav-link href="{{ route('trainings.index') }}" :active="request()->routeIs('trainings.index')">
                         {{ __('Trainings') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('about_us') }}" :active="request()->routeIs('about_us')">
-                        {{ __('About Us') }}
-                    </x-nav-link>
-                    <x-nav-link href="{{ route('contact_us') }}" :active="request()->routeIs('contact_us')">
-                        {{ __('Contact Us') }}
+{{--                    <x-nav-link href="{{ route('about_us') }}" :active="request()->routeIs('about_us')">--}}
+{{--                        {{ __('About Us') }}--}}
+{{--                    </x-nav-link>--}}
+                    <x-nav-link href="{{ route('contact.index') }}" :active="request()->routeIs('contact.index')">
+                        {{ __('Post a job/Training') }}
                     </x-nav-link>
                 </div>
             </div>

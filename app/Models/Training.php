@@ -31,5 +31,9 @@ class Training extends Model
         $categoryIds = $this->category_id; // Already cast to an array
         return Category::whereIn('id', $categoryIds)->pluck('name')->toArray();
     }
+    public function scopeActive($query)
+    {
+        return $query->where('status', '1');
+    }
 
 }

@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 Route::get('/about_us', [HomeController::class, 'about_us'])->name('about_us');
-Route::get('/contact_us', [HomeController::class, 'contact_us'])->name('contact_us');
-Route::post('/bug', [HomeController::class, 'bug'])->name('bug');
+Route::get('/contact_us', [\App\Http\Controllers\ContactController::class, 'index'])->name('contact.index');
+Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
 
 Route::middleware([
     'auth:sanctum',

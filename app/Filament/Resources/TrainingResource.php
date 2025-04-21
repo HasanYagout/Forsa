@@ -39,11 +39,16 @@ class TrainingResource extends Resource
                         ->multiple()
                         ->options(self::$model::LOCATIONS),
                     Forms\Components\DatePicker::make('deadline'),
-                    Forms\Components\Textarea::make('description'),
                     Forms\Components\TextInput::make('link')
                         ->url(),
+                    Forms\Components\Textarea::make('description')
+                    ->columnSpan(2),
                     Forms\Components\RichEditor::make('details')
                         ->columnSpan(2),
+                    Forms\Components\RichEditor::make('how_to_apply')
+                        ->columnSpan(2),
+                    Forms\Components\FileUpload::make('image')
+                    ->directory('trainings')
                 ])
 
             ]);
@@ -52,23 +57,26 @@ class TrainingResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(function (Builder $query) {
+                if (auth()->user()->hasRole('training')){
+                return $query->with('company')->where('added_by', auth()->id());
+                }
+                else
+                    return $query;
+            })
             ->columns([
                 Tables\Columns\ImageColumn::make('company.logo')
                     ->circular(),
                 TextColumn::make('title'),
-                TextColumn::make('category_names')
-                    ->label('Categories')
-                    ->formatStateUsing(fn ($state) => $state) // $state is now an array
-                    ->badge() // Display each item as a badge
-                    ->listWithLineBreaks() // Display badges in a vertical list
-                    ->sortable() // Make the column sortable
-                    ->searchable(), // Make the column searchable
+                TextColumn::make('category.name')
+                    ->label('Categories'),
                 TextColumn::make('company.name'),
                 TextColumn::make('created_at')
                     ->label('posted at'),
                 TextColumn::make('deadline')
                     ->color('danger'),
                 Tables\Columns\ToggleColumn::make('status')
+                ->hidden(auth()->user()->hasRole('training'))
             ])
             ->filters([
                 //
