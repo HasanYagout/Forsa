@@ -5,10 +5,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index'])->name('dashboard');
-Route::get('/about_us', [HomeController::class, 'about_us'])->name('about_us');
-Route::get('/contact_us', [\App\Http\Controllers\ContactController::class, 'index'])->name('contact.index');
-Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
+Route::get('/', [HomeController::class, 'index'])->name('dashboard')->middleware(\App\Http\Middleware\SetLocale::class);
+Route::get('/about_us', [HomeController::class, 'about_us'])->name('about_us')->middleware(\App\Http\Middleware\SetLocale::class);;
+Route::get('/contact_us', [\App\Http\Controllers\ContactController::class, 'index'])->name('contact.index')->middleware(\App\Http\Middleware\SetLocale::class);;
+Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.store')->middleware(\App\Http\Middleware\SetLocale::class);;
 
 Route::middleware([
     'auth:sanctum',
@@ -34,7 +34,8 @@ Route::group(['middleware' => ['web'],'prefix'=>'jobs','as'=>'jobs.'], function 
 //});
 
 Route::group(['middleware' => ['web'],'prefix'=>'trainings','as'=>'trainings.'], function () {
-    Route::get('/', [\App\Http\Controllers\TrainingController::class, 'index'])->name('index');
+    Route::get('/', [\App\Http\Controllers\TrainingController::class, 'index'])->name('index')->middleware(\App\Http\Middleware\SetLocale::class);;
     Route::get('/view/{slug}', [\App\Http\Controllers\TrainingController::class, 'view'])->name('view');
 });
 
+Route::get('language/{locale}', [App\Http\Controllers\HomeController::class, 'switchLanguage'])->name('language.switch');

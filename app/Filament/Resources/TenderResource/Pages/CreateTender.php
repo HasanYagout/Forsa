@@ -13,7 +13,7 @@ class CreateTender extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['location']=json_encode($data['location']);
+
         $data['slug']=Str::slug($data['title']).'-'.Str::random(10);
         return $data;
     }

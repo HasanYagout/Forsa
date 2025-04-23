@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-blue-50  border-gray-100">
+<nav x-data="{ open: false }" class="bg-blue-50 border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -10,23 +10,13 @@
                     </a>
                 </div>
 
-
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-{{--                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">--}}
-{{--                        {{ __('Home') }}--}}
-{{--                    </x-nav-link>--}}
                     <x-nav-link href="{{ route('jobs.index') }}" :active="request()->routeIs('jobs.index')">
                         {{ __('Jobs') }}
                     </x-nav-link>
-{{--                    <x-nav-link href="{{ route('tenders.index') }}" :active="request()->routeIs('tenders.index')">--}}
-{{--                        {{ __('Tenders') }}--}}
-{{--                    </x-nav-link>--}}
                     <x-nav-link href="{{ route('trainings.index') }}" :active="request()->routeIs('trainings.index')">
                         {{ __('Trainings') }}
                     </x-nav-link>
-{{--                    <x-nav-link href="{{ route('about_us') }}" :active="request()->routeIs('about_us')">--}}
-{{--                        {{ __('About Us') }}--}}
-{{--                    </x-nav-link>--}}
                     <x-nav-link href="{{ route('contact.index') }}" :active="request()->routeIs('contact.index')">
                         {{ __('Post a job/Training') }}
                     </x-nav-link>
@@ -34,59 +24,44 @@
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                @auth
-                    <!-- Teams Dropdown -->
-                    @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
-                        <div class="ms-3 relative">
-                            <x-dropdown align="right" width="60">
-                                <x-slot name="trigger">
-                                    <span class="inline-flex rounded-md">
-                                        <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-blue-50 hover:text-gray-700 focus:outline-hidden focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                                            {{ Auth::user()->currentTeam->name }}
+                <div class="relative ms-4 border border-3 me-6 border-gray-300 rounded-full" x-data="{ open: false }" @click.away="open = false">
+                    <button @click="open = !open" class="flex items-center space-x-1 px-2.5 py-2 text-gray-500 hover:text-gray-700 focus:outline-none">
+                        @if(app()->getLocale() == 'ar')
+                            <span class="text-sm">AR</span>
+                        @else
+                            <span class="text-sm">EN</span>
+                        @endif
+                    </button>
 
-                                            <svg class="ms-2 -me-0.5 size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                                            </svg>
-                                        </button>
-                                    </span>
-                                </x-slot>
-
-                                <x-slot name="content">
-                                    <div class="w-60">
-                                        <!-- Team Management -->
-                                        <div class="block px-4 py-2 text-xs text-gray-400">
-                                            {{ __('Manage Team') }}
-                                        </div>
-
-                                        <!-- Team Settings -->
-                                        <x-dropdown-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}">
-                                            {{ __('Team Settings') }}
-                                        </x-dropdown-link>
-
-                                        @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
-                                            <x-dropdown-link href="{{ route('teams.create') }}">
-                                                {{ __('Create New Team') }}
-                                            </x-dropdown-link>
-                                        @endcan
-
-                                        <!-- Team Switcher -->
-                                        @if (Auth::user()->allTeams()->count() > 1)
-                                            <div class="border-t border-gray-200"></div>
-
-                                            <div class="block px-4 py-2 text-xs text-gray-400">
-                                                {{ __('Switch Teams') }}
-                                            </div>
-
-                                            @foreach (Auth::user()->allTeams() as $team)
-                                                <x-switchable-team :team="$team" />
-                                            @endforeach
-                                        @endif
-                                    </div>
-                                </x-slot>
-                            </x-dropdown>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                         x-transition:enter-start="transform opacity-0 scale-95"
+                         x-transition:enter-end="transform opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-75"
+                         x-transition:leave-start="transform opacity-100 scale-100"
+                         x-transition:leave-end="transform opacity-0 scale-95"
+                         class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-50">
+                        <div class="py-1">
+                            <a href="{{ route('language.switch', 'en') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                English
+                                @if(app()->getLocale() == 'en')
+                                    <svg class="w-4 h-4 ml-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                @endif
+                            </a>
+                            <a href="{{ route('language.switch', 'ar') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                العربية
+                                @if(app()->getLocale() == 'ar')
+                                    <svg class="w-4 h-4 ml-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                @endif
+                            </a>
                         </div>
-                    @endif
+                    </div>
+                </div>
 
+            @auth
                     <!-- Settings Dropdown -->
                     <div class="ms-3 relative">
                         <x-dropdown align="right" width="48">
@@ -140,17 +115,22 @@
                     </div>
                 @else
                     <div class="flex items-center gap-4">
-                        <a href="{{ route('login') }}" class="inline-block px-5 py-1.5 hover:bg-secondary bg-gray-300 rounded-xs text-white border border-transparent hover:border-[#19140035] rounded-xs text-sm leading-normal">
+                        <a href="{{ route('login', ['tab' => 'login']) }}"
+                           class="inline-block px-5 py-1.5 hover:bg-secondary bg-gray-300 rounded-xs text-white border border-transparent hover:border-[#19140035] text-sm leading-normal">
                             {{ __('Log in') }}
                         </a>
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="inline-block px-5 py-1.5 border-[#19140035] bg-secondary hover:border-[#1915014a] border text-white rounded-xs text-sm leading-normal">
+                            <a href="{{ route('login', ['tab' => 'register']) }}"
+                               class="inline-block px-5 py-1.5 border-[#19140035] bg-secondary hover:border-[#1915014a] border text-white rounded-xs text-sm leading-normal">
                                 {{ __('Register') }}
                             </a>
                         @endif
                     </div>
+
                 @endauth
             </div>
+
+            <!-- Language Dropdown -->
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
@@ -173,9 +153,6 @@
             <x-responsive-nav-link href="{{ route('jobs.index') }}" :active="request()->routeIs('jobs.index')">
                 {{ __('Jobs') }}
             </x-responsive-nav-link>
-{{--            <x-responsive-nav-link href="{{ route('tenders.index') }}" :active="request()->routeIs('tenders.index')">--}}
-{{--                {{ __('Tenders') }}--}}
-{{--            </x-responsive-nav-link>--}}
             <x-responsive-nav-link href="{{ route('trainings.index') }}" :active="request()->routeIs('trainings.index')">
                 {{ __('Trainings') }}
             </x-responsive-nav-link>
@@ -198,7 +175,6 @@
                 </div>
 
                 <div class="mt-3 space-y-1">
-                    <!-- Account Management -->
                     <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
@@ -209,55 +185,25 @@
                         </x-responsive-nav-link>
                     @endif
 
-                    <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}" x-data>
                         @csrf
                         <x-responsive-nav-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
                             {{ __('Log Out') }}
                         </x-responsive-nav-link>
                     </form>
-
-                    <!-- Team Management -->
-                    @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
-                        <div class="border-t border-gray-200"></div>
-
-                        <div class="block px-4 py-2 text-xs text-gray-400">
-                            {{ __('Manage Team') }}
-                        </div>
-
-                        <!-- Team Settings -->
-                        <x-responsive-nav-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}" :active="request()->routeIs('teams.show')">
-                            {{ __('Team Settings') }}
-                        </x-responsive-nav-link>
-
-                        @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
-                            <x-responsive-nav-link href="{{ route('teams.create') }}" :active="request()->routeIs('teams.create')">
-                                {{ __('Create New Team') }}
-                            </x-responsive-nav-link>
-                        @endcan
-
-                        <!-- Team Switcher -->
-                        @if (Auth::user()->allTeams()->count() > 1)
-                            <div class="border-t border-gray-200"></div>
-
-                            <div class="block px-4 py-2 text-xs text-gray-400">
-                                {{ __('Switch Teams') }}
-                            </div>
-
-                            @foreach (Auth::user()->allTeams() as $team)
-                                <x-switchable-team :team="$team" component="responsive-nav-link" />
-                            @endforeach
-                        @endif
-                    @endif
                 </div>
             </div>
         @else
             <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link href="{{ route('login') }}" :active="request()->routeIs('login')">
+                <x-responsive-nav-link
+                    href="{{ route('login', ['tab' => 'login']) }}"
+                    :active="request()->routeIs('login') && request('tab') === 'login'">
                     {{ __('Log in') }}
                 </x-responsive-nav-link>
                 @if (Route::has('register'))
-                    <x-responsive-nav-link href="{{ route('register') }}" :active="request()->routeIs('register')">
+                    <x-responsive-nav-link
+                        href="{{ route('login', ['tab' => 'register']) }}"
+                        :active="request()->routeIs('login') && request('tab') === 'register'">
                         {{ __('Register') }}
                     </x-responsive-nav-link>
                 @endif

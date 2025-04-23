@@ -48,7 +48,7 @@
                         <select id="location" name="location"
                                 class="w-full rounded-md bg-white py-2 px-3 text-gray-900 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                             <option value="">All Locations</option>
-                            @foreach(\App\Models\Job::LOCATIONS as $location)
+                            @foreach($locations as $location)
                                 <option {{request()->query('location')==$location?'selected':''}} value="{{$location}}">{{$location}}</option>
                             @endforeach
                         </select>
@@ -108,7 +108,7 @@
                     <select id="location" name="location"
                             class="w-full rounded-md bg-white py-2 px-3 text-gray-900 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         <option value="">All Locations</option>
-                        @foreach(\App\Models\Job::LOCATIONS as $location)
+                        @foreach($locations as $location)
                             <option {{request()->query('location')==$location?'selected':''}} value="{{$location}}">{{$location}}</option>
                         @endforeach
                     </select>

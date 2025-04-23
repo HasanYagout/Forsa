@@ -4,13 +4,13 @@ namespace App\Policies;
 
 use App\Models\Banner;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class BannerPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
+
     public function viewAny(User $user): bool
     {
         return $user->hasPermissionTo('view_any_banner');

@@ -36,9 +36,16 @@ class TenderResource extends Resource
                         ->multiple()
                         ->options(self::$model::LOCATIONS),
                     Forms\Components\DatePicker::make('deadline'),
-                    Forms\Components\Textarea::make('description'),
+                    Forms\Components\Textarea::make('description')
+                    ->columnSpan(2),
                     Forms\Components\RichEditor::make('details')
                         ->columnSpan(2),
+                    Forms\Components\FileUpload::make('files')
+                        ->acceptedFileTypes(['application/pdf'])
+                        ->label('Upload PDF Files')
+                        ->preserveFilenames()
+                        ->directory('tenders')
+                        ->multiple()
                 ])
             ]);
     }

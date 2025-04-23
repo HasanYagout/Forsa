@@ -6,9 +6,9 @@
 {{--        </x-slot>--}}
     <section>
 
-        <div class="owl-carousel owl-theme px-4 mt-4 md:px-28">
+        <div class="owl-carousel owl-theme px-4 my-4 md:px-28">
             @foreach($trainings as $training)
-                <a href="{{route('trainings.view',['slug'=>$training->slug])}}">
+                <a target="_blank" href="{{route('trainings.view',['slug'=>$training->slug])}}">
                     <div class="item w-full">
                         <div class="relative rounded-2xl overflow-hidden shadow-md h-80 flex flex-col justify-end text-black">
                             <!-- Blurred Background Image -->
@@ -20,11 +20,14 @@
                             </div>
 
                             <!-- White Title Box -->
-                            <div class="absolute bottom-32 left-1/2 transform -translate-x-1/2 w-full sm:w-3/4 z-10 bg-white bg-opacity-90 px-4 py-6 text-center rounded-xl shadow-md">
+                            <div class="absolute bottom-32 left-1/2 transform -translate-x-1/2 w-[95%] sm:w-[80%] md:w-[80%] lg:w-[80%] z-10 bg-white bg-opacity-90 px-6 py-6 text-center rounded-xl shadow-md">
                                 <p class="text-sm sm:text-base font-medium break-words">
-                                    {{ Str::limit($training->title, 100) }}
+                                    {{ Str::limit($training->title, 40) }}
                                 </p>
                             </div>
+
+
+
 
 
 
@@ -120,15 +123,19 @@
                                class="bg-white text-gray-900 border-none focus:outline-none text-sm rounded-lg w-full sm:w-60 p-3"
                                placeholder="البحث ">
 
-                        <input type="text" name="location" list="locations"
-                               class="bg-white text-gray-900 border-none focus:outline-none text-sm rounded-lg w-full sm:w-60 p-3"
-                               placeholder="Location">
+                        <div class="relative w-full sm:w-60">
+                            <input type="text" id="location-input"
+                                   class="bg-white text-gray-900 focus:outline-none text-sm rounded-lg w-full p-3"
+                                   placeholder="Location" autocomplete="off">
 
-                        <datalist id="locations">
-                            @foreach($availableLocations as $location)
-                                <option value="{{ $location }}">
-                            @endforeach
-                        </datalist>
+                            <ul id="location-suggestions"
+                                class="absolute top-full left-0 list-none bg-white rounded-lg mt-1 max-h-60 overflow-y-auto hidden w-full z-10">
+                            </ul>
+                        </div>
+
+
+
+
 
 
                         <!-- Search Button -->
@@ -154,12 +161,12 @@
 
     @if($banner)
 
-    <div class="mb-6 px-28">
-        <a href="{{$banner->url}}">
-        <img src="{{ asset('storage') . '/' . $banner->image }}" alt="{{ $banner->name }}" class="w-full h-auto">
+        <div class="mb-6 px-4 sm:px-6 md:px-16 lg:px-28">
+            <a target="_blank" href="{{ $banner->url }}">
+                <img src="{{ asset('storage') . '/' . $banner->image }}" alt="{{ $banner->name }}" class="w-full h-auto rounded-md shadow-md">
+            </a>
+        </div>
 
-        </a>
-    </div>
     @endif
     <x-partials.home-card
         title="trainings"
@@ -179,9 +186,9 @@
         <section class="px-6 py-10 bg-gray-100 dark:bg-secondary-100">
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
                 @foreach($categories as $category)
-                    <a target="_blank" href="{{route('jobs.index',['category'=>$category->id])}}">
-                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-md transition text-center">
-                            <div class="text-indigo-500 mb-3">
+                    <a target="_blank" href="{{ route('jobs.index', ['category' => $category->id]) }}">
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-md transition text-center flex flex-col justify-between min-h-[12rem] sm:min-h-[14rem] w-full h-full">
+                            <div class="text-indigo-500 mb-3 flex justify-center">
                                 @php
                                     // Ensure the icon exists and is not empty
                                     $iconPath = ltrim(str_replace('\\', '/', $category->icon), '/');
@@ -194,14 +201,19 @@
                                     <!-- Fallback Icon or Placeholder -->
                                     <span class="text-red-500">[SVG not found]</span>
                                 @endif
-
-
                             </div>
-                            <h3 class="font-semibold text-gray-800 dark:text-white">{{$category->name}}</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-300">{{count($category->jobs)}}</p>
+
+                            <h3 class="font-semibold text-gray-800 dark:text-white break-words text-wrap text-sm sm:text-base leading-snug whitespace-pre-line">
+                                {!! nl2br(e(str_replace('/', "\n", $category->name))) !!}
+                            </h3>
+
+                            <p class="text-sm text-gray-500 dark:text-gray-300 mt-2">
+                                {{ count($category->jobs) }} Posted Jobs
+                            </p>
                         </div>
                     </a>
                 @endforeach
+
 
             </div>
         </section>
@@ -276,6 +288,46 @@
     </section>
     @push('js')
         <script>
+            $(document).ready(function () {
+                const $input = $('#location-input');
+                const $suggestions = $('#location-suggestions');
+                const allLocations = @json($availableLocations);
+
+                $input.on('input', function () {
+                    const query = $(this).val().toLowerCase();
+                    $suggestions.empty();
+
+                    if (query.length === 0) {
+                        $suggestions.addClass('hidden');
+                        return;
+                    }
+                    console.log(allLocations);
+                    const filtered = allLocations.filter(location => location.toLowerCase().includes(query));
+
+                    if (filtered.length) {
+                        filtered.slice(0, 10).forEach(location => {
+                            $suggestions.append(`<li class="p-2 hover:bg-gray-100 text-black cursor-pointer">${location}</li>`);
+                        });
+                        $suggestions.removeClass('hidden');
+                    } else {
+                        $suggestions.addClass('hidden');
+                    }
+                });
+
+                // Handle suggestion click
+                $suggestions.on('click', 'li', function () {
+                    $input.val($(this).text());
+                    $suggestions.addClass('hidden');
+                });
+
+                // Hide on outside click
+                $(document).on('click', function (e) {
+                    if (!$(e.target).closest('#location-input, #location-suggestions').length) {
+                        $suggestions.addClass('hidden');
+                    }
+                });
+            });
+
             document.getElementById('searchForm').addEventListener('submit', function(e) {
                 const searchType = document.getElementById('searchType').value;
 
@@ -298,13 +350,13 @@
                     ],
                     responsive: {
                         0: {
-                            items: 2 // Number of items on small screens
+                            items: 1 // Number of items on small screens
                         },
                         600: {
                             items: 2 // Number of items on medium screens
                         },
                         1000: {
-                            items: 4 // Number of items on large screens
+                            items: 3 // Number of items on large screens
                         }
                     }
                 });

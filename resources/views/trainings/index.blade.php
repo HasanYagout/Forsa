@@ -72,12 +72,12 @@
         </section>
 
         <!-- Filter Section -->
-        <section class="w-[20%] ms-6 bg-white p-6 rounded-xl shadow-sm border border-gray-200 h-fit hidden lg:block">
+        <section class="w-[20%] ms-6 bg-blue-100 p-6 rounded-xl shadow-sm border border-gray-200 h-fit hidden lg:block">
 
 
             <form id="filter-form-desktop">
                 <div class="flex justify-between">
-                    <h2 class="text-lg font-semibold mb-4">Filters</h2>
+                    <h2 class="text-lg font-semibold mb-4">{{__('Filters')}}</h2>
                     <button id="clear-desktop" class="text-lg font-semibold mb-4 cursor-pointer text-blue-600 hover:text-blue-800">Clear</button>
                 </div>
 

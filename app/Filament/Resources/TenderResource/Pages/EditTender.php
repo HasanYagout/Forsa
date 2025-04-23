@@ -10,6 +10,19 @@ class EditTender extends EditRecord
 {
     protected static string $resource = TenderResource::class;
 
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        if ($this->record && $this->record->files) {
+            foreach ($this->record->files as $file) {
+                \Storage::disk('public')->delete('tenders/' . $file);
+            }
+        }
+
+        return $data;
+    }
+
+
+
     protected function getHeaderActions(): array
     {
         return [

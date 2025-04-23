@@ -9,7 +9,7 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
         @foreach($records as $record)
-            <a href="{{ route($title == 'jobs' ? 'jobs.view' : 'trainings.view', ['slug' => $record->slug]) }}"
+            <a target="_blank" href="{{ route($title == 'jobs' ? 'jobs.view' : 'trainings.view', ['slug' => $record->slug]) }}"
                class="block transition-transform hover:scale-[1.02]">
                 <div class="{{ $title == 'jobs' ? 'bg-white' : 'bg-primary' }} rounded-xl shadow-md p-5 flex flex-col gap-3 h-full">
                     <!-- Job Header -->
@@ -25,7 +25,7 @@
 
                     <!-- Job Description -->
                     <p class="{{ $title == 'jobs' ? 'text-gray-600' : 'text-white' }} text-sm leading-relaxed">
-                        {{ Str::limit($record->description, 100, '...') }}
+                        {{ Str::limit($record->description, 40, '...') }}
                         <span class="{{ $title == 'jobs' ? 'text-black' : 'text-white' }} font-medium underline">More...</span>
                     </p>
 

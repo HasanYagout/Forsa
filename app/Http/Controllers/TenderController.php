@@ -51,13 +51,35 @@ class TenderController extends Controller
     }
     public function view(Request $request, $slug)
     {
-        $data['tender'] = Tender::where('slug', $slug)->first();
+        $tender = Tender::where('slug', $slug)->first();
 
-        if (!$data['tender']) {
+        if (!$tender) {
             abort(404, 'Job not found');
         }
-        $data['similar_tenders']=Tender::with('company')->whereNot('slug',$slug)->where('company_id', $data['tender']->company_id)->latest(5)->get();
 
-        return view('tenders.view', $data);
+        // Process files: remove 'tenders/' from display name, and calculate file size
+        $files = collect($tender->files)->map(function ($file) {
+            $filePath = public_path('storage/' . $file);
+            return [
+                'original' => $file,
+                'display' => str_replace('tenders/', '', $file),
+                'url' => asset('storage/' . $file),
+                'size' => file_exists($filePath) ? round(filesize($filePath) / 1024, 2) : null
+            ];
+        });
+
+        $similar_tenders = Tender::with('company')
+            ->where('slug', '!=', $slug)
+            ->where('company_id', $tender->company_id)
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('tenders.view', [
+            'tender' => $tender,
+            'similar_tenders' => $similar_tenders,
+            'processedFiles' => $files
+        ]);
     }
+
 }

@@ -53,6 +53,7 @@ class JobController extends Controller
 
         // Fetch categories & companies for filters
         $data['categories'] = Category::whereHas('jobs', function($query) use ($request) {
+            $query->active();
             // Apply the same filters to the category query
             if ($request->has('company') && !empty($request->company)) {
                 $query->where('company_id', (int) $request->company);
@@ -69,6 +70,7 @@ class JobController extends Controller
         })->get();
 
         $data['companies'] = Company::whereHas('job', function($query) use ($request) {
+            $query->active();
             // Apply the same filters to the company query
             if ($request->has('category') && !empty($request->category)) {
                 $categoryIds = is_array($request->category) ? $request->category : [$request->category];
@@ -100,6 +102,7 @@ class JobController extends Controller
             ->when($request->filled('type'), function($query) use ($request) {
                 $query->whereIn('type', (array) $request->type);
             })
+            ->active()
             ->whereNotNull('location')
             ->where('location', '!=', '')
             ->distinct()

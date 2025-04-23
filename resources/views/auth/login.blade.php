@@ -2,7 +2,7 @@
     <div class="min-h-screen flex flex-col items-center justify-center bg-[#EAEFF8] py-12 px-4">
         <div class="text-center mb-6">
             <h1 class="text-2xl font-bold">CHANCES</h1>
-            <p class="text-sm text-gray-500">Find your dream job opportunity</p>
+            <p class="text-sm text-gray-500">Your Next Chance Starts Here</p>
         </div>
 
         <div class="w-full max-w-md bg-white rounded-xl shadow-md p-10  transition-all">
@@ -92,26 +92,39 @@
     </div>
 
     <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(function () {
-            $('#tab-login-btn').on('click', function () {
-                $('#tab-login').show();
-                $('#tab-register').hide();
-                $(this).addClass('text-indigo-600 border-b-2 border-indigo-500')
-                    .removeClass('text-gray-500');
-                $('#tab-register-btn').removeClass('text-indigo-600 border-b-2 border-indigo-500')
-                    .addClass('text-gray-500');
-            });
+    @push('js')
+        <script>
+            $(function () {
+                function switchTo(tab) {
+                    if (tab === 'register') {
+                        $('#tab-register').show();
+                        $('#tab-login').hide();
+                        $('#tab-register-btn').addClass('text-indigo-600 border-b-2 border-indigo-500').removeClass('text-gray-500');
+                        $('#tab-login-btn').removeClass('text-indigo-600 border-b-2 border-indigo-500').addClass('text-gray-500');
+                    } else {
+                        $('#tab-login').show();
+                        $('#tab-register').hide();
+                        $('#tab-login-btn').addClass('text-indigo-600 border-b-2 border-indigo-500').removeClass('text-gray-500');
+                        $('#tab-register-btn').removeClass('text-indigo-600 border-b-2 border-indigo-500').addClass('text-gray-500');
+                    }
+                }
 
-            $('#tab-register-btn').on('click', function () {
-                $('#tab-register').show();
-                $('#tab-login').hide();
-                $(this).addClass('text-indigo-600 border-b-2 border-indigo-500')
-                    .removeClass('text-gray-500');
-                $('#tab-login-btn').removeClass('text-indigo-600 border-b-2 border-indigo-500')
-                    .addClass('text-gray-500');
+                // Check tab from query string
+                const urlParams = new URLSearchParams(window.location.search);
+                const tab = urlParams.get('tab');
+                switchTo(tab);
+
+                // Button click handlers
+                $('#tab-login-btn').on('click', function () {
+                    switchTo('login');
+                });
+
+                $('#tab-register-btn').on('click', function () {
+                    switchTo('register');
+                });
             });
-        });
-    </script>
+        </script>
+    @endpush
+
+
 </x-app-layout>

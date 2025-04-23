@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Observers\TrainingObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
+#[ObservedBy([TrainingObserver::class])]
 
 class Training extends Model
 {

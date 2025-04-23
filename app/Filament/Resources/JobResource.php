@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\JobResource\Pages;
 use App\Filament\Resources\JobResource\RelationManagers;
+use App\Helpers\Location;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\Job;
@@ -37,7 +38,7 @@ class JobResource extends Resource
                        ->label('category'),
                    Forms\Components\Select::make('location')
                        ->multiple()
-                       ->options(self::$model::LOCATIONS),
+                       ->options(Location::cities()),
                    Forms\Components\DatePicker::make('deadline'),
                    Forms\Components\TextInput::make('link')
                        ->url(),

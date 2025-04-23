@@ -1,10 +1,10 @@
 <x-app-layout>
     <section class="w-full flex justify-center my-10 px-4">
-        <div class="max-w-screen-xl w-full flex flex-col lg:flex-row gap-6">
+
 
             <!-- Main Content -->
-            <section class="w-full lg:w-[80%] flex flex-col gap-4">
-                <section class="bg-white transition rounded-xl shadow-sm flex flex-col gap-4 mb-4 border border-gray-200">
+            <section class="w-[60%] mx-10 flex flex-col items-center gap-4">
+                <section class="bg-white transition w-full rounded-xl shadow-sm flex flex-col gap-4 mb-4 border border-gray-200">
 
                     <!-- Header -->
                     <section class="flex flex-col sm:flex-row w-full p-6 border-b gap-4 sm:gap-6">
@@ -36,12 +36,12 @@
 
                                 <span class="text-green-600 font-bold flex items-center gap-1">
                                     <x-icon name="heroicon-o-clock" class="w-5 h-5" />
-                                    <span>Published: {{ $training->created_at->format('M j, Y')}}</span>
+                                    <span>Published: {{ $training->created_at->format('j M Y')}}</span>
                                 </span>
 
                                 <span class="text-red-600 font-bold flex items-center gap-1">
                                     <x-icon name="heroicon-o-clock" class="w-5 h-5" />
-                                    <span>Starting In: {{ $training->deadline->format('M j, Y')}}</span>
+<span>Starting In: {{ $training->deadline->format('j M Y') }}</span>
                                 </span>
                             </section>
 
@@ -85,7 +85,7 @@
             </section>
 
             <!-- Sidebar -->
-            <section class="w-full lg:w-[20%] space-y-6">
+            <section class="w-[20%] px-6 rounded-xl h-fit hidden lg:block space-y-4">
 
                 <!-- Apply Now -->
                 <section class="bg-white shadow-sm border border-gray-200 rounded-lg p-4">
@@ -127,6 +127,6 @@
 
             </section>
 
-        </div>
+
     </section>
 </x-app-layout>

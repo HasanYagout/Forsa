@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -17,13 +18,18 @@ class ContactResource extends Resource
 {
     protected static ?string $model = Contact::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('first_name'),
+                Forms\Components\TextInput::make('last_name'),
+                Forms\Components\TextInput::make('phone'),
+                Forms\Components\TextInput::make('email'),
+                Forms\Components\Textarea::make('message')->columnSpan(2),
+
             ]);
     }
 
@@ -31,7 +37,15 @@ class ContactResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('first_name')
+                    ->label('Name')
+                    ->formatStateUsing(function ($record,$state) {
+                        return $record->first_name . ' ' . $record->last_name;
+                    }),
+                Tables\Columns\TextColumn::make('phone'),
+                Tables\Columns\TextColumn::make('type')->badge(),
+
+
             ])
             ->filters([
                 //
