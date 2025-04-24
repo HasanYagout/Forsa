@@ -10,7 +10,7 @@
                 </a>
 
                 <!-- Tagline -->
-                <p class="text-sm text-white">Your Next Chance Starts Here</p>
+                <p class="text-sm text-white">{{__('Your Next Chance Starts Here')}}</p>
 
                 <!-- Social Media Section -->
                 <div class="w-full mt-2">
@@ -58,23 +58,23 @@
             <!-- For Employers -->
             <div>
                 <ul class="space-y-2 list-none pl-0 text-gray-300">
-                    <li><a href="{{route('trainings.index')}}" class="hover:text-white">Trainings</a></li>
+                    <li><a href="{{route('trainings.index')}}" class="hover:text-white">{{__('Trainings')}}</a></li>
                 </ul>
             </div>
 
             <!-- For Jobs -->
             <div>
                 <ul class="space-y-2 list-none pl-0 text-gray-300">
-                    <li><a href="{{route('jobs.index')}}" class="hover:text-white">Jobs</a></li>
+                    <li><a href="{{route('jobs.index')}}" class="hover:text-white">{{__('Jobs')}}</a></li>
                 </ul>
             </div>
 
             <!-- About Company -->
             <div>
-                <h4 class="font-semibold text-white mb-3">About Chances Platform</h4>
+                <h4 class="font-semibold text-white mb-3">{{__('About Chances Platform')}}</h4>
                 <ul class="space-y-2 list-none pl-0 text-gray-300">
-                    <li><a href="{{route('contact.index')}}" class="hover:text-white">Contact Us</a></li>
-                    <li><a href="{{route('about_us')}}" class="hover:text-white">About Us</a></li>
+                    <li><a href="{{route('contact.index')}}" class="hover:text-white">{{__('Contact Us')}}</a></li>
+                    <li><a href="{{route('about_us')}}" class="hover:text-white">{{__('About Us')}}</a></li>
                 </ul>
             </div>
         </div>
@@ -83,6 +83,6 @@
         <div class="border-t border-gray-600 my-6"></div>
 
         <!-- Copyright -->
-        <p class="text-center text-gray-300 text-sm">Copyright &copy; 2025</p>
+        <p class="text-center text-gray-300 text-sm">{{__('Copyright')}} &copy; 2025</p>
     </div>
 </footer>
