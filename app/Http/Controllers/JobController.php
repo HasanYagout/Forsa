@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Helpers\Location;
 use App\Models\Bug;
 use App\Models\Category;
 use App\Models\Company;
@@ -114,7 +115,7 @@ class JobController extends Controller
             ->toArray();
 
         $data['locations'] = array_filter(
-            \App\Models\Job::LOCATIONS,
+            Location::cities(),
             function($location) use ($existingLocations) {
                 return in_array($location, $existingLocations);
             }

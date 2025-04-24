@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Location;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\Job;
@@ -94,7 +95,36 @@ class TrainingController extends Controller
                 });
             }
         })->get();
+        $existingLocations = Training::query()
+            ->when($request->filled('company'), function($query) use ($request) {
+                $query->where('company_id', (int) $request->company);
+            })
+            ->when($request->filled('category'), function($query) use ($request) {
+                $categoryIds = is_array($request->category) ? $request->category : [$request->category];
+                $query->whereHas('categories', function($q) use ($categoryIds) {
+                    $q->whereIn('categories.id', $categoryIds);
+                });
+            })
+            ->when($request->filled('type'), function($query) use ($request) {
+                $query->whereIn('type', (array) $request->type);
+            })
+            ->active()
+            ->whereNotNull('location')
+            ->where('location', '!=', '')
+            ->distinct()
+            ->pluck('location')
+            ->flatten()       // Flatten the nested array
+            ->unique()        // Remove duplicates
+            ->filter()        // Remove empty values
+            ->values()        // Reset array keys
+            ->toArray();
 
+        $data['locations'] = array_filter(
+            Location::cities(),
+            function($location) use ($existingLocations) {
+                return in_array($location, $existingLocations);
+            }
+        );
         // AJAX response
         if ($request->ajax()) {
             return response()->json([
