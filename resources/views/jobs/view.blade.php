@@ -1,6 +1,6 @@
 <x-app-layout>
-    <section class="w-full flex justify-center my-10">
-        <section id="job-listings" class="w-full lg:w-[60%] mx-10 flex flex-col items-center gap-4">
+    <section class="w-full flex justify-center my-10 px-4 sm:px-6">
+        <section id="job-listings" class="w-full lg:w-[60%] mx-4 sm:mx-6 flex flex-col items-center gap-4">
             <section class="w-full bg-white transition rounded-xl shadow-sm flex flex-col items-center gap-4 mb-4 border border-gray-200">
                 <!-- Job Header -->
                 <section class="flex w-full flex-shrink-0 p-6 border-b">
@@ -39,13 +39,16 @@
                                 <span>{{__('Deadline')}}: {{ $job->deadline->format('j M Y')}}</span>
                             </p>
                         </section>
-                        <section class="flex gap-2 mt-3 mb-6">
+                        <section class="flex gap-2 mt-3 mb-6 flex-wrap">
                             @foreach($job->categories as $category)
-                                <a href="{{route('jobs.index',['category'=>$category->id])}}">
-                                    <span class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-xs">{{ $category->name }}</span>
+                                <a href="{{ route('jobs.index', ['category' => $category->id]) }}">
+            <span class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-xs break-words whitespace-normal">
+                {{ $category->name }}
+            </span>
                                 </a>
                             @endforeach
                         </section>
+
                     </section>
                 </section>
 
@@ -56,29 +59,34 @@
                     </section>
                 </section>
 
-                <section class="text-white w-full text-xs mt-3">
-                    <h1 class="p-2 text-xl w-full flex bg-gray-300">{{__('How to Apply')}}</h1>
-                    <section class="text-black text-sm p-6 leading-7">
-                        <div class="break-words">
-                            {!! $job->how_to_apply !!}
-                        </div>
+                @if(now()->lte($job->deadline))
+                    <section class="text-white w-full text-xs mt-3">
+                        <h1 class="p-2 text-xl w-full flex bg-gray-300">{{__('How to Apply')}}</h1>
+                        <section class="text-black text-sm p-6 leading-7">
+                            <div class="break-words">
+                                {!! $job->how_to_apply !!}
+                            </div>
+                        </section>
                     </section>
-                </section>
+                @endif
+
             </section>
         </section>
 
         <!-- Filter Toggle Section for mobile view -->
-        <section id="filter-section"
+        <section id="sidebar-section"
                  class="w-[80%] max-w-sm fixed top-0 right-0 h-full bg-white transform translate-x-full transition-transform duration-300 z-40 p-6 rounded-l-xl space-y-4 lg:relative lg:translate-x-0 lg:block hidden">
-
-        <section class="bg-white w-full shadow-sm border border-gray-200 rounded-lg p-4">
+            @if(now()->lte($job->deadline))
+            <section class="bg-white w-full shadow-sm border border-gray-200 rounded-lg p-4">
                 <a type="submit" href="{{$job->link}}" class="bg-secondary text-center cursor-pointer text-white block px-4 py-2 rounded-lg w-full">{{__('Apply Now')}}</a>
             </section>
+            @endif
 
             <!-- Similar Jobs -->
             <section class="bg-white w-full shadow-sm border border-blue-200 rounded-lg p-4 space-y-4">
                 <h1 class="text-lg font-semibold">{{__('Similar Jobs')}}</h1>
-                @if($similar_jobs)
+
+                @if(count($similar_jobs)>0)
                     @foreach($similar_jobs as $similarJob)
                         <a href="{{route('jobs.view',['slug'=>$similarJob->slug])}}" class="border-[#e3e3e0] border-b flex items-center pb-3 space-x-4">
                             <div class="flex-shrink-0">
@@ -130,22 +138,23 @@
                 </section>
             </section>
         </section>
-        <div id="filter-overlay" class="fixed opacity-50 inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden"></div>
+        <div id="sidebar-overlay" class="fixed opacity-50 inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden"></div>
 
     </section>
 
     <!-- Filter Toggle Button -->
-    <button id="filter-toggle" class="lg:hidden fixed top-16 right-6 z-50 p-2 bg-blue-600 text-white rounded-full">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 3h12M6 12h12m-6 9h6" />
+    <button id="sidebar-toggle" class="lg:hidden fixed bottom-6 right-6 z-50 p-3 bg-primary-100 text-white rounded-full shadow-lg">
+        <svg class="size-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+            <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
     </button>
 
     <!-- Enhanced Filter Toggle Script -->
     <script>
-        const toggleButton = document.getElementById('filter-toggle');
-        const filterSection = document.getElementById('filter-section');
-        const overlay = document.getElementById('filter-overlay');
+        const toggleButton = document.getElementById('sidebar-toggle');
+        const filterSection = document.getElementById('sidebar-section');
+        const overlay = document.getElementById('sidebar-overlay');
 
         toggleButton.addEventListener('click', function () {
             const isHidden = filterSection.classList.contains('translate-x-full');

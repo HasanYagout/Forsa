@@ -36,7 +36,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                 </svg>
-                                <span>Published: {{ $tender->created_at->format('M j, Y')}}</span>
+                                <span>{{__('Published')}}: {{ $tender->created_at->format('M j, Y')}}</span>
 
                             </p>
 
@@ -46,7 +46,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                 </svg>
-                                <span>Deadline: {{ $tender->deadline->format('M j, Y')}}</span>
+                                <span>{{__('Deadline')}}: {{ $tender->deadline->format('M j, Y')}}</span>
 
                             </p>
                         </section>
@@ -56,7 +56,7 @@
 
 
                 <section class="text-white w-full text-xs mt-3">
-                    <h1 class="p-2 text-xl bg-gray-300">Tender Description</h1>
+                    <h1 class="p-2 text-xl bg-gray-300">{{__('Tender Description')}}</h1>
                     <section class="text-black text-sm p-6 leading-7">
                         {!! str($tender->details)->sanitizeHtml() !!}
                     </section>
@@ -66,7 +66,7 @@
                     <section class="w-full text-white mt-4">
 
                         <h2 class="bg-gray-300 px-4 py-2 rounded-t-md text-lg flex items-center justify-between">
-                            Attachments
+                            {{__('Attachments')}}
                         </h2>
                         <ul class="bg-white border border-gray-200 rounded-b-md divide-y divide-gray-200">
                             @foreach($processedFiles as $file)
@@ -87,7 +87,7 @@
                                         target="_blank"
                                         class="bg-gray-200 text-gray-800 px-3 py-1 rounded-md text-sm hover:bg-gray-300 hover:text-white transition"
                                     >
-                                        Download
+                                        {{__('Download')}}
                                     </a>
                                 </li>
                             @endforeach
@@ -96,23 +96,26 @@
                 @endif
 
 
-
+                @if(now()->lte($job->deadline))
                 <section class=" text-white  w-full  text-xs mt-3">
-                    <h1 class=" p-2 text-xl w-full flex bg-gray-300">How to Apply</h1>
+                    <h1 class=" p-2 text-xl w-full flex bg-gray-300">{{__('How to Apply')}}</h1>
                   <section class="text-black text-sm p-6 leading-7">
-                      <p >To apply click on the link below:</p>
+                      <p >{{__('To apply click on the link below:')}}</p>
                       <a class="underline" href="{{$tender->link}}">{{$tender->link}}</a>
                   </section>
                 </section>
             </section>
+                @endif
 
         </section>
 
         <section class="w-[20%] p-6 rounded-xl h-fit hidden lg:block space-y-4">
             <!-- First Section -->
+            @if(now()->lte($job->deadline))
             <section class="bg-white w-full shadow-sm border border-gray-200 rounded-lg p-4">
-                <a type="submit" class="bg-secondary text-center cursor-pointer text-white block px-4 py-2 rounded-lg w-full">Apply Now</a>
+                <a type="submit" class="bg-secondary text-center cursor-pointer text-white block px-4 py-2 rounded-lg w-full">{{__('Apply Now')}}</a>
             </section>
+            @endif
 
             <!-- Second Section -->
 

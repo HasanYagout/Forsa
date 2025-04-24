@@ -2,7 +2,7 @@
     <section class="w-full flex flex-col lg:flex-row justify-center my-10 px-4 sm:px-6 lg:px-8">
         <section class="w-full lg:hidden">
             <!-- Collapsible Trigger Button -->
-            <button id="filter-toggle" class="w-full bg-blue-100 p-4 rounded-xl shadow-sm border border-gray-200 flex justify-between items-center">
+            <button id="filter-toggle" class="w-full bg-blue-200 p-4 rounded-xl shadow-sm border border-gray-200 flex justify-between items-center">
                 <h2 class="text-lg font-semibold">{{__('Filters')}}</h2>
                 <svg id="filter-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 transform transition-transform duration-200">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -10,7 +10,7 @@
             </button>
 
             <!-- Collapsible Content -->
-            <div id="filter-content" class="bg-blue-100 rounded-xl mb-6 shadow-sm border border-gray-200 h-fit mt-2 overflow-hidden transition-all duration-300 max-h-0">
+            <div id="filter-content" class="bg-blue-200 rounded-xl mb-6 shadow-sm border border-gray-200 h-fit mt-2 overflow-hidden transition-all duration-300 max-h-0">
                 <form id="filter-form-mobile" class="p-6">
                     <div class="flex justify-between mb-4">
                         <h2 class="text-lg font-semibold">{{__('Filters')}}</h2>
@@ -72,7 +72,7 @@
         </section>
 
         <!-- Filter Section -->
-        <section class="w-[20%] ms-6 bg-blue-100 p-6 rounded-xl shadow-sm border border-gray-200 h-fit hidden lg:block">
+        <section class="w-[20%] ms-6 bg-blue-200 p-6 rounded-xl shadow-sm border border-gray-200 h-fit hidden lg:block">
 
 
             <form id="filter-form-desktop">
