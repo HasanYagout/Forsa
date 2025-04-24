@@ -90,8 +90,8 @@
         <div class="relative z-10 text-center w-full max-w-7xl mx-auto">
             <!-- Heading -->
             <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight font-bold text-white mb-4">
-                Step into Success with <br class="hidden sm:block">
-                <span class="text-white">Chances Platform</span>
+               {{__('Step into Success with')}} <br class="hidden sm:block">
+                <span class="text-white">{{__('Chances Platform')}}</span>
             </h1>
 
             <!-- Search Form -->
@@ -104,8 +104,8 @@
                             id="searchType"
                             class="appearance-none bg-primary-100 border-none h-full md:w-auto p-3 pr-8 rounded-lg text-sm text-white w-full"
                         >
-                            <option value="jobs">Search By: Jobs</option>
-                            <option value="trainings">Search By: Trainings</option>
+                            <option value="jobs">{{__('Search By: Jobs')}}</option>
+                            <option value="trainings">{{__('Search By: Trainings')}}</option>
                         </select>
                         <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
                             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -121,21 +121,17 @@
                         class="flex flex-col justify-between sm:flex-row items-center w-full gap-3 sm:gap-4 bg-white p-1 rounded-2xl sm:rounded-3xl">
                         <input type="text" name="title"
                                class="bg-white text-gray-900 border-none focus:outline-none text-sm rounded-lg w-full sm:w-60 p-3"
-                               placeholder="البحث ">
+                               placeholder="{{__('search')}}">
 
                         <div class="relative w-full sm:w-60">
                             <input type="text" id="location-input"
                                    class="bg-white text-gray-900 focus:outline-none text-sm rounded-lg w-full p-3"
-                                   placeholder="Location" autocomplete="off">
+                                   placeholder="{{__('Location')}}" autocomplete="off">
 
                             <ul id="location-suggestions"
                                 class="absolute top-full left-0 list-none bg-white rounded-lg mt-1 max-h-60 overflow-y-auto hidden w-full z-10">
                             </ul>
                         </div>
-
-
-
-
 
 
                         <!-- Search Button -->
@@ -181,7 +177,7 @@
 
     <section class="mt-4">
         <div class="text-center">
-            <span class="text-sm uppercase  font-semibold border-2 rounded-sm rounded-lg border-blue-100 p-2 text-gray-600">Categories</span>
+            <span class="text-sm uppercase  font-semibold border-2 rounded-sm rounded-lg border-blue-100 p-2 text-gray-600">{{__('Categories')}}</span>
         </div>
         <section class="px-6 py-10 bg-gray-100 dark:bg-secondary-100">
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
@@ -223,7 +219,7 @@
         <!-- Title Section -->
         <div class="text-center mb-8 md:mb-12">
             <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-black">
-               <span>We Work With</span>
+               <span>{{__('We Work With')}}</span>
             </h2>
         </div>
 
@@ -344,6 +340,7 @@
                     loop: true, // Infinite loop
                     margin: 10, // Space between items
                     nav: true, // Show navigation arrows
+                    rtl: {{ app()->getLocale() == 'ar' ? 'true' : 'false' }},
                     navText: [
                         "<i class='fas fa-chevron-left'></i>", // Custom prev icon
                         "<i class='fas fa-chevron-right'></i>" // Custom next icon
@@ -362,5 +359,6 @@
                 });
             });
         </script>
+
     @endpush
 </x-app-layout>
