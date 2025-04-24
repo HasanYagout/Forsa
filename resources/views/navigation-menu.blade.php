@@ -114,18 +114,18 @@
                         </x-dropdown>
                     </div>
                 @else
-                    <div class="flex items-center gap-4">
-                        <a href="{{ route('login', ['tab' => 'login']) }}"
-                           class="inline-block px-5 py-1.5 hover:bg-secondary bg-gray-300 rounded-xs text-white border border-transparent hover:border-[#19140035] text-sm leading-normal">
-                            {{ __('Log in') }}
-                        </a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('login', ['tab' => 'register']) }}"
-                               class="inline-block px-5 py-1.5 border-[#19140035] bg-secondary hover:border-[#1915014a] border text-white rounded-xs text-sm leading-normal">
-                                {{ __('Register') }}
+                        <div class="flex items-center gap-4">
+                            <a href="{{ route('login', ['tab' => 'login']) }}"
+                               class="inline-block px-5 py-1.5 hover:bg-secondary bg-gray-300 rounded-xs text-white border border-transparent hover:border-[#19140035] text-sm leading-normal">
+                                {{ __('Log in') }}
                             </a>
-                        @endif
-                    </div>
+                            @if (Route::has('register'))
+                                <a href="{{ route('login', ['tab' => 'register']) }}"
+                                   class="inline-block px-5 py-1.5 border-[#19140035] bg-secondary hover:border-[#1915014a] border text-white rounded-xs text-sm leading-normal">
+                                    {{ __('Register') }}
+                                </a>
+                            @endif
+                        </div>
 
                 @endauth
             </div>
@@ -157,7 +157,26 @@
                 {{ __('Trainings') }}
             </x-responsive-nav-link>
         </div>
-
+        <div class="px-4 pt-2 pb-3 border-t border-gray-200">
+            <div class="flex flex-col gap-2">
+                <a href="{{ route('language.switch', 'en') }}" class="flex justify-between items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100">
+                    English
+                    @if(app()->getLocale() == 'en')
+                        <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    @endif
+                </a>
+                <a href="{{ route('language.switch', 'ar') }}" class="flex justify-between items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100">
+                    العربية
+                    @if(app()->getLocale() == 'ar')
+                        <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    @endif
+                </a>
+            </div>
+        </div>
         @auth
             <!-- Responsive Settings Options -->
             <div class="pt-4 pb-1 border-t border-gray-200">
