@@ -36,8 +36,7 @@
     <body class="font-sans antialiased">
         <x-banner />
 
-        <div class=" bg-gray-100">
-
+        <div class="{{ request()->routeIs('jobs') ? 'bg-gray-100' : (request()->routeIs('trainings.index') || request()->routeIs('trainings.view') ? 'bg-blue-100' : 'bg-gray-100') }}">
             @livewire('navigation-menu')
             <!-- Display Success Message -->
             @if(session('success'))

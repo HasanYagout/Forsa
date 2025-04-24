@@ -180,6 +180,7 @@
             <span class="text-sm uppercase  font-semibold border-2 rounded-sm rounded-lg border-blue-100 p-2 text-gray-600">{{__('Categories')}}</span>
         </div>
         <section class="px-6 py-10 bg-gray-100 dark:bg-secondary-100">
+            <h2 class="text-center text-2xl font-bold mb-6">Categories</h2>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
                 @foreach($categories as $category)
                     <a target="_blank" href="{{ route('jobs.index', ['category' => $category->id]) }}">
@@ -194,7 +195,6 @@
                                 @if($category->icon && file_exists($fullIconPath))
                                     {!! file_get_contents($fullIconPath) !!}
                                 @else
-                                    <!-- Fallback Icon or Placeholder -->
                                     <span class="text-red-500">[SVG not found]</span>
                                 @endif
                             </div>
@@ -209,8 +209,6 @@
                         </div>
                     </a>
                 @endforeach
-
-
             </div>
         </section>
 

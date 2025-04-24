@@ -75,7 +75,7 @@
 
         <!-- Filter Toggle Section for mobile view -->
         <section id="sidebar-section"
-                 class="w-[80%] max-w-sm fixed top-0 right-0 h-full bg-white transform translate-x-full transition-transform duration-300 z-40 p-6 rounded-l-xl space-y-4 lg:relative lg:translate-x-0 lg:block hidden">
+                 class="w-[80%] max-w-sm fixed top-0 right-0 h-full overflow-y-auto bg-white transform translate-x-full transition-transform duration-300 z-40 p-6 rounded-l-xl space-y-4 lg:relative lg:translate-x-0 lg:block hidden">
             @if(now()->lte($job->deadline))
             <section class="bg-white w-full shadow-sm border border-gray-200 rounded-lg p-4">
                 <a type="submit" href="{{$job->link}}" class="bg-secondary text-center cursor-pointer text-white block px-4 py-2 rounded-lg w-full">{{__('Apply Now')}}</a>

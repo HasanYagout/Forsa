@@ -150,6 +150,7 @@ class JobController extends Controller
             ->where('company_id', $data['job']->company_id)
             ->where('slug', '!=', $slug)
             ->latest()
+            ->active()
             ->take(3)
             ->get();
 
@@ -161,6 +162,7 @@ class JobController extends Controller
             ->whereHas('categories', function ($query) use ($categoryIds) {
                 $query->whereIn('categories.id', $categoryIds);
             })
+            ->active()
             ->latest()
             ->take(3)
             ->get();

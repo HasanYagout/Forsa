@@ -146,13 +146,14 @@ class TrainingController extends Controller
         if (!$data['training']) {
             abort(404, 'Training not found');
         }
-        $data['similar_trainings']=Training::with('company')->whereNot('slug',$slug)->where('company_id', $data['training']->company_id)->latest()->take(3)->get();
+        $data['similar_trainings']=Training::with('company')->whereNot('slug',$slug)->where('company_id', $data['training']->company_id)->active()->latest()->take(3)->get();
         $categoryIds = $data['training']->categories->pluck('id');
 
         $data['similar_jobs'] = Job::with('categories')
             ->whereHas('categories', function ($query) use ($categoryIds) {
                 $query->whereIn('categories.id', $categoryIds);
             })
+            ->active()
             ->latest()
             ->take(3)
             ->get();

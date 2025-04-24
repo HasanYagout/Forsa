@@ -72,6 +72,7 @@ class TenderController extends Controller
             ->where('slug', '!=', $slug)
             ->where('company_id', $tender->company_id)
             ->latest()
+            ->active()
             ->take(5)
             ->get();
 
