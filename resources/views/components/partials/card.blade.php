@@ -9,13 +9,13 @@
     $baseRoute = $title === 'trainings' ? 'trainings.index' : 'jobs.index';
 @endphp
 
-    <div
-        onclick="window.open('{{ $route }}', '_blank')"
-        class="w-full cursor-pointer group"
-        role="button"
-        tabindex="0"
-        aria-label="View {{ $record->title }} position at {{ $record->company->name }}"
-    >
+<div
+    onclick="window.open('{{ $route }}', '_blank')"
+    class="w-full cursor-pointer group"
+    role="button"
+    tabindex="0"
+    aria-label="View {{ $record->title }} position at {{ $record->company->name }}"
+>
     <!-- Header -->
     <div class="flex w-full gap-3 sm:gap-5">
         <!-- Logo -->
@@ -36,7 +36,7 @@
                 <!-- Company -->
                 <a target="_blank" href="{{ route($baseRoute, ['company' => $record->company->id]) }}"
                    class="font-semibold flex items-center gap-1 whitespace-nowrap hover:text-primary">
-                    <x-icon name="heroicon-o-building-office" class="w-4 h-4 sm:w-5 sm:h-5" />
+                    <x-icon name="heroicon-o-building-office" class="w-4 h-4 sm:w-5 sm:h-5"/>
                     {{ $record->company->name }}
                 </a>
 
@@ -44,7 +44,7 @@
 
                 <!-- Location -->
                 <div class="flex items-center gap-1 flex-wrap">
-                    <x-icon name="heroicon-o-map-pin" class="w-4 h-4" />
+                    <x-icon name="heroicon-o-map-pin" class="w-4 h-4"/>
                     @foreach((array) $record->location as $city)
                         <a target="_blank" href="{{ route($baseRoute, ['location' => $city]) }}"
                            class="text-sm font-bold text-black hover:text-primary hover:underline whitespace-nowrap">
@@ -61,10 +61,11 @@
 
                 <!-- Deadline -->
                 <span class="text-red-600 flex items-center gap-1 whitespace-nowrap">
-                    <x-icon name="heroicon-o-clock" class="w-4 h-4 sm:w-5 sm:h-5" />
-                    {{$title=='trainings'?'Closes:':'Deadline:'}}
-                     {{ $record->deadline->format('j M Y') }}
-                </span>
+    <x-icon name="heroicon-o-clock" class="w-4 h-4 sm:w-5 sm:h-5"/>
+    {{$title=='trainings'?__('Closes'):__('Deadline')}}
+    <span class="ml-1">{{ $record->deadline->format('j M Y') }}</span>
+</span>
+
             </div>
         </div>
     </div>
@@ -90,12 +91,12 @@
         <!-- Footer -->
         <div class="flex justify-between items-center mt-4">
             <time datetime="{{ $record->created_at->toIso8601String() }}" class="text-xs text-gray-500">
-                Posted {{ $record->created_at->diffForHumans() }}
+                {{__('Posted')}} {{ $record->created_at->diffForHumans() }}
             </time>
             <a target="_blank" href="{{ $route }}"
                class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg text-xs sm:text-sm transition"
                aria-label="Read more about {{ $record->title }}">
-                More
+                {{__('More')}}
             </a>
         </div>
     </div>

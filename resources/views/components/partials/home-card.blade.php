@@ -3,7 +3,8 @@
 <section class="{{ $title == 'jobs' ? 'bg-gray-100' : 'bg-primary-100' }} py-12 px-4">
     <div class="text-center mb-6">
         <span class="text-sm uppercase font-semibold border-2 rounded-sm rounded-lg border-blue-100 p-2 {{ $title == 'jobs' ? 'text-gray-600' : 'text-white' }}">
-            Latest {{ $title }}
+        {{ __('Latest') }} {{ __($title) }}
+
         </span>
     </div>
 
@@ -26,7 +27,7 @@
                     <!-- Job Description -->
                     <p class="{{ $title == 'jobs' ? 'text-gray-600' : 'text-white' }} text-sm leading-relaxed">
                         {{ Str::limit($record->description, 40, '...') }}
-                        <span class="{{ $title == 'jobs' ? 'text-black' : 'text-white' }} font-medium underline">More...</span>
+                        <span class="{{ $title == 'jobs' ? 'text-black' : 'text-white' }} font-medium underline">{{__('More').'...'}}</span>
                     </p>
 
                     <!-- Job Meta -->
@@ -50,7 +51,7 @@
     <div class="mt-8 text-center">
         <a href="{{ $route }}" target="_blank"
            class="bg-gray-300 hover:bg-gray-400 text-white px-6 py-2 rounded-lg font-semibold transition duration-200">
-            More
+            {{__('More')}}
         </a>
     </div>
 </section>
