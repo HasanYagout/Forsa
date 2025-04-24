@@ -3,7 +3,7 @@
         <section class="w-full lg:hidden">
             <!-- Collapsible Trigger Button -->
             <button id="filter-toggle" class="w-full bg-blue-100 p-4 rounded-xl shadow-sm border border-gray-200 flex justify-between items-center">
-                <h2 class="text-lg font-semibold">Filters</h2>
+                <h2 class="text-lg font-semibold">{{__('Filters')}}</h2>
                 <svg id="filter-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 transform transition-transform duration-200">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                 </svg>
@@ -13,16 +13,16 @@
             <div id="filter-content" class="bg-blue-100 rounded-xl mb-6 shadow-sm border border-gray-200 h-fit mt-2 overflow-hidden transition-all duration-300 max-h-0">
                 <form id="filter-form-mobile" class="p-6">
                     <div class="flex justify-between mb-4">
-                        <h2 class="text-lg font-semibold">Filters</h2>
-                        <button id="clear-mobile" type="button" class="text-lg font-semibold cursor-pointer text-blue-600 hover:text-blue-800">Clear</button>
+                        <h2 class="text-lg font-semibold">{{__('Filters')}}</h2>
+                        <button id="clear-mobile" type="button" class="text-lg font-semibold cursor-pointer text-blue-600 hover:text-blue-800">{{__('Clear')}}</button>
                     </div>
 
                     <!-- Search -->
                     <div class="mb-4">
-                        <label for="company" class="text-sm font-medium text-gray-600">Institute</label>
+                        <label for="company" class="text-sm font-medium text-gray-600">{{__('Institute')}}</label>
                         <select id="company" name="company"
                                 class="w-full rounded-md bg-white py-2 px-3 text-gray-900 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            <option value="">Select Company</option>
+                            <option value="">{{__('Select Company')}}</option>
                             @foreach($companies as $company)
                                 <option {{request()->query('company')==$company->id?'selected':''}} value="{{$company->id}}">{{$company->name}}</option>
                             @endforeach
@@ -30,11 +30,11 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="category" class="text-sm font-medium text-gray-600">Category</label>
+                        <label for="category" class="text-sm font-medium text-gray-600">{{__('Category')}}</label>
 
                         <select id="category" name="category"
                                 class="w-full rounded-md bg-white py-2 px-3 text-gray-900 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            <option value="">Select Category</option>
+                            <option value="">{{__('Select Category')}}</option>
                             @foreach($categories as $category)
                                 <option {{(int)request()->query('category')==$category->id?'selected':''}}value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
@@ -45,10 +45,10 @@
 
                     <!-- Location Filter -->
                     <div class="mb-4">
-                        <label for="location" class="text-sm font-medium text-gray-600">Location</label>
+                        <label for="location" class="text-sm font-medium text-gray-600">{{__('Location')}}</label>
                         <select id="location" name="location"
                                 class="w-full rounded-md bg-white py-2 px-3 text-gray-900 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            <option value="">All Locations</option>
+                            <option value="">{{__('Select Location')}}</option>
                             @foreach(\App\Models\Job::LOCATIONS as $location)
                                 <option {{request()->query('location')==$location?'selected':''}} value="{{$location}}">{{$location}}</option>
                             @endforeach
@@ -57,7 +57,7 @@
 
                     <!-- Apply Filters Button -->
                     <button type="submit" class="bg-secondary cursor-pointer text-white px-4 py-2 rounded-lg w-full">
-                        Apply Filters
+                        {{__('Apply Filters')}}
                     </button>
                 </form>
             </div>
@@ -78,26 +78,26 @@
             <form id="filter-form-desktop">
                 <div class="flex justify-between">
                     <h2 class="text-lg font-semibold mb-4">{{__('Filters')}}</h2>
-                    <button id="clear-desktop" class="text-lg font-semibold mb-4 cursor-pointer text-blue-600 hover:text-blue-800">Clear</button>
+                    <button id="clear-desktop" class="text-lg font-semibold mb-4 cursor-pointer text-blue-600 hover:text-blue-800">{{__('Clear')}}</button>
                 </div>
 
                 <!-- Search -->
                 <div class="mb-4">
-                    <label for="company" class="text-sm font-medium text-gray-600">Institute</label>
+                    <label for="company" class="text-sm font-medium text-gray-600">{{__('Institute')}}</label>
                     <select id="company" name="company"
                             class="w-full rounded-md bg-white py-2 px-3 text-gray-900 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                        <option value="">Select Company</option>
+                        <option value="">{{__('Select Company')}}</option>
                         @foreach($companies as $company)
                             <option {{request()->query('company')==$company->id?'selected':''}} value="{{$company->id}}">{{$company->name}}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="mb-4">
-                    <label for="category" class="text-sm font-medium text-gray-600">Category</label>
+                    <label for="category" class="text-sm font-medium text-gray-600">{{__('Category')}}</label>
 
                     <select id="category" name="category"
                             class="w-full rounded-md bg-white py-2 px-3 text-gray-900 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                        <option value="">Select Category</option>
+                        <option value="">{{__('Select Category')}}</option>
                         @foreach($categories as $category)
                             <option {{(int)request()->query('category')==$category->id?'selected':''}}value="{{$category->id}}">{{$category->name}}</option>
                         @endforeach
@@ -108,19 +108,19 @@
 
                 <!-- Location Filter -->
                 <div class="mb-4">
-                    <label for="location" class="text-sm font-medium text-gray-600">Location</label>
+                    <label for="location" class="text-sm font-medium text-gray-600">{{__('Location')}}</label>
                     <select id="location" name="location"
                             class="w-full rounded-md bg-white py-2 px-3 text-gray-900 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                        <option value="">All Locations</option>
-                        @foreach(\App\Models\Job::LOCATIONS as $location)
+                        <option value="">{{__('Select Location')}}</option>
+                        @foreach($locations as $location)
                             <option {{request()->query('location')==$location?'selected':''}} value="{{$location}}">{{$location}}</option>
                         @endforeach
                     </select>
                 </div>
 
                 <!-- Apply Filters Button -->
-                <button type="submit" class="bg-secondary cursor-pointer text-white px-4 py-2 rounded-lg w-full">Apply
-                    Filters
+                <button type="submit" class="bg-secondary cursor-pointer text-white px-4 py-2 rounded-lg w-full">
+                   {{__('Apply Filters')}}
                 </button>
             </form>
         </section>
