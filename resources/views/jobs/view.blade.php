@@ -29,14 +29,14 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                 </svg>
-                                <span>Published: {{ $job->created_at->format('j M Y')}}</span>
+                                <span>{{__('Published')}}: {{ $job->created_at->format('j M Y')}}</span>
                             </p>
                             <span class="text-gray-500">·</span>
                             <p class="text-red-600 flex font-bold items-center gap-1 break-words">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                 </svg>
-                                <span>Deadline: {{ $job->deadline->format('j M Y')}}</span>
+                                <span>{{__('Deadline')}}: {{ $job->deadline->format('j M Y')}}</span>
                             </p>
                         </section>
                         <section class="flex gap-2 mt-3 mb-6">
@@ -50,14 +50,14 @@
                 </section>
 
                 <section class="text-white w-full text-xs mt-3">
-                    <h1 class="p-2 text-xl w-full flex bg-gray-300">Job Description</h1>
+                    <h1 class="p-2 text-xl w-full flex bg-gray-300">{{__('Job Description')}}</h1>
                     <section class="text-black text-sm p-6 leading-7">
                         {!! str($job->details)->sanitizeHtml() !!}
                     </section>
                 </section>
 
                 <section class="text-white w-full text-xs mt-3">
-                    <h1 class="p-2 text-xl w-full flex bg-gray-300">How to Apply</h1>
+                    <h1 class="p-2 text-xl w-full flex bg-gray-300">{{__('How to Apply')}}</h1>
                     <section class="text-black text-sm p-6 leading-7">
                         <div class="break-words">
                             {!! $job->how_to_apply !!}
@@ -72,30 +72,30 @@
                  class="w-[80%] max-w-sm fixed top-0 right-0 h-full bg-white transform translate-x-full transition-transform duration-300 z-40 p-6 rounded-l-xl space-y-4 lg:relative lg:translate-x-0 lg:block hidden">
 
         <section class="bg-white w-full shadow-sm border border-gray-200 rounded-lg p-4">
-                <a type="submit" href="{{$job->link}}" class="bg-secondary text-center cursor-pointer text-white block px-4 py-2 rounded-lg w-full">Apply Now</a>
+                <a type="submit" href="{{$job->link}}" class="bg-secondary text-center cursor-pointer text-white block px-4 py-2 rounded-lg w-full">{{__('Apply Now')}}</a>
             </section>
 
             <!-- Similar Jobs -->
             <section class="bg-white w-full shadow-sm border border-blue-200 rounded-lg p-4 space-y-4">
-                <h1 class="text-lg font-semibold">Similar Jobs</h1>
+                <h1 class="text-lg font-semibold">{{__('Similar Jobs')}}</h1>
                 @if($similar_jobs)
-                    @foreach($similar_jobs as $job)
-                        <a href="{{route('jobs.view',['slug'=>$job->slug])}}" class="border-[#e3e3e0] border-b flex items-center pb-3 space-x-4">
+                    @foreach($similar_jobs as $similarJob)
+                        <a href="{{route('jobs.view',['slug'=>$similarJob->slug])}}" class="border-[#e3e3e0] border-b flex items-center pb-3 space-x-4">
                             <div class="flex-shrink-0">
-                                <img src="{{asset('storage').'/'. $job->company->logo }}" alt="{{ $job->company_name }} Logo" class="w-12 h-12 rounded-full object-cover"/>
+                                <img src="{{asset('storage').'/'. $similarJob->company->logo }}" alt="{{ $similarJob->company_name }} Logo" class="w-12 h-12 rounded-full object-cover"/>
                             </div>
                             <div>
-                                <h1 class="text-sm text-gray-900">{{ $job->title }}</h1>
+                                <h1 class="text-sm text-gray-900">{{ $similarJob->title }}</h1>
                             </div>
                         </a>
                     @endforeach
                 @else
-                    <h1>No Similar Jobs</h1>
+                    <h1>{{__('No Similar Jobs')}}</h1>
                 @endif
             </section>
 
             <section class="bg-white w-full shadow-sm border border-blue-200 rounded-lg p-4 space-y-4">
-                <h1 class="text-lg font-semibold">Similar Trainings</h1>
+                <h1 class="text-lg font-semibold">{{__('Similar Trainings')}}</h1>
                 @foreach($similar_trainings as $training)
                     <a href="{{route('trainings.view',['slug'=>$training->slug])}}" class="border-[#e3e3e0] border-b flex items-center pb-3 space-x-4">
                         <div class="flex-shrink-0">
@@ -106,11 +106,11 @@
                         </div>
                     </a>
                 @endforeach
-                <a href="{{ route('trainings.index') }}" class="text-sm text-blue-600 hover:underline block text-right font-medium">View all trainings</a>
+                <a href="{{ route('trainings.index') }}" class="text-sm text-blue-600 hover:underline block text-right font-medium">{{__('View all trainings')}}</a>
             </section>
 
             <section class="bg-white w-full shadow-sm border border-blue-200 rounded-lg p-4 space-y-4">
-                <h1 class="text-lg font-semibold">Share this Job</h1>
+                <h1 class="text-lg font-semibold">{{__('Share this Job')}}</h1>
                 <section class="flex">
                     <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('jobs.view', ['slug' => $job->slug])) }}" target="_blank" class="text-blue-600">
                         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 48 48">
