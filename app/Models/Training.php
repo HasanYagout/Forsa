@@ -38,5 +38,10 @@ class Training extends Model
     {
         return $query->where('status', '1');
     }
+    public function scopeAvailable($query)
+    {
+        return $query->active()->where('deadline', '>=', now());
+    }
+
 
 }

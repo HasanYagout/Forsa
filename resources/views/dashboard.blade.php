@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', 'Home')
 {{--        <x-slot name="header">--}}
 {{--            <h2 class="font-semibold text-xl text-gray-800 leading-tight">--}}
 {{--                {{ __('Dashboard') }}--}}
@@ -73,12 +74,11 @@
                         </div>
                     </div>
                 </a>
-
             @endforeach
         </div>
     </section>
 
-    <section class="relative flex flex-col items-center justify-center py-16 md:h-[40rem] text-white overflow-hidden px-4">
+    <section class="relative flex flex-col items-center justify-center py-16 md:h-[40rem] text-white  px-4">
         <!-- Background Image -->
         <img
             src="{{ asset('img/background.svg') }}"
@@ -129,7 +129,7 @@
                                    placeholder="{{__('Location')}}" autocomplete="off">
 
                             <ul id="location-suggestions"
-                                class="absolute top-full left-0 list-none bg-white rounded-lg mt-1 max-h-60 overflow-y-auto hidden w-full z-10">
+                                class="absolute top-full left-0 ove list-none bg-white rounded-lg mt-1 max-h-60 overflow-y-auto hidden w-full z-10">
                             </ul>
                         </div>
 
@@ -177,14 +177,14 @@
 
     <section class="mt-4">
         <div class="text-center">
-            <span class="text-sm uppercase  font-semibold border-2 rounded-sm rounded-lg border-blue-100 p-2 text-gray-600">{{__('Categories')}}</span>
+            <span class="text-sm uppercase font-semibold border-2 rounded-sm rounded-lg border-blue-100 p-2 text-gray-600">{{__('Categories')}}</span>
         </div>
         <section class="px-6 py-10 bg-gray-100 dark:bg-secondary-100">
             <h2 class="text-center text-2xl font-bold mb-6">Categories</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-6">
                 @foreach($categories as $category)
                     <a target="_blank" href="{{ route('jobs.index', ['category' => $category->id]) }}">
-                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-md transition text-center flex flex-col justify-between min-h-[12rem] sm:min-h-[14rem] w-full h-full">
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-md transition text-center flex flex-col justify-between min-h-[10rem] sm:min-h-[10rem] w-full">
                             <div class="text-indigo-500 mb-3 flex justify-center">
                                 @php
                                     // Ensure the icon exists and is not empty
@@ -199,8 +199,8 @@
                                 @endif
                             </div>
 
-                            <h3 class="font-semibold text-gray-800 dark:text-white break-words text-wrap text-sm sm:text-base leading-snug whitespace-pre-line">
-                                {!! nl2br(e(str_replace('/', "\n", $category->name))) !!}
+                            <h3 class="font-semibold text-gray-800 dark:text-white text-wrap text-sm sm:text-base leading-snug">
+                                {!! nl2br(e(str_replace('/', " ", $category->name))) !!}
                             </h3>
 
                             <p class="text-sm text-gray-500 dark:text-gray-300 mt-2">
@@ -211,7 +211,6 @@
                 @endforeach
             </div>
         </section>
-
     </section>
     <section class="bg-blue-50 py-12 px-4 sm:px-6 lg:px-8">
         <!-- Title Section -->
@@ -295,8 +294,7 @@
                         $suggestions.addClass('hidden');
                         return;
                     }
-                    console.log(allLocations);
-                    const filtered = allLocations.filter(location => location.toLowerCase().includes(query));
+                    const filtered = allLocations.filter(location => location.toLowerCase().startsWith(query));
 
                     if (filtered.length) {
                         filtered.slice(0, 10).forEach(location => {

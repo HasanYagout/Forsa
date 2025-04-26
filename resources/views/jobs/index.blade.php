@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', 'Jobs')
     <section class="w-full flex flex-col lg:flex-row justify-center my-10 px-4 sm:px-6 lg:px-8">
         <section class="w-full lg:hidden">
             <!-- Collapsible Trigger Button -->

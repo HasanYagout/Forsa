@@ -40,6 +40,11 @@ class Job extends Model
     {
         return $query->where('status', '1');
     }
+    public function scopeAvailable($query)
+    {
+        return $query->active()->where('deadline', '>=', now());
+    }
+
     public function bookmarkedBy()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');

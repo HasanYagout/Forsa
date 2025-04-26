@@ -14,7 +14,7 @@ class TrainingController extends Controller
     public function index(Request $request)
     {
         // Initialize query
-        $trainings = Training::with(['company', 'categories'])->active()->orderBy('created_at', 'desc');
+        $trainings = Training::with(['company', 'categories'])->available()->orderBy('created_at', 'desc');
 
         // Handle both 'category' and 'categories' parameters for backward compatibility
         $categoryIds = [];
@@ -76,8 +76,25 @@ class TrainingController extends Controller
         $data['trainings'] = $trainings->paginate(5)->appends($request->query());
 
         // Fetch filter data
-        $data['categories'] = Category::all();
+        $data['categories'] = Category::whereHas('trainings', function($query) use ($request) {
+            $query->available();
+            // Apply the same filters to the category query
+            if ($request->has('company') && !empty($request->company)) {
+                $query->where('company_id', (int) $request->company);
+            }
+            if ($request->has('type') && !empty($request->type)) {
+                $query->whereIn('type', (array) $request->type);
+            }
+            if ($request->has('location') && !empty($request->location)) {
+                $searchTerm = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $request->location));
+                $query->where(function($q) use ($searchTerm) {
+                    $q->whereRaw("LOWER(REPLACE(REPLACE(REPLACE(location, '''', ''), ' ', ''), '-', '')) LIKE ?", ['%' . $searchTerm . '%']);
+                });
+            }
+        })->get();
+
         $data['companies'] = Company::whereHas('trainings', function($query) use ($request) {
+            $query->available();
             // Apply the same filters to the company query
             if ($request->has('category') && !empty($request->category)) {
                 $categoryIds = is_array($request->category) ? $request->category : [$request->category];
@@ -108,7 +125,7 @@ class TrainingController extends Controller
             ->when($request->filled('type'), function($query) use ($request) {
                 $query->whereIn('type', (array) $request->type);
             })
-            ->active()
+            ->available()
             ->whereNotNull('location')
             ->where('location', '!=', '')
             ->distinct()
@@ -141,22 +158,53 @@ class TrainingController extends Controller
 
     public function view(Request $request, $slug)
     {
-        $data['training'] = Training::where('slug', $slug)->first();
+        $data['training'] = Training::with('categories')->where('slug', $slug)->first();
 
         if (!$data['training']) {
             abort(404, 'Training not found');
         }
-        $data['similar_trainings']=Training::with('company')->whereNot('slug',$slug)->where('company_id', $data['training']->company_id)->active()->latest()->take(3)->get();
+
+        // Similar trainings from the same company
+        $data['similar_trainings'] = Training::with('company')
+            ->where('slug', '!=', $slug)
+            ->where('company_id', $data['training']->company_id)
+            ->available()
+            ->latest()
+            ->take(3)
+            ->get();
+
+        // Fallback: random trainings if none found
+        if ($data['similar_trainings']->isEmpty()) {
+            $data['similar_trainings'] = Training::with('company')
+                ->where('slug', '!=', $slug)
+                ->available()
+                ->inRandomOrder()
+                ->take(3)
+                ->get();
+        }
+
+        // Get the category IDs of the training
         $categoryIds = $data['training']->categories->pluck('id');
 
+        // Similar jobs by categories
         $data['similar_jobs'] = Job::with('categories')
             ->whereHas('categories', function ($query) use ($categoryIds) {
                 $query->whereIn('categories.id', $categoryIds);
             })
-            ->active()
+            ->available()
             ->latest()
             ->take(3)
             ->get();
+
+        // Fallback: random jobs if none found
+        if ($data['similar_jobs']->isEmpty()) {
+            $data['similar_jobs'] = Job::with('categories')
+                ->available()
+                ->inRandomOrder()
+                ->take(3)
+                ->get();
+        }
+
         return view('trainings.view', $data);
     }
 }

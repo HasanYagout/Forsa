@@ -19,10 +19,10 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $data['tenders']=Tender::with('company')->active()->latest()->take(12)->get();
-        $data['jobs']=Job::with('company')->active()->latest()->take(12)->get();
-        $data['trainings']=Training::with('company')->active()->latest()->take(12)->get();
-        $data['banner']=Banner::active()->first();
+//        $data['tenders']=Tender::with('company')->available()->latest()->take(12)->get();
+        $data['jobs']=Job::with('company')->available()->latest()->take(12)->get();
+        $data['trainings']=Training::with('company')->available()->latest()->take(12)->get();
+        $data['banner']=Banner::available()->first();
         $data['categories']=Category::get();
         $data['availableLocations']=Location::cities();
         return view('dashboard',$data);

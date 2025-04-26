@@ -33,6 +33,11 @@ class BookmarkController extends Controller
         if ($bookmark) {
             $bookmark->delete();
             $bookmarked = false;
+            return response()->json([
+                'success' => true,
+                'bookmarked' => false,
+                'message' => "Removed Successfully"
+            ]);
         } else {
             $user->bookmarks()->create([
                 'bookmarkable_id' => $request->item_id,
@@ -43,7 +48,8 @@ class BookmarkController extends Controller
 
         return response()->json([
             'success' => true,
-            'bookmarked' => $bookmarked
+            'bookmarked' => $bookmarked,
+            'message' => "Added Successfully"
         ]);
     }
 
@@ -51,10 +57,12 @@ class BookmarkController extends Controller
     public function show()
     {
         $data = [
-            'jobBookmarks' => Bookmark::with('bookmarkable')
+            'jobBookmarks' => Bookmark::with(['bookmarkable' => function ($query) {
+                $query->where('status', '1'); // or 'is_active', depending on your table
+            }])
                 ->where('user_id', auth()->id())
                 ->where('bookmarkable_type', 'App\Models\Job')
-                ->get(),
+                ->paginate(),
 //            'tenderBookmarks' => Bookmark::with('bookmarkable')
 //                ->where('user_id', auth()->id())
 //                ->where('bookmarkable_type', 'App\Models\Tender')
@@ -62,8 +70,10 @@ class BookmarkController extends Controller
             'trainingBookmarks' => Bookmark::with('bookmarkable')
                 ->where('user_id', auth()->id())
                 ->where('bookmarkable_type', 'App\Models\Training')
-                ->get()
+                ->paginate()
         ];
+//        dd($data);
+
         return view('bookmarks.view', $data);
     }
 }

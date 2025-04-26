@@ -13,7 +13,10 @@ class JobController extends Controller
 {
     public function index(Request $request)
     {
-        $jobs = Job::with(['company', 'categories'])->active()->orderBy('created_at', 'desc');
+        $jobs = Job::with(['company', 'categories'])
+            ->available()
+            ->where('deadline', '>=', now()) // 🔥 Don't show expired jobs
+            ->orderBy('created_at', 'desc');
 
         // Filter by category
         if ($request->has('category') && !empty($request->category)) {
@@ -54,7 +57,7 @@ class JobController extends Controller
 
         // Fetch categories & companies for filters
         $data['categories'] = Category::whereHas('jobs', function($query) use ($request) {
-            $query->active();
+            $query->available();
             // Apply the same filters to the category query
             if ($request->has('company') && !empty($request->company)) {
                 $query->where('company_id', (int) $request->company);
@@ -71,7 +74,8 @@ class JobController extends Controller
         })->get();
 
         $data['companies'] = Company::whereHas('job', function($query) use ($request) {
-            $query->active();
+            $query->available();
+
             // Apply the same filters to the company query
             if ($request->has('category') && !empty($request->category)) {
                 $categoryIds = is_array($request->category) ? $request->category : [$request->category];
@@ -103,8 +107,8 @@ class JobController extends Controller
             ->when($request->filled('type'), function($query) use ($request) {
                 $query->whereIn('type', (array) $request->type);
             })
-            ->active()
-            ->whereNotNull('location')
+            ->available()
+        ->whereNotNull('location')
             ->where('location', '!=', '')
             ->distinct()
             ->pluck('location')
@@ -145,27 +149,52 @@ class JobController extends Controller
             abort(404, 'Job not found');
         }
 
-        // Similar jobs from the same company
+        // Get the category IDs of the job (array)
+        $jobCategoryIds = $data['job']->category_id ?? [];
+
+        // Similar jobs from the same categories
         $data['similar_jobs'] = Job::with('company')
-            ->where('company_id', $data['job']->company_id)
             ->where('slug', '!=', $slug)
+            ->where(function($query) use ($jobCategoryIds) {
+                foreach ($jobCategoryIds as $categoryId) {
+                    $query->orWhereJsonContains('category_id', $categoryId);
+                }
+            })
             ->latest()
-            ->active()
+            ->available()
             ->take(3)
             ->get();
 
-        // Get the category IDs of the job
+        // If no similar jobs found, fallback to random jobs from the same company
+        if ($data['similar_jobs']->isEmpty()) {
+            $data['similar_jobs'] = Job::with('company')
+                ->where('slug', '!=', $slug)
+                ->where('company_id', $data['job']->company_id)
+                ->available()
+                ->inRandomOrder()
+                ->take(3)
+                ->get();
+        }
+
+        // Trainings part (no change needed)
         $categoryIds = $data['job']->categories->pluck('id');
 
-        // Get trainings that share at least one of these categories
         $data['similar_trainings'] = Training::with('categories')
             ->whereHas('categories', function ($query) use ($categoryIds) {
                 $query->whereIn('categories.id', $categoryIds);
             })
-            ->active()
+            ->available()
             ->latest()
             ->take(3)
             ->get();
+
+        if ($data['similar_trainings']->isEmpty()) {
+            $data['similar_trainings'] = Training::with('categories')
+                ->available()
+                ->inRandomOrder()
+                ->take(3)
+                ->get();
+        }
 
         return view('jobs.view', $data);
     }
