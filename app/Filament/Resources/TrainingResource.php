@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TrainingResource\Pages;
 use App\Filament\Resources\TrainingResource\RelationManagers;
+use App\Helpers\Location;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\Training;
@@ -26,32 +27,39 @@ class TrainingResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Grid::make(2)->schema([
-                    Forms\Components\TextInput::make('title'),
-                    Forms\Components\Select::make('company_id')
-                        ->options(Company::all()->pluck('name', 'id'))
-                        ->label('company'),
-                    Forms\Components\Select::make('category_id')
-                        ->multiple()
-                        ->options(Category::all()->pluck('name', 'id'))
-                        ->label('category'),
-                    Forms\Components\Select::make('location')
-                        ->multiple()
-                        ->options(self::$model::LOCATIONS),
-                    Forms\Components\DatePicker::make('deadline'),
-                    Forms\Components\TextInput::make('link')
-                        ->url(),
-                    Forms\Components\Textarea::make('description')
-                    ->columnSpan(2),
-                    Forms\Components\RichEditor::make('details')
-                        ->columnSpan(2),
-                    Forms\Components\RichEditor::make('how_to_apply')
-                        ->columnSpan(2),
-                    Forms\Components\FileUpload::make('image')
-                    ->directory('trainings')
-                ])
-
+                Forms\Components\Grid::make()
+                    ->columns([
+                        'default' => 1, // Mobile: 1 column
+                        'sm' => 2,      // Small screens and up: 2 columns
+                    ])
+                    ->schema([
+                        Forms\Components\TextInput::make('title'),
+                        Forms\Components\Select::make('company_id')
+                            ->options(Company::all()->pluck('name', 'id'))
+                            ->label('Company'),
+                        Forms\Components\Select::make('category_id')
+                            ->multiple()
+                            ->options(Category::all()->pluck('name', 'id'))
+                            ->label('Category'),
+                        Forms\Components\Select::make('location')
+                            ->multiple()
+                            ->options(Location::cities()),
+                        Forms\Components\DatePicker::make('deadline'),
+                        Forms\Components\TextInput::make('link')
+                            ->url(),
+                        Forms\Components\Textarea::make('description'),
+                        Forms\Components\TextInput::make('price')
+                            ->numeric(),
+                        Forms\Components\RichEditor::make('details')
+                            ->columnSpanFull(),
+                        Forms\Components\RichEditor::make('how_to_apply')
+                            ->columnSpanFull(),
+                        Forms\Components\FileUpload::make('image')
+                            ->directory('trainings')
+                            ->columnSpanFull(),
+                    ]),
             ]);
+
     }
 
     public static function table(Table $table): Table
@@ -59,17 +67,16 @@ class TrainingResource extends Resource
         return $table
             ->modifyQueryUsing(function (Builder $query) {
                 if (auth()->user()->hasRole('training')){
-                return $query->with('company')->where('added_by', auth()->id());
+                return $query->with('company')->where('added_by', auth()->id())->orderBy('created_at', 'desc');
                 }
                 else
-                    return $query;
+                    return $query->orderBy('created_at', 'desc');
             })
             ->columns([
                 Tables\Columns\ImageColumn::make('company.logo')
                     ->circular(),
                 TextColumn::make('title'),
-                TextColumn::make('category.name')
-                    ->label('Categories'),
+                TextColumn::make('price'),
                 TextColumn::make('company.name'),
                 TextColumn::make('created_at')
                     ->label('posted at'),

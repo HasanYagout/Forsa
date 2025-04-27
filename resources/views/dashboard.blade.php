@@ -6,77 +6,78 @@
 {{--            </h2>--}}
 {{--        </x-slot>--}}
     <section>
+        @if($trainings->count())
+            <div class="owl-carousel owl-theme px-4 my-4 md:px-28">
+                @foreach($trainings as $training)
+                    <a target="_blank" href="{{ route('trainings.view', ['slug' => $training->slug]) }}">
+                        <div class="item w-full">
+                            <div class="relative rounded-2xl overflow-hidden shadow-md h-80 flex flex-col justify-end text-black">
+                                <!-- Blurred Background Image -->
+                                <div class="absolute inset-0">
+                                    <img src="{{ asset('storage/' . $training->company->logo) }}"
+                                         alt="Background"
+                                         class="w-full h-full object-cover blur-sm scale-110" />
+                                    <div class="absolute inset-0 bg-black/20"></div>
+                                </div>
 
-        <div class="owl-carousel owl-theme px-4 my-4 md:px-28">
-            @foreach($trainings as $training)
-                <a target="_blank" href="{{route('trainings.view',['slug'=>$training->slug])}}">
-                    <div class="item w-full">
-                        <div class="relative rounded-2xl overflow-hidden shadow-md h-80 flex flex-col justify-end text-black">
-                            <!-- Blurred Background Image -->
-                            <div class="absolute inset-0">
-                                <img src="{{ asset('storage/' . $training->company->logo) }}"
-                                     alt="Background"
-                                     class="w-full h-full object-cover blur-sm scale-110" />
-                                <div class="absolute inset-0 bg-black/20"></div> <!-- Optional overlay -->
-                            </div>
+                                <!-- White Title Box -->
+                                <div class="absolute bottom-32 left-1/2 transform -translate-x-1/2 w-[95%] sm:w-[80%] md:w-[80%] lg:w-[80%] z-10 bg-white bg-opacity-90 px-6 py-6 text-center rounded-xl shadow-md">
+                                    <p class="text-sm sm:text-base font-medium break-words">
+                                        {{ Str::limit($training->title, 40) }}
+                                    </p>
+                                </div>
 
-                            <!-- White Title Box -->
-                            <div class="absolute bottom-32 left-1/2 transform -translate-x-1/2 w-[95%] sm:w-[80%] md:w-[80%] lg:w-[80%] z-10 bg-white bg-opacity-90 px-6 py-6 text-center rounded-xl shadow-md">
-                                <p class="text-sm sm:text-base font-medium break-words">
-                                    {{ Str::limit($training->title, 40) }}
-                                </p>
-                            </div>
-
-
-
-
-
-
-                            <!-- Bottom Info -->
-                            <div class="relative z-10 bg-white p-4 flex items-center justify-between">
-                                <div class="flex w-full px-3 justify-between items-center gap-3">
-                                    <!-- Company Logo -->
-                                    <div class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
-                                        <img src="{{ asset('storage/' . $training->company->logo) }}"
-                                             alt="Company Logo"
-                                             class="w-10 h-10 rounded-full  object-contain" />
-                                    </div>
-
-                                    <div class="text-sm text-gray-800 font-semibold">
-                                        <div class="flex items-center gap-1">
-                                            <x-icon name="heroicon-o-building-office" class="w-4 h-4 sm:w-5 sm:h-5" />
-                                            {{ $training->company->name ?? 'Company' }}
+                                <!-- Bottom Info -->
+                                <div class="relative z-10 bg-white p-4 flex items-center justify-between">
+                                    <div class="flex w-full px-3 justify-between items-center gap-3">
+                                        <!-- Company Logo -->
+                                        <div class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
+                                            <img src="{{ asset('storage/' . $training->company->logo) }}"
+                                                 alt="Company Logo"
+                                                 class="w-10 h-10 rounded-full object-contain" />
                                         </div>
 
-                                        <div class="flex items-center gap-1">
-                                            <x-icon name="heroicon-o-map-pin" class="w-4 h-4" />
-                                            <span class="text-gray-700 text-sm">
-                                        @php
-                                            $locations = is_string($training->location) ? json_decode($training->location, true) : $training->location;
-                                        @endphp
-                                                @if(is_array($locations))
-                                                    @if(count($locations) === 1)
-                                                        {{ $locations[0] }}
-                                                    @elseif(count($locations) === 2)
-                                                        {{ $locations[0] }}, {{ $locations[1] }}
+                                        <div class="text-sm text-gray-800 font-semibold">
+                                            <div class="flex items-center gap-1">
+                                                <x-icon name="heroicon-o-building-office" class="w-4 h-4 sm:w-5 sm:h-5" />
+                                                {{ $training->company->name ?? 'Company' }}
+                                            </div>
+
+                                            <div class="flex items-center gap-1">
+                                                <x-icon name="heroicon-o-map-pin" class="w-4 h-4" />
+                                                <span class="text-gray-700 text-sm">
+                                                @php
+                                                    $locations = is_string($training->location) ? json_decode($training->location, true) : $training->location;
+                                                @endphp
+                                                    @if(is_array($locations))
+                                                        @if(count($locations) === 1)
+                                                            {{ $locations[0] }}
+                                                        @elseif(count($locations) === 2)
+                                                            {{ $locations[0] }}, {{ $locations[1] }}
+                                                        @else
+                                                            Many locations
+                                                        @endif
                                                     @else
-                                                        Many locations
+                                                        {{ $training->location ?? 'Sana’a' }}
                                                     @endif
-                                                @else
-                                                    {{ $training->location ?? 'Sana’a' }}
-                                                @endif
-                                    </span>
+                                            </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
-                    </div>
-                </a>
-            @endforeach
-        </div>
+                    </a>
+                @endforeach
+            </div>
+        @else
+            <div class="px-4 py-10 text-center text-gray-600">
+                <p class="text-lg font-semibold">No trainings available at the moment.</p>
+            </div>
+        @endif
     </section>
+
 
     <section class="relative flex flex-col items-center justify-center py-16 md:h-[40rem] text-white  px-4">
         <!-- Background Image -->

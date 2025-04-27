@@ -27,29 +27,42 @@ class JobResource extends Resource
     {
         return $form
             ->schema([
-               Forms\Components\Grid::make(2)->schema([
-                   Forms\Components\TextInput::make('title'),
-                   Forms\Components\Select::make('company_id')
-                       ->options(Company::all()->pluck('name', 'id'))
-                       ->label('company'),
-                   Forms\Components\Select::make('category_id')
-                       ->multiple()
-                       ->options(Category::all()->pluck('name', 'id'))
-                       ->label('category'),
-                   Forms\Components\Select::make('location')
-                       ->multiple()
-                       ->options(Location::cities()),
-                   Forms\Components\DatePicker::make('deadline'),
-                   Forms\Components\TextInput::make('link')
-                       ->url(),
-                   Forms\Components\Textarea::make('description')
-                   ->columnSpan(2),
-                   Forms\Components\RichEditor::make('details')
-                       ->columnSpan(2),
-                   Forms\Components\RichEditor::make('how_to_apply')
-                       ->columnSpan(2),
-               ])
+                Forms\Components\Grid::make()
+                    ->columns([
+                        'default' => 1, // Mobile: 1 column
+                        'sm' => 2,      // Small screens and up: 2 columns
+                    ])
+                    ->schema([
+                        Forms\Components\TextInput::make('title'),
+                        Forms\Components\Select::make('company_id')
+                            ->options(Company::all()->pluck('name', 'id'))
+                            ->label('Company'),
+
+                        Forms\Components\Select::make('category_id')
+                            ->multiple()
+                            ->options(Category::all()->pluck('name', 'id'))
+                            ->label('Category'),
+
+                        Forms\Components\Select::make('location')
+                            ->multiple()
+                            ->options(Location::cities()),
+
+                        Forms\Components\DatePicker::make('deadline'),
+
+                        Forms\Components\TextInput::make('link')
+                            ->url(),
+
+                        Forms\Components\Textarea::make('description')
+                            ->columnSpanFull(), // Full width even in 2 columns
+
+                        Forms\Components\RichEditor::make('details')
+                            ->columnSpanFull(),
+
+                        Forms\Components\RichEditor::make('how_to_apply')
+                            ->columnSpanFull(),
+                    ]),
             ]);
+
     }
 
     public static function table(Table $table): Table

@@ -6,7 +6,7 @@ class Location
 {
     public static function cities()
     {
-        return [
+        $cities =[
             "Sana'a",
             'Aden',
             'Taiz',
@@ -31,5 +31,7 @@ class Location
             'Yemen',
             'Multiple Cities',
         ];
+         return array_combine($cities, $cities);
+
     }
 }

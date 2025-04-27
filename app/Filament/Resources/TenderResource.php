@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TenderResource\Pages;
 use App\Filament\Resources\TenderResource\RelationManagers;
+use App\Helpers\Location;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\Tender;
@@ -34,7 +35,7 @@ class TenderResource extends Resource
                         ->label('company'),
                     Forms\Components\Select::make('location')
                         ->multiple()
-                        ->options(self::$model::LOCATIONS),
+                        ->options(Location::cities()),
                     Forms\Components\DatePicker::make('deadline'),
                     Forms\Components\Textarea::make('description')
                     ->columnSpan(2),
