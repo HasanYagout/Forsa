@@ -32,18 +32,25 @@
                             <span class="hidden sm:inline text-gray-500">·</span>
 
                             <!-- Location -->
-                            <div class="flex items-center gap-1 flex-wrap">
-                                <x-icon name="heroicon-o-map-pin" class="w-4 h-4 flex-shrink-0"/>
-                                @foreach((array) $job->location as $city)
-                                    <a target="_blank" href="{{ route('jobs.index', ['location' => $city]) }}"
-                                       class="text-sm font-bold text-black hover:text-primary hover:underline">
+                            @php
+                                $cities = is_array($job->location) ? $job->location : (array)$job->location;
+                                $showMultiple = count($cities) > 3;
+                            @endphp
+
+                            @if($showMultiple)
+                                <span class="text-sm font-bold text-black hover:text-primary hover:underline whitespace-nowrap">
+        {{ __('Multiple Cities') }}
+    </span>
+                            @else
+                                @foreach($cities as $city)
+                                    <a href="{{ route('trainings.index', ['location' => $city]) }}" class="text-sm font-bold text-black hover:text-primary hover:underline whitespace-nowrap">
                                         {{ $city }}
                                     </a>
-                                    @if (!$loop->last)
+                                    @if(!$loop->last)
                                         <span class="text-gray-400">/</span>
                                     @endif
                                 @endforeach
-                            </div>
+                            @endif
 
                             <span class="hidden sm:inline text-gray-500">·</span>
 
@@ -147,7 +154,7 @@
                             <div class="flex-shrink-0">
                                 <img src="{{asset('storage').'/'. $similarJob->company->logo }}"
                                      alt="{{ $similarJob->company_name }} Logo"
-                                     class="w-12 h-12 rounded-full object-cover"/>
+                                     class="w-12 h-12 border-gray-300 rounded-full object-cover"/>
                             </div>
                             <div>
                                 <h1 class="text-sm text-gray-900">{{ $similarJob->title }}</h1>

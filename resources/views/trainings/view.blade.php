@@ -54,18 +54,25 @@
                                 <span class="hidden sm:inline text-gray-500">·</span>
 
                                 <!-- Location -->
-                                <div class="flex items-center gap-1 flex-wrap">
-                                    <x-icon name="heroicon-o-map-pin" class="w-4 h-4 flex-shrink-0"/>
-                                    @foreach((array) $training->location as $city)
-                                        <a target="_blank" href="{{ route('jobs.index', ['location' => $city]) }}"
-                                           class="text-sm font-bold text-black hover:text-primary hover:underline">
+                                @php
+                                    $cities = is_array($training->location) ? $training->location : (array)$training->location;
+                                    $showMultiple = count($cities) > 3;
+                                @endphp
+
+                                @if($showMultiple)
+                                    <span class="text-sm font-bold text-black hover:text-primary hover:underline whitespace-nowrap">
+        {{ __('Multiple Cities') }}
+    </span>
+                                @else
+                                    @foreach($cities as $city)
+                                        <a href="{{ route('trainings.index', ['location' => $city]) }}" class="text-sm font-bold text-black hover:text-primary hover:underline whitespace-nowrap">
                                             {{ $city }}
                                         </a>
-                                        @if (!$loop->last)
+                                        @if(!$loop->last)
                                             <span class="text-gray-400">/</span>
                                         @endif
                                     @endforeach
-                                </div>
+                                @endif
 
                                 <span class="hidden sm:inline text-gray-500">·</span>
 
@@ -148,7 +155,26 @@
                                 </div>
                             </section>
                         </section>
+
+                            @if($training->price==0)
+                                <section class="w-full mt-6 px-4 sm:px-0">
+                                    <h2 class="text-lg font-medium text-black text-sm px-6 leading-7 text-gray-700 mb-2">{{__('Price:')}}
+                                        <span class="inline-block px-4 py-2 bg-green-100 text-green-400 rounded-full text-sm font-medium">
+                                      {{__('Free')}}
+                                 </span>
+                                    </h2>
+                                </section>
+                            @else
+                                <section class="w-full mt-6 px-4 sm:px-0">
+                                    <h2 class="text-lg font-medium text-black text-sm px-6 leading-7 text-gray-700 mb-2">{{__('Price:')}}
+                                        <span class="inline-block px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                                      {{ $training->price }}
+                                 </span>
+                                    </h2>
+                                </section>
+                            @endif
                     @endif
+
 
                 </section>
             </section>
@@ -167,7 +193,7 @@
                     @foreach($similar_trainings as $training)
                         <a href="{{route('trainings.view',['slug'=>$training->slug])}}" class="border-[#e3e3e0] border-b flex items-center pb-3 space-x-4">
                             <div class="flex-shrink-0">
-                                <img src="{{asset('storage').'/'. $training->company->logo }}" alt="{{ $training->company_name }} Logo" class="w-12 h-12 rounded-full object-cover"/>
+                                <img src="{{asset('storage').'/'. $training->company->logo }}" alt="{{ $training->company_name }} Logo" class="w-12 h-12 rounded-full border-gray-300 object-cover"/>
                             </div>
                             <div>
                                 <h1 class="text-sm text-gray-900">{{ $training->title }}</h1>
@@ -183,7 +209,7 @@
                         @foreach($similar_jobs as $similarJob)
                             <a href="{{route('jobs.view',['slug'=>$similarJob->slug])}}" class="border-[#e3e3e0] border-b flex items-center pb-3 space-x-4">
                                 <div class="flex-shrink-0">
-                                    <img src="{{asset('storage').'/'. $similarJob->company->logo }}" alt="{{ $similarJob->company_name }} Logo" class="w-12 h-12 rounded-full object-cover"/>
+                                    <img src="{{asset('storage').'/'. $similarJob->company->logo }}" alt="{{ $similarJob->company_name }} Logo" class="w-12 h-12 rounded-full border-gray-300 object-cover"/>
                                 </div>
                                 <div>
                                     <h1 class="text-sm text-gray-900">{{ $similarJob->title }}</h1>
