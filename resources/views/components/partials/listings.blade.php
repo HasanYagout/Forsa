@@ -37,7 +37,13 @@
     @endforeach
 @else
     <div class="text-center text-3xl text-primary-200 p-6">
-        {{ __('There are currently no jobs available. You can check the website again tomorrow. We look forward to your next visit. Thank you!') }}
+        @if($title === 'jobs')
+            {{ __('There are currently no Jobs available now, visit us later') }}
+        @elseif($title === 'trainings')
+            {{ __('There are currently no Trainings available now, visit us later') }}
+        @elseif($title === 'tenders')
+            {{ __('There are currently no tenders available now, visit us later') }}
+        @endif
     </div>
 @endif
 

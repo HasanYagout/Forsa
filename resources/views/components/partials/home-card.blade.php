@@ -29,15 +29,31 @@
                         <span class="{{ $title == 'jobs' ? 'text-black' : 'text-white' }} font-medium underline">{{ __('More...') }}</span>
                     </p>
 
+                    <!-- Location -->
+                    <div class="{{ $title == 'jobs' ? 'text-gray-700' : 'text-white' }} text-xs flex items-center gap-1">
+                        <x-icon name="heroicon-o-map-pin" class="w-4 h-4"/>
+                        @php
+                            $locations = is_array($record->location) ? $record->location : (array)$record->location;
+                            $showMultiple = count($locations) > 3;
+                        @endphp
+
+                        @if($showMultiple)
+                            <span>{{ __('Multiple Cities') }}</span>
+                        @else
+                            {{ implode(', ', $locations) }}
+                        @endif
+                    </div>
+
                     <!-- Job Meta -->
                     <div class="flex justify-between {{ $title == 'jobs' ? 'text-black' : 'text-white' }} text-xs mt-auto">
                         <p>{{ $record->created_at->diffForHumans() }}</p>
+                        <p>{{ $record->deadline->format('M d, Y') }}</p>
                     </div>
                 </div>
             </a>
         @empty
             <div class="col-span-1 sm:col-span-2 md:col-span-3 text-center">
-                <p class="text-gray-600 text-3xl">{{ __('There are currently no jobs available. You can check the website again tomorrow. We look forward to your next visit. Thank you!') }}</p>
+                <p class="text-gray-600 text-3xl">{{ __('There are currently no :type available now, visit us later', ['type' => __($title)]) }}</p>
             </div>
         @endforelse
     </div>

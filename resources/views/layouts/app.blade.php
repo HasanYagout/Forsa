@@ -6,7 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>@yield('title', config('app.name', 'Laravel'))</title>
-
+        <link rel="icon" href="{{asset('img/logo.ico')}}" type="image/x-icon">
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -33,7 +33,7 @@
             }
         </style>
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-din antialiased">
         <x-banner />
 
         <div class="{{ request()->routeIs('jobs') ? 'bg-gray-100' : (request()->routeIs('trainings.index') || request()->routeIs('trainings.view') ? 'bg-blue-100' : 'bg-gray-100') }}">
