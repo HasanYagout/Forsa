@@ -60,6 +60,8 @@ class JobResource extends Resource
 
                         Forms\Components\RichEditor::make('how_to_apply')
                             ->columnSpanFull(),
+                        Forms\Components\Toggle::make('updated_link')
+
                     ]),
             ]);
 
@@ -84,8 +86,7 @@ class JobResource extends Resource
                 ->label('posted at'),
                 TextColumn::make('deadline')
                 ->color('danger'),
-                Tables\Columns\ToggleColumn::make('status')
-
+                Tables\Columns\ToggleColumn::make('status'),
             ])->defaultSort('created_at','desc')
             ->filters([
                 //

@@ -18,7 +18,7 @@
         <!-- Logo -->
         <img
             src="{{ $record->company->logo ? asset('storage/' . $record->company->logo) : asset('images/default-company.png') }}"
-            class="w-14 h-14 rounded-full border p-1 object-cover"
+            class="w-14 h-14 rounded-full border-gray-300 border p-1 object-cover"
             alt="{{ $record->company->name }} logo"
             loading="lazy"
         >

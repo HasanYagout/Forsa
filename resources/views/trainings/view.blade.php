@@ -119,13 +119,13 @@
                             </a>
 
                             <!-- Twitter -->
-                            <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('jobs.view', ['slug' => $training->slug])) }}"
-                               target="_blank"
-                               class="text-gray-400 hover:text-blue-400 transition-colors duration-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/>
-                                </svg>
-                            </a>
+                                <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('jobs.view', ['slug' => $training->slug])) }}"
+                                   target="_blank"
+                                   class="text-gray-400 hover:text-blue-400 transition-colors duration-200">
+                                    <svg  xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" fill="currentColor" viewBox="0 0 50 50">
+                                        <path  d="M 5.9199219 6 L 20.582031 27.375 L 6.2304688 44 L 9.4101562 44 L 21.986328 29.421875 L 31.986328 44 L 44 44 L 28.681641 21.669922 L 42.199219 6 L 39.029297 6 L 27.275391 19.617188 L 17.933594 6 L 5.9199219 6 z M 9.7167969 8 L 16.880859 8 L 40.203125 42 L 33.039062 42 L 9.7167969 8 z"></path>
+                                    </svg>
+                                </a>
 
                             <!-- LinkedIn -->
                             <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('jobs.view', ['slug' => $training->slug])) }}"
@@ -138,7 +138,13 @@
                             </div>
                         </section>
                     </section>
-
+                    <section>
+                        @if($training->updated_link == 1)
+                            <div class="p-4 bg-blue-100 text-blue-800 rounded-md text-sm">
+                                {{ __('The training link has been updated.') }}
+                            </div>
+                        @endif
+                    </section>
                     @if($training->image)
                         <img src="{{ asset('storage/' . $training->image) }}"
                              alt="Training Image"
@@ -196,7 +202,7 @@
                     @foreach($similar_trainings as $training)
                         <a href="{{route('trainings.view',['slug'=>$training->slug])}}" class="border-[#e3e3e0] border-b flex items-center pb-3 space-x-4">
                             <div class="flex-shrink-0">
-                                <img src="{{asset('storage').'/'. $training->company->logo }}" alt="{{ $training->company_name }} Logo" class="w-12 h-12 rounded-full border-gray-300 object-cover"/>
+                                <img src="{{asset('storage').'/'. $training->company->logo }}" alt="{{ $training->company_name }} Logo" class="w-12 h-12 rounded-full border-gray-300 border object-cover"/>
                             </div>
                             <div>
                                 <h1 class="text-sm text-gray-900">{{ $training->title }}</h1>
@@ -215,7 +221,7 @@
                         @foreach($similar_jobs as $similarJob)
                             <a href="{{route('jobs.view',['slug'=>$similarJob->slug])}}" class="border-[#e3e3e0] border-b flex items-center pb-3 space-x-4">
                                 <div class="flex-shrink-0">
-                                    <img src="{{asset('storage').'/'. $similarJob->company->logo }}" alt="{{ $similarJob->company_name }} Logo" class="w-12 h-12 rounded-full border-gray-300 object-cover"/>
+                                    <img src="{{asset('storage').'/'. $similarJob->company->logo }}" alt="{{ $similarJob->company_name }} Logo" class="w-12 h-12 rounded-full border-gray-300 border object-cover"/>
                                 </div>
                                 <div>
                                     <h1 class="text-sm text-gray-900">{{ $similarJob->title }}</h1>
