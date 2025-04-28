@@ -23,7 +23,10 @@ class HomeController extends Controller
         $data['jobs']=Job::with('company')->available()->latest()->take(12)->get();
         $data['trainings']=Training::with('company')->available()->latest()->take(12)->get();
         $data['banner']=Banner::available()->first();
-        $data['categories']=Category::get();
+        $data['categories'] = Category::with(['jobs' => function ($query) {
+            $query->where('status', '1');
+        }])->get();
+
         $data['availableLocations'] = collect(Location::cities())->flatten()->unique()->values()->toArray();
         return view('dashboard',$data);
     }
