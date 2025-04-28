@@ -3,8 +3,7 @@
         <section class="w-full flex justify-center my-10 px-4 sm:px-6">
             <section id="training-listings" class="w-full lg:w-[60%] mx-4 sm:mx-6 flex flex-col items-center gap-4">
                 <section class="w-full relative bg-white transition rounded-xl shadow-sm flex flex-col items-center gap-4 mb-4 border border-gray-200">
-                    <!-- Job Header -->
-
+                    <!-- Training Header -->
                     <section class="flex flex-col sm:flex-row w-full flex-shrink-0 p-4 sm:p-6 border-b">
                         <!-- Company Logo -->
                         <div class="flex-shrink-0 mb-4 sm:mb-0">
@@ -18,7 +17,7 @@
 
                         <div class="absolute top-2 {{ $isRtl ? 'left-2 sm:left-4' : 'right-2 sm:right-4' }} z-10">
                             <button class="bookmark-btn cursor-pointer flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white shadow-sm border border-gray-200
-        {{ auth()->check() ? '' : 'guest-bookmark' }}"
+                                     {{ auth()->check() ? '' : 'guest-bookmark' }}"
                                     data-id="{{ $training->id }}"
                                     data-type="{{ auth()->check() ? auth()->user()->getBookmarkType($training) : '' }}"
                                     data-bookmarked="{{ auth()->check() && auth()->user()->hasBookmarked($training) ? 'true' : 'false' }}">
@@ -139,14 +138,19 @@
                             </div>
                         </section>
                     </section>
+
+                    @if($training->image)
+                        <img src="{{ asset('storage/' . $training->image) }}"
+                             alt="Training Image"
+                             class="w-full rounded-lg object-cover max-w-full h-48 md:h-32 lg:h-24" />
+                    @endif
                     <section class="text-white w-full text-xs mt-3">
                         <h1 class="p-2 text-xl w-full flex bg-gray-300">{{__('Training Description')}}</h1>
                         <section class="text-black text-sm p-6 leading-7">
                             {!! str($training->details)->sanitizeHtml() !!}
                         </section>
                     </section>
-
-                    @if(now()->lte($training->deadline))
+                    @if(now()->startOfDay()->lte($training->deadline->startOfDay()))
                         <section class="text-white w-full text-xs mt-3">
                             <h1 class="p-2 text-xl w-full flex bg-gray-300">{{__('How to Apply')}}</h1>
                             <section class="text-black text-sm p-6 leading-7">
@@ -156,26 +160,24 @@
                             </section>
                         </section>
 
-                            @if($training->price==0)
-                                <section class="w-full mt-6 px-4 sm:px-0">
-                                    <h2 class="text-lg font-medium text-black text-sm px-6 leading-7 text-gray-700 mb-2">{{__('Price:')}}
-                                        <span class="inline-block px-4 py-2 bg-green-100 text-green-400 rounded-full text-sm font-medium">
-                                      {{__('Free')}}
-                                 </span>
-                                    </h2>
-                                </section>
-                            @else
-                                <section class="w-full mt-6 px-4 sm:px-0">
-                                    <h2 class="text-lg font-medium text-black text-sm px-6 leading-7 text-gray-700 mb-2">{{__('Price:')}}
-                                        <span class="inline-block px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                                      {{ $training->price }}
-                                 </span>
-                                    </h2>
-                                </section>
-                            @endif
+                        @if($training->price==0)
+                            <section class="w-full mt-6 px-4 sm:px-0">
+                                <h2 class="text-lg font-medium text-black text-sm px-6 leading-7 text-gray-700 mb-2">{{__('Price:')}}
+                                    <span class="inline-block px-4 py-2 bg-green-100 text-green-400 rounded-full text-sm font-medium">
+                  {{__('Free')}}
+             </span>
+                                </h2>
+                            </section>
+                        @else
+                            <section class="w-full mt-6 px-4 sm:px-0">
+                                <h2 class="text-lg font-medium text-black text-sm px-6 leading-7 text-gray-700 mb-2">{{__('Price:')}}
+                                    <span class="inline-block px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                  {{ $training->price }}
+             </span>
+                                </h2>
+                            </section>
+                        @endif
                     @endif
-
-
                 </section>
             </section>
 
@@ -183,13 +185,14 @@
             <section id="sidebar-section"
                      class="w-[80%] max-w-sm fixed top-0 right-0 h-full overflow-y-auto bg-white transform translate-x-full transition-transform duration-300 z-40 p-6 rounded-l-xl space-y-4 lg:relative lg:translate-x-0 lg:block hidden">
 
-            @if(now()->lte($training->deadline))
+                @if(now()->startOfDay()->lte($training->deadline->startOfDay()))
                     <section class="bg-white w-full shadow-sm border border-gray-200 rounded-lg p-4">
                         <a type="submit" target="_blank" href="{{$training->link}}" class="bg-secondary text-center cursor-pointer text-white block px-4 py-2 rounded-lg w-full">{{__('Apply Now')}}</a>
                     </section>
                 @endif
                 <section class="bg-white w-full shadow-sm border border-blue-200 rounded-lg p-4 space-y-4">
                     <h1 class="text-lg font-semibold">{{__('Similar Trainings')}}</h1>
+                    @if(count($similar_trainings)>0)
                     @foreach($similar_trainings as $training)
                         <a href="{{route('trainings.view',['slug'=>$training->slug])}}" class="border-[#e3e3e0] border-b flex items-center pb-3 space-x-4">
                             <div class="flex-shrink-0">
@@ -200,6 +203,9 @@
                             </div>
                         </a>
                     @endforeach
+                    @else
+                        <h1 class="text-center">{{__('No Similar Trainings')}}</h1>
+                    @endif
                 </section>
                 <!-- Similar Jobs -->
                 <section class="bg-white w-full shadow-sm border border-blue-200 rounded-lg p-4 space-y-4">
@@ -219,7 +225,7 @@
                             <a href="{{ route('jobs.index') }}" class="text-sm text-blue-600 hover:underline block text-right font-medium">{{__('View all jobs')}}</a>
 
                     @else
-                        <h1>{{__('No Similar Jobs')}}</h1>
+                        <h1 class="text-center">{{__('No Similar Jobs')}}</h1>
                     @endif
                 </section>
 

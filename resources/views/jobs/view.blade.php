@@ -2,8 +2,7 @@
     @section('title', 'Job View')
     <section class="w-full flex justify-center my-10 px-4 sm:px-6">
         <section id="job-listings" class="w-full lg:w-[60%] mx-4 sm:mx-6 flex flex-col items-center gap-4">
-            <section
-                class="w-full bg-white transition rounded-xl shadow-sm flex flex-col items-center gap-4 mb-4 border border-gray-200">
+            <section class="w-full bg-white relative transition rounded-xl shadow-sm flex flex-col items-center gap-4 mb-4 border border-gray-200">
                 <!-- Job Header -->
                 <section class="flex flex-col sm:flex-row w-full flex-shrink-0 p-4 sm:p-6 border-b">
                     <!-- Company Logo -->
@@ -15,9 +14,10 @@
                     @php
                         $isRtl = app()->getLocale() === 'ar';
                     @endphp
+
                     <div class="absolute top-2 {{ $isRtl ? 'left-2 sm:left-4' : 'right-2 sm:right-4' }} z-10">
                         <button class="bookmark-btn cursor-pointer flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white shadow-sm border border-gray-200
-        {{ auth()->check() ? '' : 'guest-bookmark' }}"
+                                     {{ auth()->check() ? '' : 'guest-bookmark' }}"
                                 data-id="{{ $job->id }}"
                                 data-type="{{ auth()->check() ? auth()->user()->getBookmarkType($job) : '' }}"
                                 data-bookmarked="{{ auth()->check() && auth()->user()->hasBookmarked($job) ? 'true' : 'false' }}">
@@ -63,7 +63,7 @@
     </span>
                             @else
                                 @foreach($cities as $city)
-                                    <a href="{{ route('trainings.index', ['location' => $city]) }}" class="text-sm font-bold text-black hover:text-primary hover:underline whitespace-nowrap">
+                                    <a href="{{ route('jobs.index', ['location' => $city]) }}" class="text-sm font-bold text-black hover:text-primary hover:underline whitespace-nowrap">
                                         {{ __($city) }}
                                     </a>
                                     @if(!$loop->last)
@@ -76,7 +76,9 @@
 
                             <!-- Published Date -->
                             <div class="text-green-600 font-bold flex items-center gap-1">
-                                <x-icon name="heroicon-o-clock" class="w-4 h-4 flex-shrink-0"/>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 flex-shrink-0">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                </svg>
                                 <span>{{__('Published')}}: {{ $job->created_at->format('j M Y')}}</span>
                             </div>
 
@@ -84,8 +86,10 @@
 
                             <!-- Deadline -->
                             <div class="text-red-600 font-bold flex items-center gap-1">
-                                <x-icon name="heroicon-o-clock" class="w-4 h-4 flex-shrink-0"/>
-                                <span>{{__('Deadline')}}: {{ $job->deadline->format('j M Y')}}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 flex-shrink-0">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                </svg>
+                                <span>{{__('Closes')}}: {{ $job->deadline->format('j M Y')}}</span>
                             </div>
                         </section>
 
@@ -102,36 +106,39 @@
                     </section>
 
                     <!-- Social Media Icons -->
-                    <section class="flex gap-2 sm:gap-3 mt-3 sm:mt-0 justify-end sm:justify-start">
-                        <!-- Facebook -->
-                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('jobs.view', ['slug' => $job->slug])) }}"
-                           target="_blank"
-                           class="text-gray-400 hover:text-blue-600 transition-colors duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
-                            </svg>
-                        </a>
+                    <section class="flex gap-2 sm:gap-3 mt-3 sm:mt-0 {{ app()->getLocale() === 'ar' ? 'justify-start' : 'justify-end' }} w-full sm:w-auto">
+                        <div class="flex items-center space-x-2 sm:space-x-3">
+                            <!-- Facebook -->
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('jobs.view', ['slug' => $job->slug])) }}"
+                               target="_blank"
+                               class="text-gray-400 hover:text-blue-600 transition-colors duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+                                </svg>
+                            </a>
 
-                        <!-- Twitter -->
-                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('jobs.view', ['slug' => $job->slug])) }}"
-                           target="_blank"
-                           class="text-gray-400 hover:text-blue-400 transition-colors duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/>
-                            </svg>
-                        </a>
+                            <!-- Twitter -->
+                            <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('jobs.view', ['slug' => $job->slug])) }}"
+                               target="_blank"
+                               class="text-gray-400 hover:text-blue-400 transition-colors duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/>
+                                </svg>
+                            </a>
 
-                        <!-- LinkedIn -->
-                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('jobs.view', ['slug' => $job->slug])) }}"
-                           target="_blank"
-                           class="text-gray-400 hover:text-blue-700 transition-colors duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                            </svg>
-                        </a>
+                            <!-- LinkedIn -->
+                            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('jobs.view', ['slug' => $job->slug])) }}"
+                               target="_blank"
+                               class="text-gray-400 hover:text-blue-700 transition-colors duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                </svg>
+                            </a>
+                        </div>
                     </section>
                 </section>
 
+                <!-- Rest of your job view content remains exactly the same -->
                 <section class="text-white w-full text-xs mt-3">
                     <h1 class="p-2 text-xl w-full flex bg-gray-300">{{__('Job Description')}}</h1>
                     <section class="text-black text-sm p-6 leading-7">
@@ -189,18 +196,22 @@
 
             <section class="bg-white w-full shadow-sm border border-blue-200 rounded-lg p-4 space-y-4">
                 <h1 class="text-lg font-semibold">{{__('Similar Trainings')}}</h1>
-                @foreach($similar_trainings as $training)
-                    <a href="{{route('trainings.view',['slug'=>$training->slug])}}"
-                       class="border-[#e3e3e0] border-b flex items-center pb-3 space-x-4">
-                        <div class="flex-shrink-0">
-                            <img src="{{asset('storage').'/'. $training->company->logo }}"
-                                 alt="{{ $training->company_name }} Logo" class="w-12 h-12 rounded-full object-cover"/>
-                        </div>
-                        <div>
-                            <h1 class="text-sm text-gray-900">{{ $training->title }}</h1>
-                        </div>
-                    </a>
-                @endforeach
+                @if(count($similar_trainings)>0)
+                    @foreach($similar_trainings as $training)
+                        <a href="{{route('trainings.view',['slug'=>$training->slug])}}"
+                           class="border-[#e3e3e0] border-b flex items-center pb-3 space-x-4">
+                            <div class="flex-shrink-0">
+                                <img src="{{asset('storage').'/'. $training->company->logo }}"
+                                     alt="{{ $training->company_name }} Logo" class="w-12 h-12 rounded-full object-cover"/>
+                            </div>
+                            <div>
+                                <h1 class="text-sm text-gray-900">{{ $training->title }}</h1>
+                            </div>
+                        </a>
+                    @endforeach
+                @else
+                    <h1>{{__('No Similar Trainings')}}</h1>
+                @endif
                 <a href="{{ route('trainings.index') }}"
                    class="text-sm text-blue-600 hover:underline block text-right font-medium">{{__('View all trainings')}}</a>
             </section>
@@ -241,6 +252,4 @@
             });
         });
     </script>
-
-
 </x-app-layout>
