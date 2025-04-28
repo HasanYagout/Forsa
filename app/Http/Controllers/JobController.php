@@ -62,9 +62,7 @@ class JobController extends Controller
             if ($request->has('company') && !empty($request->company)) {
                 $query->where('company_id', (int) $request->company);
             }
-            if ($request->has('type') && !empty($request->type)) {
-                $query->whereIn('type', (array) $request->type);
-            }
+
             if ($request->has('location') && !empty($request->location)) {
                 $searchTerm = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $request->location));
                 $query->where(function($q) use ($searchTerm) {
@@ -83,9 +81,6 @@ class JobController extends Controller
                     $q->whereIn('categories.id', $categoryIds);
                 });
             }
-            if ($request->has('type') && !empty($request->type)) {
-                $query->whereIn('type', (array) $request->type);
-            }
             if ($request->has('location') && !empty($request->location)) {
                 $searchTerm = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $request->location));
                 $query->where(function($q) use ($searchTerm) {
@@ -103,9 +98,6 @@ class JobController extends Controller
                 $query->whereHas('categories', function($q) use ($categoryIds) {
                     $q->whereIn('categories.id', $categoryIds);
                 });
-            })
-            ->when($request->filled('type'), function($query) use ($request) {
-                $query->whereIn('type', (array) $request->type);
             })
             ->available()
         ->whereNotNull('location')

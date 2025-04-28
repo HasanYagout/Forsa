@@ -47,11 +47,7 @@ class TrainingController extends Controller
             }
         }
 
-        // Filter by job type
-        if ($request->has('type') && !empty($request->type)) {
-            $type = is_array($request->type) ? $request->type : [$request->type];
-            $trainings->whereIn('type', $type);
-        }
+
 
         // Filter by job title
         if ($request->has('title') && !empty($request->title)) {
@@ -82,9 +78,7 @@ class TrainingController extends Controller
             if ($request->has('company') && !empty($request->company)) {
                 $query->where('company_id', (int) $request->company);
             }
-            if ($request->has('type') && !empty($request->type)) {
-                $query->whereIn('type', (array) $request->type);
-            }
+
             if ($request->has('location') && !empty($request->location)) {
                 $searchTerm = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $request->location));
                 $query->where(function($q) use ($searchTerm) {
@@ -102,9 +96,7 @@ class TrainingController extends Controller
                     $q->whereIn('categories.id', $categoryIds);
                 });
             }
-            if ($request->has('type') && !empty($request->type)) {
-                $query->whereIn('type', (array) $request->type);
-            }
+
             if ($request->has('location') && !empty($request->location)) {
                 $searchTerm = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $request->location));
                 $query->where(function($q) use ($searchTerm) {
@@ -121,9 +113,6 @@ class TrainingController extends Controller
                 $query->whereHas('categories', function($q) use ($categoryIds) {
                     $q->whereIn('categories.id', $categoryIds);
                 });
-            })
-            ->when($request->filled('type'), function($query) use ($request) {
-                $query->whereIn('type', (array) $request->type);
             })
             ->available()
             ->whereNotNull('location')
