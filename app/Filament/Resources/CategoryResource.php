@@ -47,7 +47,6 @@ class CategoryResource extends Resource
                 TextColumn::make('name'),
                 ImageColumn::make('icon')
                 ->size(60),
-                Tables\Columns\ToggleColumn::make('status')
             ])
             ->filters([
                 //
