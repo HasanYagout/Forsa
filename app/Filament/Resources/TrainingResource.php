@@ -44,7 +44,8 @@ class TrainingResource extends Resource
                         Forms\Components\Select::make('location')
                             ->multiple()
                             ->options(Location::cities()),
-                        Forms\Components\DatePicker::make('deadline'),
+                        Forms\Components\DatePicker::make('deadline')
+                        ->date(),
                         Forms\Components\TextInput::make('link')
                             ->url(),
                         Forms\Components\Textarea::make('description'),

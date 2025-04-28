@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Observers\TrainingObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+
 #[ObservedBy([TrainingObserver::class])]
 
 class Training extends Model
@@ -40,7 +42,7 @@ class Training extends Model
     }
     public function scopeAvailable($query)
     {
-        return $query->active()->where('deadline', '>=', now());
+        return $query->active()->whereDate('deadline','>=',Carbon::today());
     }
 
 
