@@ -7,7 +7,7 @@
             <h2 class="text-3xl font-semibold text-white text-center">{{ __('About Us') }}</h2>
 
             <p class="mt-4 text-white">
-                {{ __('Chances Platform is an online recruitment and training portal in Yemen. It serves as the source of jobs and trainings for employers, training institutions, and job seekers.') }}
+                {{ __('Chances Platform is online recruitment and Training portal in Yemen. It serves as the source of jobs and trainings for employers, training institutions job seekers.') }}
             </p>
 
             <p class="mt-4 text-white">

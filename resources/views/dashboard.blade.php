@@ -5,8 +5,9 @@
 {{--                {{ __('Dashboard') }}--}}
 {{--            </h2>--}}
 {{--        </x-slot>--}}
+
+    @if(count($trainings)>0)
     <section>
-        @if($trainings->count())
             <div class="owl-carousel owl-theme px-4 my-4 md:px-28">
                 @foreach($trainings as $training)
                     <a target="_blank" href="{{ route('trainings.view', ['slug' => $training->slug]) }}">
@@ -71,13 +72,8 @@
                     </a>
                 @endforeach
             </div>
-        @else
-            <div class="px-4 py-10 text-center text-gray-600">
-                <p class="text-lg font-semibold">No trainings available at the moment.</p>
-            </div>
-        @endif
     </section>
-
+    @endif
 
     <section class="relative flex flex-col items-center justify-center py-16 md:h-[40rem] text-white  px-4">
         <!-- Background Image -->
@@ -181,7 +177,6 @@
             <span class="text-sm uppercase font-semibold border-2 rounded-sm rounded-lg border-blue-100 p-2 text-gray-600">{{__('Categories')}}</span>
         </div>
         <section class="px-6 py-10 bg-gray-100 dark:bg-secondary-100">
-            <h2 class="text-center text-2xl font-bold mb-6">Categories</h2>
             <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-6">
                 @foreach($categories as $category)
                     <a target="_blank" href="{{ route('jobs.index', ['category' => $category->id]) }}">
@@ -217,7 +212,7 @@
         <!-- Title Section -->
         <div class="text-center mb-8 md:mb-12">
             <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-black">
-               <span>{{__('We Work With')}}</span>
+               <span>{{__('Our Clients')}}</span>
             </h2>
         </div>
 
