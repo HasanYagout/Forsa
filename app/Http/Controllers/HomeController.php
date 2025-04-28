@@ -24,7 +24,7 @@ class HomeController extends Controller
         $data['trainings']=Training::with('company')->available()->latest()->take(12)->get();
         $data['banner']=Banner::available()->first();
         $data['categories']=Category::get();
-        $data['availableLocations']=Location::cities();
+        $data['availableLocations'] = collect(Location::cities())->flatten()->unique()->values()->toArray();
         return view('dashboard',$data);
     }
 
