@@ -52,8 +52,14 @@
                 </div>
             </a>
         @empty
-            <div class="col-span-1 sm:col-span-2 md:col-span-3 text-center">
-                <p class="text-gray-600 text-3xl">{{ __('There are currently no :type available now, visit us later', ['type' => __($title)]) }}</p>
+            <div class="text-center text-3xl text-primary-200 p-6">
+                @if($title === 'jobs')
+                    {{ __('There are currently no Jobs available now, visit us later') }}
+                @elseif($title === 'trainings')
+                    {{ __('There are currently no Trainings available now, visit us later') }}
+                @elseif($title === 'tenders')
+                    {{ __('There are currently no tenders available now, visit us later') }}
+                @endif
             </div>
         @endforelse
     </div>

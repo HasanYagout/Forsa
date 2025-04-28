@@ -42,11 +42,13 @@
 
                 <!-- Location -->
                 @if($showMultiple)
-                    <span  class="text-sm font-bold text-black hover:text-primary hover:underline whitespace-nowrap">
+                    <span  class="text-sm flex font-bold text-black hover:text-primary hover:underline whitespace-nowrap">
+                        <x-icon name="heroicon-o-map-pin" class="w-4 h-4"/>
                         {{ __('Multiple Cities') }}
                     </span>
                 @else
-                    @foreach($cities as $city)
+                    <x-icon name="heroicon-o-map-pin" class="w-4 h-4"/>
+                @foreach($cities as $city)
                         <a href="{{ route($locationRoute, ['location' => $city]) }}" class="text-sm font-bold text-black hover:text-primary hover:underline whitespace-nowrap">
                             {{ $city }}
                         </a>

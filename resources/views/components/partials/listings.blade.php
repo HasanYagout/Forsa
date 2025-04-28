@@ -38,11 +38,11 @@
 @else
     <div class="text-center text-3xl text-primary-200 p-6">
         @if($title === 'jobs')
-            {{ __('There are currently no Jobs available now, visit us later') }}
+            {{ __('No Jobs available at the moment. Please visit us later') }}
         @elseif($title === 'trainings')
-            {{ __('There are currently no Trainings available now, visit us later') }}
+            {{ __('No trainings available at the moment. Please visit us later') }}
         @elseif($title === 'tenders')
-            {{ __('There are currently no tenders available now, visit us later') }}
+            {{ __('No tenders available at the moment. Please visit us later') }}
         @endif
     </div>
 @endif
