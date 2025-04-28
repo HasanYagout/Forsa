@@ -185,7 +185,7 @@
 
             @if(now()->lte($training->deadline))
                     <section class="bg-white w-full shadow-sm border border-gray-200 rounded-lg p-4">
-                        <a type="submit" href="{{$training->link}}" class="bg-secondary text-center cursor-pointer text-white block px-4 py-2 rounded-lg w-full">{{__('Apply Now')}}</a>
+                        <a type="submit" target="_blank" href="{{$training->link}}" class="bg-secondary text-center cursor-pointer text-white block px-4 py-2 rounded-lg w-full">{{__('Apply Now')}}</a>
                     </section>
                 @endif
                 <section class="bg-white w-full shadow-sm border border-blue-200 rounded-lg p-4 space-y-4">

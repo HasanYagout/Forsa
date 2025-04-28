@@ -12,6 +12,26 @@
                              class="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-full border border-gray-300 p-1"
                              alt="{{ $job->company->name }} logo">
                     </div>
+                    @php
+                        $isRtl = app()->getLocale() === 'ar';
+                    @endphp
+                    <div class="absolute top-2 {{ $isRtl ? 'left-2 sm:left-4' : 'right-2 sm:right-4' }} z-10">
+                        <button class="bookmark-btn cursor-pointer flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white shadow-sm border border-gray-200
+        {{ auth()->check() ? '' : 'guest-bookmark' }}"
+                                data-id="{{ $job->id }}"
+                                data-type="{{ auth()->check() ? auth()->user()->getBookmarkType($job) : '' }}"
+                                data-bookmarked="{{ auth()->check() && auth()->user()->hasBookmarked($job) ? 'true' : 'false' }}">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 fill="{{ auth()->check() && auth()->user()->hasBookmarked($job) ? 'currentColor' : 'none' }}"
+                                 viewBox="0 0 24 24"
+                                 stroke-width="1.5"
+                                 stroke="currentColor"
+                                 class="w-5 h-5 sm:w-6 sm:h-6 text-blue-900 hover:text-blue-700 transition-colors bookmark-icon">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                            </svg>
+                        </button>
+                    </div>
 
                     <!-- Job Details -->
                     <section class="flex flex-col justify-between w-full ms-0 sm:ms-6">
@@ -44,7 +64,7 @@
                             @else
                                 @foreach($cities as $city)
                                     <a href="{{ route('trainings.index', ['location' => $city]) }}" class="text-sm font-bold text-black hover:text-primary hover:underline whitespace-nowrap">
-                                        {{ $city }}
+                                        {{ __($city) }}
                                     </a>
                                     @if(!$loop->last)
                                         <span class="text-gray-400">/</span>
@@ -138,7 +158,7 @@
                  class="w-[80%] max-w-sm fixed top-0 right-0 h-full overflow-y-auto bg-white transform translate-x-full transition-transform duration-300 z-40 p-6 rounded-l-xl space-y-4 lg:relative lg:translate-x-0 lg:block hidden">
             @if(now()->lte($job->deadline))
                 <section class="bg-white w-full shadow-sm border border-gray-200 rounded-lg p-4">
-                    <a type="submit" href="{{$job->link}}"
+                    <a type="submit" target="_blank" href="{{$job->link}}"
                        class="bg-secondary text-center cursor-pointer text-white block px-4 py-2 rounded-lg w-full">{{__('Apply Now')}}</a>
                 </section>
             @endif
