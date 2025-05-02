@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Tender extends Model
 {
@@ -33,7 +34,6 @@ class Tender extends Model
     }
     public function scopeAvailable($query)
     {
-
-        return $query->active()->where('deadline', '>=', now());
+        return $query->active()->whereDate('deadline','>=',Carbon::today());
     }
 }

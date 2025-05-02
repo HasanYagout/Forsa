@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Job extends Model
 {
@@ -42,7 +43,7 @@ class Job extends Model
     }
     public function scopeAvailable($query)
     {
-        return $query->active()->where('deadline', '>=', now());
+        return $query->active()->whereDate('deadline','>=',Carbon::today());
     }
 
     public function bookmarkedBy()

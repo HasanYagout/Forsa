@@ -32,10 +32,10 @@ Route::middleware([\App\Http\Middleware\SetLocale::class])->group(function () {
         Route::get('/view/{slug}', [\App\Http\Controllers\TrainingController::class, 'view'])->name('view');
     });
 
-    //Route::group(['middleware' => ['web'],'prefix'=>'tenders','as'=>'tenders.'], function () {
-//    Route::get('/', [\App\Http\Controllers\TenderController::class, 'index'])->name('index');
-//    Route::get('/view/{slug}', [\App\Http\Controllers\TenderController::class, 'view'])->name('view');
-//});
+    Route::group(['middleware' => ['web'],'prefix'=>'tenders','as'=>'tenders.'], function () {
+    Route::get('/', [\App\Http\Controllers\TenderController::class, 'index'])->name('index');
+    Route::get('/view/{slug}', [\App\Http\Controllers\TenderController::class, 'view'])->name('view');
+});
 });
 
 // Language Switch Route

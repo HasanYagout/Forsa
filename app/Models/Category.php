@@ -21,4 +21,5 @@ class Category extends Model
         return $this->belongsToMany(Training::class, 'category_training');
     }
 
+
 }
