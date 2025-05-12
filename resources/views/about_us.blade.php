@@ -7,11 +7,11 @@
             <h2 class="text-3xl font-semibold text-white text-center">{{ __('About Us') }}</h2>
 
             <p class="mt-4 text-white">
-                {{ __('Chances Platform is online recruitment and Training portal in Yemen. It serves as the source of jobs and trainings for employers, training institutions job seekers.') }}
+                {{ __('Chances Platform is an online recruitment and Training portal in Yemen. It serves as the source of jobs and training for employers, training institutions and job seekers.') }}
             </p>
 
             <p class="mt-4 text-white">
-                {{ __('Founded in 2018, Chances Platform website is a part of the Future Chances Platform for Advertisement company. We make an innovative approach to help employers, training institutions, and employees with recruitment and skill development, driven by a relentless obsession with quality and excellence.') }}
+                {{ __('Founded in 2018, the Chances Platform website is a part of the Future Chances Platform for Advertisement company, we make an innovative approach to help employers, training institutions, and employees for recruitment and skills developed as well as its relentless obsession with quality and excellence') }}
             </p>
 
             <p class="mt-4 text-white">

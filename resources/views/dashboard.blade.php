@@ -218,61 +218,14 @@
 
         <!-- Logos Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 md:gap-6">
-            <!-- Logo 1 -->
-            <div class="flex items-center justify-center p-2 md:p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all">
-                <img class=" h-auto max-h-12 md:max-h-16 grayscale hover:grayscale-0 transition duration-300"
-                     src="{{ asset('img/image 6.png') }}"
-                     alt="Company logo">
-            </div>
-
-            <!-- Logo 2 -->
-            <div class="flex items-center justify-center p-2 md:p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all">
-                <img class=" h-auto max-h-12 md:max-h-16 grayscale hover:grayscale-0 transition duration-300"
-                     src="{{ asset('img/image 7.png') }}"
-                     alt="Company logo">
-            </div>
-
-            <!-- Logo 3 -->
-            <div class="flex items-center justify-center p-2 md:p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all">
-                <img class=" h-auto max-h-12 md:max-h-16 grayscale hover:grayscale-0 transition duration-300"
-                     src="{{ asset('img/image 9.png') }}"
-                     alt="Company logo">
-            </div>
-
-            <!-- Logo 4 -->
-            <div class="flex items-center justify-center p-2 md:p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all">
-                <img class=" h-auto max-h-12 md:max-h-16 grayscale hover:grayscale-0 transition duration-300"
-                     src="{{ asset('img/image 10.png') }}"
-                     alt="Company logo">
-            </div>
-
-            <!-- Logo 5 -->
-            <div class="flex items-center justify-center p-2 md:p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all">
-                <img class=" h-auto max-h-12 md:max-h-16 grayscale hover:grayscale-0 transition duration-300"
-                     src="{{ asset('img/image 11.png') }}"
-                     alt="Company logo">
-            </div>
-
-            <!-- Logo 6 -->
-            <div class="flex items-center justify-center p-2 md:p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all">
-                <img class=" h-auto max-h-12 md:max-h-16 grayscale hover:grayscale-0 transition duration-300"
-                     src="{{ asset('img/image 12.png') }}"
-                     alt="Company logo">
-            </div>
-
-            <!-- Logo 7 -->
-            <div class="flex items-center justify-center p-2 md:p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all">
-                <img class=" h-auto max-h-12 md:max-h-16 grayscale hover:grayscale-0 transition duration-300"
-                     src="{{ asset('img/image 13.png') }}"
-                     alt="Company logo">
-            </div>
-
-            <!-- Logo 8 -->
-            <div class="flex items-center justify-center p-2 md:p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all">
-                <img class=" h-auto max-h-12 md:max-h-16 grayscale hover:grayscale-0 transition duration-300"
-                     src="{{ asset('img/image 14.png') }}"
-                     alt="Company logo">
-            </div>
+            <x-partials.clients-card path="{{asset('img/vision.jpeg')}}"/>
+            <x-partials.clients-card path="{{asset('img/root.jpeg')}}"/>
+            <x-partials.clients-card path="{{asset('img/secure.jpeg')}}"/>
+            <x-partials.clients-card path="{{asset('img/trucks.jpeg')}}"/>
+            <x-partials.clients-card path="{{asset('img/athka.jpeg')}}"/>
+            <x-partials.clients-card path="{{asset('img/atwar.jpeg')}}"/>
+            <x-partials.clients-card path="{{asset('img/fly.jpeg')}}"/>
+            <x-partials.clients-card path="{{asset('img/bfd.jpeg')}}"/>
         </div>
     </section>
     @push('js')
