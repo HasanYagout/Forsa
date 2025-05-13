@@ -8,12 +8,10 @@ use Illuminate\Support\Facades\Route;
 // Group all routes that require the SetLocale middleware
 Route::middleware([\App\Http\Middleware\SetLocale::class])->group(function () {
     // Public Routes
-Route::get('/', [HomeController::class, 'index'])
-        ->middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
-        ->name('home');
-        Route::get('/about_us', [HomeController::class, 'about_us'])->name('about_us');
-    Route::get('/contact_us', [\App\Http\Controllers\ContactController::class, 'index'])->name('contact.index');
-    Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/about_us', [HomeController::class, 'about_us'])->name('about_us');
+Route::get('/contact_us', [\App\Http\Controllers\ContactController::class, 'index'])->name('contact.index');
+Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'store']) ->middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->name('contact.store');
 
     // Bookmarks Routes
     Route::post('/bookmarks', [BookmarkController::class, 'toggle'])

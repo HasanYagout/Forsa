@@ -180,7 +180,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-6">
                 @foreach($categories as $category)
                     <a target="_blank" href="{{ route('jobs.index', ['category' => $category->id]) }}">
-                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-md transition text-center flex flex-col justify-between min-h-[10rem] sm:min-h-[10rem] w-full">
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-md transition text-center flex flex-col min-h-[10rem] sm:min-h-[10rem] w-full">
                             <div class="text-indigo-500 mb-3 flex justify-center">
                                 @php
                                     // Ensure the icon exists and is not empty
@@ -198,10 +198,6 @@
                             <h3 class="font-semibold text-gray-800 dark:text-white text-wrap text-sm sm:text-base leading-snug">
                                 {!! nl2br(e(str_replace('/', " ", $category->name))) !!}
                             </h3>
-
-                            <p class="text-sm text-gray-500 dark:text-gray-300 mt-2">
-                                {{ count($category->jobs) }} Posted Jobs
-                            </p>
                         </div>
                     </a>
                 @endforeach
@@ -226,7 +222,7 @@
             <x-partials.clients-card path="{{asset('img/atwar.jpeg')}}"/>
             <x-partials.clients-card path="{{asset('img/fly.jpeg')}}"/>
             <x-partials.clients-card path="{{asset('img/bfd.jpeg')}}"/>
-        
+
 
 
         </div>
