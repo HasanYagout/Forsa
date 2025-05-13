@@ -1,0 +1,50 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source "../**/*.blade.php";
+@source "../**/*.js";
+@source "../**/*.vue";
+@source "../views";
+
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-din:'Din','sans-serif';
+    --color-primary: #282B43;
+    --color-primary-100: #20243D;
+    --color-secondary: #4A538A;
+    --color-blue-50: #E5EAF4;
+    --color-blue-100: #D1DAEC;
+    --color-blue-200: #F1F9FE;
+    --color-blue-900: #162155;
+    --color-gray-100: #F4F6FA;
+    --color-gray-300: #7188C0;
+}
+@font-face {
+    font-family: 'Din';
+    src: url('../fonts/DIN-NEXT-ARABIC-REGULAR.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+@layer base {
+    ul, ol {
+        @apply list-disc pl-5; /* Apply bullet points and padding */
+    }
+
+    ol {
+        @apply list-decimal; /* Ensure ordered lists have numbers */
+    }
+    h2 {
+        @apply text-xl; /* Apply bullet points and padding */
+    }
+    h3 {
+        @apply text-lg; /* Apply bullet points and padding */
+    }
+    body{
+        @apply bg-gray-100;
+    }
+}
+
+
