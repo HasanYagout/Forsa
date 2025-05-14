@@ -180,10 +180,9 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-6">
                 @foreach($categories as $category)
                     <a target="_blank" href="{{ route('jobs.index', ['category' => $category->id]) }}">
-                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-md transition text-center flex flex-col min-h-[10rem] sm:min-h-[10rem] w-full">
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-md transition text-center flex flex-col min-h-[6rem] sm:min-h-[8rem] md:min-h-[10rem] w-full">
                             <div class="text-indigo-500 mb-3 flex justify-center">
                                 @php
-                                    // Ensure the icon exists and is not empty
                                     $iconPath = ltrim(str_replace('\\', '/', $category->icon), '/');
                                     $fullIconPath = public_path('storage/' . $iconPath);
                                 @endphp
