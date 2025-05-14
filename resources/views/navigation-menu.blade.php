@@ -36,8 +36,8 @@
 
                 <!-- Language Dropdown (Desktop) -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
-                    <div class="relative ms-4 border border-3 me-6 border-gray-300 rounded-full" x-data="{ open: false }" @click.away="open = false">
-                        <button @click="open = !open" class="flex items-center space-x-1 px-2.5 py-2 text-gray-500 hover:text-gray-700 focus:outline-none">
+                    <div class="relative ms-4 border border-3 me-6 border-gray-300 rounded-full " x-data="{ open: false }" @click.away="open = false">
+                        <button @click="open = !open" class="flex cursor-pointer items-center space-x-1 px-2.5 py-2 text-gray-500 hover:text-gray-700 focus:outline-none">
                             @if(app()->getLocale() == 'ar')
                                 <span class="text-sm">AR</span>
                             @else

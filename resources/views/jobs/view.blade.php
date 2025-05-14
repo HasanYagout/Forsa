@@ -258,5 +258,45 @@
                 overlay.classList.add('hidden');
             });
         });
+        $(document).on('click', '.bookmark-btn', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const button = $(this);
+            const itemId = button.data('id');
+            const itemType = button.data('type'); // Get the type from data attribute
+            const isBookmarked = button.data('bookmarked') === 'true';
+            const icon = button.find('.bookmark-icon');
+
+            @if(!auth()->check())
+                window.location.href = '{{ route('login') }}';
+            return;
+            @endif
+
+            icon.addClass('opacity-50');
+            $.ajax({
+                url: '{{ route("bookmarks.toggle") }}',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    item_id: itemId,
+                    item_type: itemType,
+                    action: isBookmarked ? 'remove' : 'add'
+                },
+                success: function(response) {
+                    const newState = !isBookmarked;
+                    button.data('bookmarked', newState ? 'true' : 'false');
+                    icon.attr('fill', newState ? 'currentColor' : 'none');
+                    toastr.success(response.message);
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText);
+                    toastr.error('An error occurred. Please try again.');
+                },
+                complete: function() {
+                    icon.removeClass('opacity-50');
+                }
+            });
+        });
+
     </script>
 </x-app-layout>
