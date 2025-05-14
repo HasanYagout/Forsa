@@ -58,7 +58,7 @@ class TrainingResource extends Resource
                         Forms\Components\FileUpload::make('image')
                             ->directory('trainings')
                             ->columnSpanFull(),
-                        Forms\Components\ToggleButtons::make('updated_link')
+                        Forms\Components\Toggle::make('updated_link')
                     ]),
             ]);
 

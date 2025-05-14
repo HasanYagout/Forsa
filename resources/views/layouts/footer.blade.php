@@ -5,7 +5,7 @@
             <!-- Logo & Social Links -->
             <div class="flex flex-col items-center md:items-start space-y-3 text-center md:text-left">
                 <!-- Logo -->
-                <a href="{{ route('dashboard') }}">
+                <a href="{{ route('home') }}">
                     <img src="{{ asset('img/light_logo.png') }}" alt="Chances Platform" class="h-12">
                 </a>
 
